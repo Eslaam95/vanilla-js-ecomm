@@ -22,7 +22,12 @@ a.btn {
   padding: 12px 20px;
   display: inline-block;
 }
-
+a.btn.active {
+  font-weight: bold;
+  color: #0c59b6;
+  background-color: transparent;
+  pointer-events: none;
+}
 .flex {
   display: flex;
   align-items: center;
@@ -31,6 +36,13 @@ a.btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+}
+.around-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 .p-20 {
   padding: 20px;
@@ -50,7 +62,7 @@ a.btn {
 }
 
 .bg-dark {
-  background: #333;
+  background: #111;
 
   color: #fff;
 }
@@ -164,7 +176,10 @@ a.hero-btn:hover {
 .main-menu li:hover:after {
   width: 100%;
 }
-
+/*intro section*/
+.intro-section {
+  padding: 5vh 0;
+}
 @media all and (max-width: 796px) {
   ul.main-menu {
     display: none;
@@ -185,14 +200,22 @@ a.hero-btn:hover {
     font-size: 40px;
     margin: 20px 0;
   }
-
+  h2 {
+    font-size: 30px;
+  }
   .mt-40 {
     margin-top: 30px;
+  }
+  .p-section {
+    padding: 50px 20px;
   }
 }
 @media all and (max-width: 480px) {
   .logo img {
     max-width: 100px;
+  }
+  h2 {
+    font-size: 24px;
   }
   h3 {
     font-size: 18px;
@@ -210,4 +233,30 @@ a.hero-btn:hover {
   .sm-text {
     font-size: 12px;
   }
+  .p-section {
+    padding: 40px 20px;
+  }
+}
+
+/*form styles*/
+input {
+  background-color: rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  border: 1px solid transparent;
+  padding: 15px;
+  display: block;
+  border-radius: 8px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  min-width: 300px;
+  max-width: 90vw;
+}
+input:focus,
+input:active {
+  border: 1px solid #111;
+}
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 30px;
 }
