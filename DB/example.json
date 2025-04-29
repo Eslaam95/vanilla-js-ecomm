@@ -1,0 +1,77 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "role": "admin",
+      "name": "John Admin",
+      "email": "admin@example.com",
+      "password": "password",
+      "pic": "images/xsdff"
+    },
+    {
+      "id": 1,
+      "role": "seller",
+      "name": "seller",
+      "email": "seller@example.com",
+      "password": "password",
+      "pic": "images/xsdff"
+    }
+  ],
+
+  "products": [
+    {
+      "id": 7,
+      "title": "Cool Sneakers",
+      "description": "Stylish sneakers for running.",
+      "price": 59.99,
+      "categoryId": 1,
+      "sellerId": 5,
+      "image": "images/img",
+      "approved": true
+    },
+    {
+      "id": 7,
+      "title": "Cool Sneakers",
+      "description": "Stylish sneakers for running.",
+      "price": 59.99,
+      "categoryId": 1,
+      "sellerId": 5,
+      "image": "images/img",
+      "approved": true
+    }
+  ],
+
+  "orders": [
+    {
+      "id": 100,
+      "customerId": 2,
+      "items": [
+        {
+          "productId": 7
+        }
+      ],
+      "status": "pending"
+    }
+  ],
+
+  "reviews": [
+    {
+      "id": 500,
+      "productId": 7,
+      "customerId": 2,
+      "rating": 5,
+      "comment": "Amazing shoes!"
+    }
+  ],
+
+  "categories": [
+    {
+      "id": 1,
+      "name": "Shoes"
+    },
+    {
+      "id": 2,
+      "name": "Electronics"
+    }
+  ]
+}
