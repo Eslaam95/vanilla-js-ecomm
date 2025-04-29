@@ -63,7 +63,7 @@ window.addEventListener("load", function () {
       e.preventDefault();
     } else {
       e.preventDefault(); // simulate login
-      window.location.href = "/user";
+      window.location.href = "/user.html";
     }
   });
 });
