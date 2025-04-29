@@ -25,11 +25,13 @@
           <ul class="p-20 main-menu">
             <li><a href="/#products">Products</a></li>
             <li><a href="/#products">Categories</a></li>
-            <li><a href="#">Contact us</a></li>
+            <li><a href="login.html">Contact us</a></li>
           </ul>
           <div class="login">
-            <a href="#" class="btn header-btn bg-transparent active">Login</a>
-            <a href="signup.html" class="btn header-btn white-color bg-blue"
+            <a href="#" class="btn header-btn bg-transparent">Login</a>
+            <a
+              href="signup.html"
+              class="btn header-btn white-color bg-blue active"
               >Sign up</a
             >
           </div>
@@ -39,19 +41,30 @@
 
     <section class="bg-blue intro-section">
       <div class="container">
-        <h1 class="white-color text-center">Welcome!</h1>
+        <h1 class="white-color text-center">Welcome</h1>
+        <p class="white-color text-center pre-title md-text">
+          Let's create a new account!
+        </p>
       </div>
     </section>
 
     <section class="p-section login-section">
       <div class="container around-flex">
         <div class="text-content">
-          <img src="assets/login.png" />
+          <img src="assets/signin.png" />
         </div>
         <div>
           <h2 class="dark-color">Hello, Enter you details</h2>
 
           <form action="/login" method="POST">
+            <label for="name">Full name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your name"
+              required
+            />
             <label for="email">Email:</label>
             <input
               type="email"
