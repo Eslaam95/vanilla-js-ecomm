@@ -151,7 +151,9 @@ a.hero-btn:hover {
 
   padding: 30px 0;
 }
-
+.grid-full {
+  grid-column: 1 / -1;
+}
 /*nav menu*/
 .main-menu li {
   display: inline-block;

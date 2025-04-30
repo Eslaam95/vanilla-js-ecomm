@@ -1,6 +1,6 @@
-//Admin Main Functions
+//Admin Main export functions
 let Employees = [];
-async function getAllUsers() {
+export function getAllUsers() {
   return fetch("http://localhost:3000/users")
     .then((response) => response.json())
     .catch((error) => {
@@ -9,16 +9,25 @@ async function getAllUsers() {
     });
 }
 
-// function getUserById(id) {
-//     return fetch(`http://localhost:3000/users/${id}`)
-//       .then((response) => response.json())
-//       .catch((error) => {
-//         console.error("Error fetching user:", error);
-//         return null; // Return null if there's an error
-//       });
-//   }
+export function getSingleUser(id) {
+  return fetch(`http://localhost:3000/users/${id}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("User not found");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Fetched user:", data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error fetching user:", error);
+      return null;
+    });
+}
 
-function addUser(newUser) {
+export function addUser(newUser) {
   fetch("http://localhost:3000/users", {
     method: "POST",
     headers: {
@@ -33,7 +42,7 @@ function addUser(newUser) {
     .catch((error) => console.error("Error adding user:", error));
 }
 
-function updateUser(id, updatedUser) {
+export function updateUser(id, updatedUser) {
   fetch(`http://localhost:3000/users/${id}`, {
     method: "PUT",
     headers: {
@@ -48,7 +57,7 @@ function updateUser(id, updatedUser) {
     .catch((error) => console.error("Error updating user:", error));
 }
 
-function deleteUser(id) {
+export function deleteUser(id) {
   fetch(`http://localhost:3000/users/${id}`, {
     method: "DELETE",
   })
@@ -58,8 +67,8 @@ function deleteUser(id) {
     .catch((error) => console.error("Error deleting user:", error));
 }
 
-//Products Main Functions
-async function getAllProducts() {
+//Products Main export functions
+export function getAllProducts() {
   return fetch("http://localhost:3000/products")
     .then((response) => response.json())
     .catch((error) => {
@@ -68,7 +77,7 @@ async function getAllProducts() {
     });
 }
 
-async function displayAllProducts() {
+export async function displayAllProducts() {
   const products = await getAllProducts();
   const productList = document.getElementById("productList");
 
@@ -83,16 +92,16 @@ async function displayAllProducts() {
   });
 }
 
-// function getProductById(id) {
+// export function getProductById(id) {
 //     return fetch(`http://localhost:3000/products/${id}`)
 //       .then((response) => response.json())
 //       .catch((error) => {
 //         console.error("Error fetching product:", error);
-//         return null; 
+//         return null;
 //       });
 //   }
 
-function addProduct(newProduct) {
+export function addProduct(newProduct) {
   fetch("http://localhost:3000/products", {
     method: "POST",
     headers: {
@@ -107,7 +116,7 @@ function addProduct(newProduct) {
     .catch((error) => console.error("Error adding product:", error));
 }
 
-function updateProduct(id, updatedProduct) {
+export function updateProduct(id, updatedProduct) {
   fetch(`http://localhost:3000/products/${id}`, {
     method: "PUT",
     headers: {
@@ -122,7 +131,7 @@ function updateProduct(id, updatedProduct) {
     .catch((error) => console.error("Error updating product:", error));
 }
 
-function deleteProduct(id) {
+export function deleteProduct(id) {
   fetch(`http://localhost:3000/products/${id}`, {
     method: "DELETE",
   })
@@ -133,32 +142,32 @@ function deleteProduct(id) {
 }
 
 //Sign in & Register
-function signIn(email, password) {
-  fetch("http://localhost:3000/users")
-    .then((res) => res.json())
-    .then((users) => {
-      const foundUser = users.find(
-        (user) => user.email === email && user.password === password
-      );
+// export function signIn(email, password) {
+//   fetch("http://localhost:3000/users")
+//     .then((res) => res.json())
+//     .then((users) => {
+//       const foundUser = users.find(
+//         (user) => user.email === email && user.password === password
+//       );
 
-      if (foundUser) {
-        console.log("Login successful. Role:", foundUser.role);
-        // You can save user info in localStorage to keep the session
-        localStorage.setItem("currentUser", JSON.stringify(foundUser));
+//       if (foundUser) {
+//         console.log("Login successful. Role:", foundUser.role);
+//         // You can save user info in localStorage to keep the session
+//         localStorage.setItem("currentUser", JSON.stringify(foundUser));
 
-        if (foundUser.role === "admin") {
-          // redirect to admin page or show admin features
-        } else if (foundUser.role === "seller") {
-          // redirect to customer home
-        }
-      } else if (foundUser.role === "seller") {
-        // redirect to seller home
-      } else {
-        console.log("Invalid credentials");
-      }
-    })
-    .catch((err) => console.error("Login error:", err));
-}
+//         if (foundUser.role === "admin") {
+//           // redirect to admin page or show admin features
+//         } else if (foundUser.role === "seller") {
+//           // redirect to customer home
+//         }
+//       } else if (foundUser.role === "seller") {
+//         // redirect to seller home
+//       } else {
+//         console.log("Invalid credentials");
+//       }
+//     })
+//     .catch((err) => console.error("Login error:", err));
+// }
 
 // Testing
 // let newUser = {
@@ -169,7 +178,7 @@ function signIn(email, password) {
 // };
 
 // const form = document.getElementById("addUserForm");
-// form.addEventListener("submit", function (event) {
+// form.addEventListener("submit", export function (event) {
 //   event.preventDefault(); // Prevent form from submitting normally
 
 //   // Get form values
@@ -186,7 +195,7 @@ function signIn(email, password) {
 //     email: email,
 //   };
 
-//   // Call the addUser function
+//   // Call the addUser export function
 //   addUser(newUser);
 //   form.reset();
 // });
