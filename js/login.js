@@ -80,13 +80,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // Redirect based on role
       switch (user.role) {
         case "admin":
-          window.location.href = `/admin.html?id=${user.id}`;
+          window.location.href = `${window.location.origin}/admin.html?id=${user.id}`;
           break;
         case "seller":
-          window.location.href = `/seller.html?id=${user.id}`;
+          window.location.href = `${window.location.origin}/seller.html?id=${user.id}`;
           break;
         case "customer":
-          window.location.href = `/user.html?id=${user.id}`;
+          window.location.href = `${window.location.origin}/user.html?id=${user.id}`;
           break;
         default:
           alert("Unknown role. Access denied.");
