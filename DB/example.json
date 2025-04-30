@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "role": "admin",
       "name": "John Admin",
       "email": "admin@example.com",
@@ -9,7 +9,7 @@
       "pic": "assets/images/products/image 5.png"
     },
     {
-      "id": 2,
+      "id": "2",
       "role": "seller",
       "name": "seller",
       "email": "seller@example.com",
@@ -17,18 +17,23 @@
       "pic": "images/xsdff"
     },
     {
-      "id": 3,
+      "id": "3",
       "role": "customer",
       "name": "customer",
       "email": "customer@example.com",
       "password": "password",
       "pic": "images/xsdff"
+    },
+    {
+      "id": "bec7",
+      "name": "eslaam",
+      "email": "eslaam@example.com",
+      "password": "password"
     }
   ],
-
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
@@ -38,7 +43,7 @@
       "approved": true
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
@@ -48,7 +53,7 @@
       "approved": true
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
@@ -58,7 +63,7 @@
       "approved": true
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
@@ -68,7 +73,7 @@
       "approved": true
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
@@ -78,7 +83,7 @@
       "approved": true
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
@@ -88,7 +93,7 @@
       "approved": true
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
@@ -98,7 +103,7 @@
       "approved": true
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
@@ -108,10 +113,9 @@
       "approved": true
     }
   ],
-
   "orders": [
     {
-      "id": 100,
+      "id": "100",
       "customerId": 2,
       "items": [
         {
@@ -121,24 +125,22 @@
       "status": "pending"
     }
   ],
-
   "reviews": [
     {
-      "id": 500,
+      "id": "500",
       "productId": 7,
       "customerId": 2,
       "rating": 5,
       "comment": "Amazing shoes!"
     }
   ],
-
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Shoes"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Electronics"
     }
   ]
