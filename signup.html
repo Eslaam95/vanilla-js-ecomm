@@ -12,7 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <script src="js/auth.js"></script>
+    <script type="module" src="js/register.js"></script>
   </head>
   <body>
     <header>
@@ -55,7 +55,7 @@
         <div>
           <h2 class="dark-color">Hello, Enter you details</h2>
 
-          <form action="/login" method="POST">
+          <form id="signupForm">
             <label for="name">Full name:</label>
             <input
               type="text"
@@ -84,6 +84,7 @@
               placeholder="Enter your password"
               required
             />
+            <div id="password-error" class="error">Invalid email format</div>
 
             <input type="submit" value="LOGIN" class="bg-dark" />
           </form>

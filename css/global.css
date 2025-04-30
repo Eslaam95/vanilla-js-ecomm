@@ -265,4 +265,5 @@ label {
 .error {
   font-size: 12px;
   color: #e13154;
+  display: none;
 }
