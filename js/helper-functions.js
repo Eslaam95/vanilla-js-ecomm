@@ -92,6 +92,8 @@ export async function displayAllProducts() {
   });
 }
 
+
+
 // export function getProductById(id) {
 //     return fetch(`http://localhost:3000/products/${id}`)
 //       .then((response) => response.json())
@@ -139,6 +141,15 @@ export function deleteProduct(id) {
       console.log(`Product with ID ${id} deleted`);
     })
     .catch((error) => console.error("Error deleting product:", error));
+}
+
+export function getAllOrders() {
+  return fetch("http://localhost:3000/orders")
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error("Error fetching orders:", error);
+      return [];
+    });
 }
 
 //Sign in & Register
