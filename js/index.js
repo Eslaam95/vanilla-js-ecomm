@@ -1,4 +1,5 @@
 import { getAllProducts } from "./helper-functions.js";
+
 window.addEventListener("load", function () {
   getAllProducts().then((products) => {
     let c = document.querySelector("#products-container");
