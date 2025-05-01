@@ -29,6 +29,18 @@
       "name": "eslaam",
       "email": "eslaam@example.com",
       "password": "password"
+    },
+    {
+      "id": "f0cb",
+      "name": "BahaaMekkawy",
+      "email": "Bahaa@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "f24f",
+      "name": "Sally",
+      "email": "Sally@gmail.com",
+      "password": "111111"
     }
   ],
   "products": [
@@ -60,7 +72,7 @@
       "categoryId": 1,
       "sellerId": 5,
       "image": "assets/images/products/image (1).png",
-      "approved": true
+      "approved": false
     },
     {
       "id": "4",
@@ -117,6 +129,16 @@
     {
       "id": "100",
       "customerId": 2,
+      "items": [
+        {
+          "productId": 7
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "101",
+      "customerId": 3,
       "items": [
         {
           "productId": 7
