@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         name: nameInput.value.trim(),
         email: emailInput.value.trim(),
         password: passwordInput.value.trim(),
+        role: "customer",
       };
 
       addUser(newUser);
