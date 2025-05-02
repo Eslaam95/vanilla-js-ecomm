@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JS Ecomm</title>
   <link href="css/global.css" rel="stylesheet" />
-  <link href="css/index.css" rel="stylesheet" />
   <link href="css/admin.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -39,14 +38,34 @@
     </div>
   </header>
 
-  <section class="bg-blue intro-section">
+  <div class="page flex">
+  <aside class="bg-blue intro-section sidebar">
     <div class="container">
-      <h1 class="white-color text-center">Admin Dashboards to be</h1>
+      <h3 class="white-color text-left">Admin Dashboard</h3>
+<ul class="mt-20">
+  <a href="#insights"><li class="mt-10 white-color"><img src="assets/images/icons/insights.png"/><p>Insights</p></li></a>
+  <a href="#users"><li class="mt-10 white-color"><img src="assets/images/icons/users.png"/><p>Users</p></li></a>
+  <a href="#products"><li class="mt-10 white-color"><img src="assets/images/icons/products.png"/><p>Products</p></li></a>
+  <a href="#orders"><li class="mt-10 white-color"><img src="assets/images/icons/orders.png"/><p>Orders</p></li></a>
+  <a href="#settings"><li class="mt-10 white-color"><img src="assets/images/icons/profile.png"/><p>Settings</p></li></a>
+</ul>
     </div>
-  </section>
+  </aside>
 
-  <section class="status p-section">
-    <div class="grid-4">
+
+
+
+<!--  -->
+<!--  -->
+<main>
+
+  <section class="status p-section" id="insights">
+    <div class="section-title container">
+      <p class="hello dark-color text-left sm-text"></p>
+
+      <h2 class="text-left p-20">Store Insights</h2>
+    </div>
+    <div class="grid-4 container">
       <div class="box">
         <div class="content">
           <h3 class="dark-color text-center">Total Products</h3>
@@ -74,40 +93,239 @@
     </div>
   </section>
 
-  <section class="p-section userMangement">
-    <h2 class=>User Mangment</h2>
-    <table id="usersTable">
+  <section class="p-section userMangement" id="users">
+    <div class="container">
+      <div class="section-title ">
+        <h2 class="text-left p-20">User Managment</h2>
+      </div>
+    <button class="add add-user bg-blue mt-40" >Add new user</button>
+
+    <table id="usersTable" class="mt-20">
         <tr>
           <th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Actions</th>
         </tr>
-        <tr>
-          <td>1</td><td>john_doe</td><td>john@example.com</td><td>User</td>
-          <td>
-            <button class="edit">Edit</button>
-            <button class="delete">Delete</button>
-          </td>
-        </tr>
+       
     </table>
+  </div>
   </section>
 
-  <section class="p-section productMangement">
-    <h2 class=>Product Mangment</h2>
-    <table id="productsTable">
+  <section class="p-section productMangement" id="products">
+    <div class="container">
+      <div class="section-title ">
+        <h2 class="text-left p-20">Product Managment</h2>
+      </div>
+    <button class="add add-product bg-blue mt-40 " >Add new Product</button>
+
+    <table id="productsTable" class="mt-20">
         <tr>
           <th>Product ID</th><th>Title</th><th>Price</th><th>Seller ID</th><th>Actions</th>
         </tr>
         
     </table>
+    </div>
   </section>
 
-  <section class="p-section orderMangement">
-    <h2 class=>Order Mangment</h2>
-    <table id="ordersTable">
+  <section class="p-section orderMangement" id="orders">
+    <div class="section-title container">
+      <h2 class="text-left p-20">Order Management</h2>
+    </div>
+    <div class="container">
+   
+    <table id="ordersTable" class="mt-40">
         <tr>
           <th>Order ID</th><th>Quantity</th><th>Total Price</th><th>Status</th><th>Actions</th>
         </tr>
     </table>
-  </section>
+    </section>
+
+
+    <section class="p-section profile-sec" id="settings">
+      <div class="section-title container">
+        <h2 class="text-left p-20">Profile Settings</h2>
+      </div>
+      <div class="container grid-2 mt-20">
+        <div class="text-content mt-40 box  p-40">
+          <h3 class="dark-color">Update Personal Info:</h3>
+          <form id="updateInfoForm" >
+    
+            <label for="nameUpdate">Full name:</label>
+            <input
+              type="text"
+              id="nameUpdate"
+              name="name"
+              placeholder="Enter your name"
+              required
+            />
+            <div id="nameUpdate-error" class="error">Invalid name format</div>
+    
+            <label for="emailUpdate">Email:</label>
+            <input
+              type="email"
+              id="emailUpdate"
+              name="email"
+              placeholder="Enter your email"
+              required
+            />
+            <div id="emailUpdate-error" class="error">Invalid email format</div>
+            <label for="profilepic">Profile pic path:</label>
+            <input
+              type="text"
+              id="profilepic"
+              name="profilepic"
+              placeholder="Enter your profile pic path"
+              required
+            />
+            <input type="submit" id="updateInfo" value="Update Info" class="bg-dark mt-20"  >
+          </form>    
+        </div>
+    
+        <div class="mt-20 box p-40">
+          <h3 class="dark-color">Update Password:</h3>
+          <form id="passwordResetForm">
+            <label for="old-password">Old Password:</label>
+            <input
+              type="password"
+              id="old-password"
+              name="old-password"
+              placeholder="Enter your old password"
+              required
+            />
+            <div id="old-password-error" class="error">Invalid password</div>
+    
+            <label for="password-reset">Password:</label>
+            <input
+              type="password"
+              id="password-reset"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+            <div id="password-reset-error" class="error">Invalid password</div>
+    
+            <label for="password-reset-confirmation">Confirm Password:</label>
+            <input
+              type="password"
+              id="password-reset-confirmation"
+              name="confirm-password"
+              placeholder="Confirm your password"
+              required
+            />
+            <div id="password-reset-error-confirmation" class="error">Invalid password</div>
+    
+            <input type="submit" value="Update Password" class="bg-dark" />
+          </form>
+        </div>
+      </div>
+    </section>
+    
+    <!--  -->
+    <!--  -->
+  </div>
+
+
+
+<!-- modals -->
+<!-- User Edit Modal -->
+<div id="userEditModal" class="modal"  style="display:none;">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h3>Edit User</h3>
+    <form id="editUserForm" >
+      <div id="userID-contianer" style="display: none;">
+      <p >User ID: </p>
+      <p id="editUserId"></p>
+    </div>
+      <div>
+
+        <label for="editUsername">Username:</label>
+        <input type="text" id="editUsername" required />
+        <div id="name-error" class="error">Invalid name format</div>
+
+      </div>
+      <div>
+        <label for="editEmail">Email:</label>
+        <input type="email" id="editEmail" required />
+        <div id="email-error" class="error">Invalid email format</div>
+
+      </div>
+      <div id="password-contianer">
+        <label for="password">Password:</label>
+        <input type="password" id="password" required />
+        <div id="password-error" class="error">Invalid email format</div>
+
+      </div>
+      <div>
+        <label for="editRole">Role:</label>
+        <select id="editRole" required>
+          <option value="seller" selected="selected">Seller</option>
+          <option value="admin" >Admin</option>
+          <option value="customer">Customer</option>
+        </select>
+      </div>
+      <button type="submit" class="btn bg-blue" id="saveUser">Save Changes</button>
+      <button type="submit" class="btn bg-blue" id="addUser">Add User</button>
+
+    </form>
+  </div>
+</div>
+
+
+<!-- product Edit Modal -->
+<div id="ProductEditModal" class="modal"  style="display:none;">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h3>Edit User</h3>
+    <form id="editProductForm" action="#">
+      <input type="hidden" id="productId" value="" />
+
+  <div>
+    <label for="productTitle">Title:</label>
+    <input required type="text" id="productTitle" value="" required />
+  </div>
+
+  <div>
+    <label for="productDescription">Description:</label>
+    <textarea id="productDescription" required></textarea>
+  </div>
+
+  <div>
+    <label for="productPrice">Price ($):</label>
+    <input required type="number" step="0.1" id="productPrice" value="" required />
+  </div>
+
+  <div>
+    <label for="productCategory">Category ID:</label>
+    <input type="number" id="productCategory" value="" required />
+  </div>
+
+  <div>
+    <label for="productSeller">Seller ID:</label>
+    <select required type="number" id="productSeller" value="" required ></select>
+  </div>
+
+  <div>
+    <label for="productImage">Image URL:</label>
+    <input type="text" id="productImage" value="" required />
+  </div>
+
+  <div>
+    <label for="productApproved">Approved:</label>
+    <select id="productApproved" required>
+      <option value="true" selected>Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn  bg-blue" id="saveProduct">Update Product</button>
+  <button type="submit" class="btn  bg-blue" id="addProduct">Add  Product</button>
+
+    </form>
+  </div>
+</div>
+
+
+</main>
+</div>
 </body>
 
 </html>

@@ -44,7 +44,7 @@ export function addUser(newUser) {
 
 export function updateUser(id, updatedUser) {
   fetch(`http://localhost:3000/users/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
@@ -65,6 +65,23 @@ export function deleteUser(id) {
       console.log(`User with ID ${id} deleted`);
     })
     .catch((error) => console.error("Error deleting user:", error));
+}
+
+export function getAllSellerIds() {
+  return fetch("http://localhost:3000/users")
+    .then((response) => response.json())
+    .then((users) => {
+      // Filter users by role 'seller' and return their sellerIds
+      const sellerIds = users
+        .filter((user) => user.role === "seller") // Filter users with role 'seller'
+        .map((user) => user.id); // Map to get the sellerId
+
+      return sellerIds; // Returns an array of seller IDs
+    })
+    .catch((error) => {
+      console.error("Error fetching users:", error);
+      return [];
+    });
 }
 
 //Products Main export functions
@@ -91,9 +108,23 @@ export async function displayAllProducts() {
     productList.appendChild(div);
   });
 }
-
-
-
+export function getSingleProduct(id) {
+  return fetch(`http://localhost:3000/products/${id}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Product not found");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Fetched product:", data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error fetching product:", error);
+      return null;
+    });
+}
 // export function getProductById(id) {
 //     return fetch(`http://localhost:3000/products/${id}`)
 //       .then((response) => response.json())
@@ -152,61 +183,74 @@ export function getAllOrders() {
     });
 }
 
-//Sign in & Register
-// export function signIn(email, password) {
-//   fetch("http://localhost:3000/users")
-//     .then((res) => res.json())
-//     .then((users) => {
-//       const foundUser = users.find(
-//         (user) => user.email === email && user.password === password
-//       );
+export function deleteOrder(orderId) {
+  return fetch(`http://localhost:3000/orders/${orderId}`, {
+    method: "DELETE",
+  })
+    .then(() => {
+      console.log(`Order with ID ${orderId} deleted successfully.`);
+    })
+    .catch((error) => {
+      console.error("Error deleting order:", error);
+    });
+}
+export function updateOrderStatus(orderId, newStatus) {
+  return fetch(`http://localhost:3000/orders/${orderId}`, {
+    method: "PATCH", // Use PATCH for partial update, or PUT if replacing entire order object
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status: newStatus }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(`Order status updated:`, data);
+    })
+    .catch((error) => {
+      console.error("Error updating order status:", error);
+    });
+}
+// Validation helpers
+export function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
 
-//       if (foundUser) {
-//         console.log("Login successful. Role:", foundUser.role);
-//         // You can save user info in localStorage to keep the session
-//         localStorage.setItem("currentUser", JSON.stringify(foundUser));
+export function isValidName(name) {
+  const pattern = /^[A-Za-z\s]{4,}$/;
+  return pattern.test(name);
+}
 
-//         if (foundUser.role === "admin") {
-//           // redirect to admin page or show admin features
-//         } else if (foundUser.role === "seller") {
-//           // redirect to customer home
-//         }
-//       } else if (foundUser.role === "seller") {
-//         // redirect to seller home
-//       } else {
-//         console.log("Invalid credentials");
-//       }
-//     })
-//     .catch((err) => console.error("Login error:", err));
-// }
-
-// Testing
-// let newUser = {
-//   name: "Bahaa",
-//   age: 26,
-//   role: "admin",
-//   email: "bahaa@gmail.com",
-// };
-
-// const form = document.getElementById("addUserForm");
-// form.addEventListener("submit", export function (event) {
-//   event.preventDefault(); // Prevent form from submitting normally
-
-//   // Get form values
-//   const name = document.getElementById("name").value;
-//   const age = document.getElementById("age").value;
-//   const role = document.getElementById("role").value;
-//   const email = document.getElementById("email").value;
-
-//   // Create a new user object
-//   const newUser = {
-//     name: name,
-//     age: parseInt(age), // Convert age to an integer
-//     role: role,
-//     email: email,
-//   };
-
-//   // Call the addUser export function
-//   addUser(newUser);
-//   form.reset();
-// });
+export function isValidPassword(password) {
+  return password.length >= 6;
+}
+export function validateEmail(mailElement, errorElement) {
+  if (!isValidEmail(mailElement.value)) {
+    errorElement.style.display = "block";
+    mailElement.style.border = "2px solid red";
+  } else {
+    errorElement.style.display = "none";
+    mailElement.style.border = "";
+  }
+  return isValidEmail(mailElement.value);
+}
+export function validateName(nameElement, errorElement) {
+  if (!isValidName(nameElement.value)) {
+    errorElement.style.display = "block";
+    nameElement.style.border = "2px solid red";
+  } else {
+    errorElement.style.display = "none";
+    nameElement.style.border = "";
+  }
+  return isValidName(nameElement.value);
+}
+export function validatepassword(passElement, errorElement) {
+  if (!isValidPassword(passElement.value)) {
+    errorElement.style.display = "block";
+    passElement.style.border = "2px solid red";
+  } else {
+    errorElement.style.display = "none";
+    passElement.style.border = "";
+  }
+  return isValidPassword(passElement.value);
+}

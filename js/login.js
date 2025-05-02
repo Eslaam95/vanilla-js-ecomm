@@ -1,4 +1,4 @@
-import { getAllUsers } from "./helper-functions.js";
+import { getAllUsers, isValidEmail } from "./helper-functions.js";
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("email");
@@ -9,17 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Hide errors initially
   emailError.style.display = "none";
   if (nameError) nameError.style.display = "none";
-
-  // Validation helpers
-  function isValidEmail(email) {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return pattern.test(email);
-  }
-
-  function isValidName(name) {
-    const pattern = /^[A-Za-z\s]{4,}$/;
-    return pattern.test(name);
-  }
 
   // Blur validation
   emailInput.addEventListener("blur", () => {

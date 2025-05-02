@@ -1,68 +1,52 @@
 {
   "users": [
     {
+      "name": "Admin",
+      "email": "admin@example.com",
+      "image": "xzcxz",
       "id": "1",
       "role": "admin",
-      "name": "John Admin",
-      "email": "admin@example.com",
       "password": "password",
-      "pic": "assets/images/products/image 5.png"
+      "passord": "password"
     },
     {
-      "id": "2",
-      "role": "seller",
-      "name": "seller",
+      "name": "selle",
       "email": "seller@example.com",
-      "password": "password",
-      "pic": "images/xsdff"
+      "role": "seller",
+      "id": "2"
     },
     {
-      "id": "3",
-      "role": "customer",
-      "name": "customer",
-      "email": "customer@example.com",
-      "password": "password",
-      "pic": "images/xsdff"
+      "id": "70f7",
+      "name": "eslaamz",
+      "email": "dsfdsfadmin@example.com",
+      "role": "seller",
+      "password": "dfsdfsdf"
     },
     {
-      "id": "bec7",
+      "id": "86bb",
+      "name": "zdsfsdfds",
+      "email": "selledsfdsr@example.com",
+      "role": "cusotmer",
+      "password": "dsfdsf"
+    },
+    {
+      "id": "12b7",
       "name": "eslaam",
-      "email": "eslaam@example.com",
-      "password": "password"
-    },
-    {
-      "id": "f0cb",
-      "name": "BahaaMekkawy",
-      "email": "Bahaa@gmail.com",
-      "password": "123456"
-    },
-    {
-      "id": "f24f",
-      "name": "Sally",
-      "email": "Sally@gmail.com",
-      "password": "111111"
+      "email": "seller@example.com",
+      "role": "customer",
+      "password": "dssfdsfdds"
     }
   ],
   "products": [
     {
-      "id": "1",
-      "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 5,
+      "categoryId": "1",
+      "sellerId": "5",
       "image": "assets/images/products/image (1).png",
-      "approved": true
-    },
-    {
-      "id": "2",
-      "title": "Cool Sneakers",
-      "description": "Stylish sneakers for running.",
-      "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 5,
-      "image": "assets/images/products/image 11.png",
-      "approved": true
+      "title": "super Cool Sneakers",
+      "approved": "true",
+      "id": "1"
     },
     {
       "id": "3",
@@ -72,7 +56,7 @@
       "categoryId": 1,
       "sellerId": 5,
       "image": "assets/images/products/image (1).png",
-      "approved": false
+      "approved": "false"
     },
     {
       "id": "4",
@@ -82,27 +66,17 @@
       "categoryId": 1,
       "sellerId": 5,
       "image": "assets/images/products/image 11.png",
-      "approved": true
+      "approved": "true"
     },
     {
-      "id": "5",
-      "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
-      "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 5,
-      "image": "assets/images/products/image (1).png",
-      "approved": true
-    },
-    {
-      "id": "6",
-      "title": "Cool Sneakers",
-      "description": "Stylish sneakers for running.",
-      "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 5,
+      "price": 500,
+      "categoryId": "1",
+      "sellerId": "5",
       "image": "assets/images/products/image 11.png",
-      "approved": true
+      "title": "great Cool Sneakers",
+      "approved": "false",
+      "id": "6"
     },
     {
       "id": "7",
@@ -115,14 +89,24 @@
       "approved": true
     },
     {
-      "id": "8",
+      "description": "",
+      "price": 10.6,
+      "categoryId": "",
+      "sellerId": "2",
+      "image": "",
       "title": "Cool Sneakers",
-      "description": "Stylish sneakers for running.",
-      "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 5,
-      "image": "assets/images/products/image 11.png",
-      "approved": true
+      "approved": "false",
+      "id": "2ef4"
+    },
+    {
+      "id": "9da5",
+      "description": "",
+      "price": 77,
+      "categoryId": "",
+      "sellerId": "70f7",
+      "image": "",
+      "title": "ddddddddddddd",
+      "approved": ""
     }
   ],
   "orders": [
@@ -131,17 +115,57 @@
       "customerId": 2,
       "items": [
         {
-          "productId": 7
+          "productId": 7,
+          "price": 10
+        },
+        {
+          "productId": 7,
+          "price": 40
+        }
+      ],
+      "status": "shipped"
+    },
+    {
+      "id": "100",
+      "customerId": 2,
+      "items": [
+        {
+          "productId": 7,
+          "price": 10
+        },
+        {
+          "productId": 7,
+          "price": 40
         }
       ],
       "status": "pending"
     },
     {
-      "id": "101",
-      "customerId": 3,
+      "id": "170",
+      "customerId": 2,
       "items": [
         {
-          "productId": 7
+          "productId": 7,
+          "price": 10
+        },
+        {
+          "productId": 7,
+          "price": 40
+        }
+      ],
+      "status": "shipped"
+    },
+    {
+      "id": "150",
+      "customerId": 2,
+      "items": [
+        {
+          "productId": 7,
+          "price": 10
+        },
+        {
+          "productId": 7,
+          "price": 40
         }
       ],
       "status": "pending"
