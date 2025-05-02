@@ -44,6 +44,9 @@ a.btn.active {
   justify-content: space-around;
   flex-wrap: wrap;
 }
+.p-40 {
+  padding: 40px;
+}
 .p-20 {
   padding: 20px;
 }
@@ -51,11 +54,18 @@ a.btn.active {
 .pt-40 {
   padding-top: 40px;
 }
+.mt-10 {
+  margin-top: 10px;
+}
+
 .mt-20 {
   margin-top: 20px;
 }
 .mt-40 {
   margin-top: 40px;
+}
+.ml-20 {
+  margin-left: 20px;
 }
 .p-section {
   padding: 70px 20px;
@@ -143,10 +153,24 @@ a.hero-btn:hover {
   left: 50%;
   transform: translateX(-50%);
 }
-
+.section-title h2.text-left {
+  padding-left: 0;
+}
+.section-title h2.text-left:after {
+  left: 0;
+  transform: translateX(0);
+}
 .grid-4 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 40px;
+
+  padding: 30px 0;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
   gap: 40px;
 
   padding: 30px 0;
@@ -178,9 +202,40 @@ a.hero-btn:hover {
 .main-menu li:hover:after {
   width: 100%;
 }
+
+.box {
+  box-shadow: 0 2px 15px rgb(0 0 0 / 20%);
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 50px;
+}
+.box .product-img {
+  padding: 15px;
+}
+.box .product-img img {
+  max-width: 100%;
+  max-height: 240px;
+}
+.box p {
+  margin: 15px 0;
+}
+.box .content {
+  padding: 20px 15px 0px 15px;
+  /* border-bottom: 2px solid #ddd; */
+}
 /*intro section*/
 .intro-section {
   padding: 5vh 0;
+}
+.hidden {
+  display: none;
+}
+header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 @media all and (max-width: 796px) {
   ul.main-menu {
@@ -210,6 +265,21 @@ a.hero-btn:hover {
   }
   .p-section {
     padding: 50px 20px;
+  }
+  .box .content {
+    text-align: center;
+  }
+  .box .product-img {
+    display: block;
+    margin: auto;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: 40px;
+
+    padding: 30px 0;
   }
 }
 @media all and (max-width: 480px) {
@@ -250,7 +320,7 @@ input {
   border-radius: 8px;
   margin-top: 10px;
   margin-bottom: 20px;
-  min-width: 300px;
+  min-width: 88%;
   max-width: 90vw;
 }
 input:focus,
@@ -266,4 +336,86 @@ label {
   font-size: 12px;
   color: #e13154;
   display: none;
+}
+input[type="radio"],
+label.role {
+  display: inline-block;
+  padding: 0;
+  margin: 4px 5px;
+  min-width: auto;
+  font-weight: normal;
+  font-size: 15px;
+}
+/*****************************************/
+/*dashbaord globals*/
+table {
+  width: 95%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+th,
+td {
+  padding: 15px 20px;
+  text-align: left;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #0c59b6;
+  color: white;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #eef5ff;
+}
+
+button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+button.edit {
+  background-color: #f59e0b;
+}
+
+button.delete,
+button.cancel {
+  background-color: #dc1c24;
+}
+
+button.approve,
+button.deliver {
+  background-color: #55c28b;
+  min-width: 100px;
+}
+button.disapprove {
+  background-color: #b70f16;
+  min-width: 100px;
+}
+/*profile section*/
+.profile-sec img {
+  max-width: 400px;
+  margin-top: 30px;
+}
+@media all and (max-width: 480px) {
+  .profile-sec img {
+    max-width: 80vw;
+    margin-top: 30px;
+  }
 }

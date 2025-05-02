@@ -84,9 +84,25 @@
               placeholder="Enter your password"
               required
             />
-            <div id="password-error" class="error">Invalid email format</div>
+            <div id="password-error" class="error">
+              Invalid password format should be more than 6 characters or number
+            </div>
 
-            <input type="submit" value="LOGIN" class="bg-dark" />
+            <p>Please select your role:</p>
+            <div class="flex mt-10">
+              <div>
+                <label class="role">
+                  <input type="radio" name="role" value="seller" /> Seller
+                </label>
+              </div>
+              <div>
+                <label class="role">
+                  <input type="radio" name="role" value="customer" required />
+                  Customer
+                </label>
+              </div>
+            </div>
+            <input type="submit" value="LOGIN" class="bg-dark mt-20" required />
           </form>
         </div>
       </div>

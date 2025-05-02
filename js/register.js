@@ -1,22 +1,13 @@
-import { addUser } from "./helper-functions.js";
+import {
+  addUser,
+  getAllUsers,
+  isValidEmail,
+  isValidName,
+  isValidPassword,
+} from "./helper-functions.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signupForm");
-
-  // Email pattern validation
-  function isValidEmail(email) {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return pattern.test(email);
-  }
-
-  function isValidName(name) {
-    const pattern = /^[A-Za-z\s]{4,}$/; // Only letters and spaces, min 4 chars
-    return pattern.test(name);
-  }
-
-  function isValidPassword(password) {
-    return password.length >= 6;
-  }
 
   // Validate input fields on blur
   const emailInput = document.getElementById("email");
@@ -56,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  signupForm.addEventListener("submit", (e) => {
+  signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     let valid = true;
@@ -87,14 +78,24 @@ document.addEventListener("DOMContentLoaded", () => {
         name: nameInput.value.trim(),
         email: emailInput.value.trim(),
         password: passwordInput.value.trim(),
+        role: document.querySelector('input[name="role"]:checked').value,
       };
+      getAllUsers().then(async (e) => {
+        for (let k of e) {
+          if (k.email === emailInput.value) {
+            alert("user already exists!");
+            return;
+          } else {
+            addUser(newUser);
 
-      addUser(newUser);
+            /*  signupForm.reset();*/
+            window.location.href = "login.html";
+            alert("User successfully created!");
 
-      signupForm.reset();
-
-      alert("User successfully created!");
-      window.location.href = "/user.html";
+            break;
+          }
+        }
+      });
     } else {
       alert("Please fix the errors and try again.");
     }
