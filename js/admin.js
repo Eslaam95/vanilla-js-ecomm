@@ -87,9 +87,6 @@ window.addEventListener("load", async function () {
     window.location.href = "/";
     return;
   }
-  if (userobj.name) {
-    document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
-  }
 
   /*load orders, users, and products into talbes*/
   async function loadData() {
@@ -350,7 +347,7 @@ window.addEventListener("load", async function () {
     if (e.target.classList.contains("approve-product")) {
       const productID = e.target.getAttribute("data-id");
       let product = await getSingleProduct(productID);
-      product.approved = "true";
+      product.approved = true;
       updateProduct(productID, product);
     }
   });
@@ -359,7 +356,7 @@ window.addEventListener("load", async function () {
     if (e.target.classList.contains("disapprove-product")) {
       const productID = e.target.getAttribute("data-id");
       let product = await getSingleProduct(productID);
-      product.approved = "false";
+      product.approved = false;
       updateProduct(productID, product);
     }
   });
@@ -387,7 +384,7 @@ window.addEventListener("load", async function () {
     e.preventDefault();
     if (
       productTitle.value.length > 8 &&
-      Number(productPrice.value) > 5 &&
+      Number(productPrice.value) > 0 &&
       productSeller.value.length != ""
     ) {
       let updatedProduct = {
@@ -397,7 +394,7 @@ window.addEventListener("load", async function () {
         sellerId: productSeller.value,
         image: productImage.value,
         title: productTitle.value,
-        approved: productApproved.value,
+        approved: Boolean(productApproved.value),
       };
       updateProduct(productId.value, updatedProduct);
     } else {
@@ -434,7 +431,7 @@ window.addEventListener("load", async function () {
         sellerId: productSeller.value,
         image: productImage.value,
         title: productTitle.value,
-        approved: productApproved.value,
+        approved: Boolean(productApproved.value),
       };
       addProduct(newProduct);
     } else {

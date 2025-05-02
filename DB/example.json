@@ -31,10 +31,17 @@
     },
     {
       "id": "12b7",
-      "name": "eslaam",
+      "name": "eslaamzzzzzzzzzzzzzz",
       "email": "seller@example.com",
       "role": "customer",
       "password": "dssfdsfdds"
+    },
+    {
+      "id": "de8c",
+      "name": "eslaam",
+      "email": "sellersssss@example.com",
+      "role": "seller",
+      "password": "password"
     }
   ],
   "products": [
@@ -45,7 +52,7 @@
       "sellerId": "5",
       "image": "assets/images/products/image (1).png",
       "title": "super Cool Sneakers",
-      "approved": "true",
+      "approved": true,
       "id": "1"
     },
     {
@@ -56,7 +63,7 @@
       "categoryId": 1,
       "sellerId": 5,
       "image": "assets/images/products/image (1).png",
-      "approved": "false"
+      "approved": true
     },
     {
       "id": "4",
@@ -66,17 +73,7 @@
       "categoryId": 1,
       "sellerId": 5,
       "image": "assets/images/products/image 11.png",
-      "approved": "true"
-    },
-    {
-      "description": "Stylish sneakers for running.",
-      "price": 500,
-      "categoryId": "1",
-      "sellerId": "5",
-      "image": "assets/images/products/image 11.png",
-      "title": "great Cool Sneakers",
-      "approved": "false",
-      "id": "6"
+      "approved": true
     },
     {
       "id": "7",
@@ -95,7 +92,7 @@
       "sellerId": "2",
       "image": "",
       "title": "Cool Sneakers",
-      "approved": "false",
+      "approved": true,
       "id": "2ef4"
     },
     {
@@ -106,42 +103,22 @@
       "sellerId": "70f7",
       "image": "",
       "title": "ddddddddddddd",
-      "approved": ""
+      "approved": false
+    },
+    {
+      "id": "f75a",
+      "description": "",
+      "price": 20,
+      "categoryId": "",
+      "sellerId": "de8c",
+      "image": "",
+      "title": "shoes shoes shoes",
+      "approved": false
     }
   ],
   "orders": [
     {
       "id": "100",
-      "customerId": 2,
-      "items": [
-        {
-          "productId": 7,
-          "price": 10
-        },
-        {
-          "productId": 7,
-          "price": 40
-        }
-      ],
-      "status": "shipped"
-    },
-    {
-      "id": "100",
-      "customerId": 2,
-      "items": [
-        {
-          "productId": 7,
-          "price": 10
-        },
-        {
-          "productId": 7,
-          "price": 40
-        }
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "170",
       "customerId": 2,
       "items": [
         {
