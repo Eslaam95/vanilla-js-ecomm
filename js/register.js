@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
         email: emailInput.value.trim(),
         password: passwordInput.value.trim(),
         role: document.querySelector('input[name="role"]:checked').value,
+   
       };
       getAllUsers().then(async (e) => {
         for (let k of e) {
