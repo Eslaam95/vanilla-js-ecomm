@@ -94,6 +94,15 @@ export function getAllProducts() {
     });
 }
 
+export function getAllProductsBySellerId(sellerId) {
+  return fetch(`http://localhost:3000/products?sellerId=${sellerId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error("Error fetching products:", error);
+      return [];
+    });
+}
+
 export async function displayAllProducts() {
   const products = await getAllProducts();
   const productList = document.getElementById("productList");
@@ -183,6 +192,24 @@ export function getAllOrders() {
     });
 }
 
+export async function getOrdersBySellerId(sellerId) {
+  const sellerProducts = await getAllProductsBySellerId(sellerId);
+  const sellerProductIds = sellerProducts.map(p => String(p.id));
+  
+  const allOrders = await getAllOrders();
+  
+  return allOrders.filter(order => {
+    // Skip if order has no items array
+    if (!order?.items || !Array.isArray(order.items)) return false;
+    // Check if any item belongs to this seller
+    return order.items.some(item => 
+      item?.productId && sellerProductIds.includes(String(item.productId))
+    );
+  });
+}
+
+
+
 export function deleteOrder(orderId) {
   return fetch(`http://localhost:3000/orders/${orderId}`, {
     method: "DELETE",
@@ -194,6 +221,8 @@ export function deleteOrder(orderId) {
       console.error("Error deleting order:", error);
     });
 }
+
+
 export function updateOrderStatus(orderId, newStatus) {
   return fetch(`http://localhost:3000/orders/${orderId}`, {
     method: "PATCH", // Use PATCH for partial update, or PUT if replacing entire order object
