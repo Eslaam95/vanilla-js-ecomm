@@ -6,14 +6,22 @@
       "image": "xzcxz",
       "id": "1",
       "role": "admin",
-      "password": "password",
-      "passord": "password"
+      "password": "password"
     },
     {
-      "name": "selle",
+      "name": "sellerUpdated",
       "email": "seller@example.com",
       "role": "seller",
-      "id": "2"
+      "id": "2",
+      "password": "password",
+      "image": "images/\"1.png\""
+    },
+    {
+      "name": "customer",
+      "email": "customer@example.com",
+      "role": "customer",
+      "id": "3",
+      "password": "password"
     },
     {
       "id": "70f7",
@@ -46,14 +54,13 @@
   ],
   "products": [
     {
-      "description": "Stylish sneakers for running.",
-      "price": 59.99,
-      "categoryId": "1",
-      "sellerId": "5",
+      "title": "Bahaa Mobile",
+      "description": "Bahaa Mekkawy Added this Product Description",
+      "price": 122,
+      "categoryId": "2",
       "image": "assets/images/products/image (1).png",
-      "title": "super Cool Sneakers",
-      "approved": true,
-      "id": "1"
+      "id": "1",
+      "sellerId": 2
     },
     {
       "id": "3",
@@ -61,19 +68,18 @@
       "description": "Stylish sneakers for running.",
       "price": 59.99,
       "categoryId": 1,
-      "sellerId": 5,
+      "sellerId": 2,
       "image": "assets/images/products/image (1).png",
       "approved": true
     },
     {
-      "id": "4",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 5,
+      "categoryId": "1",
       "image": "assets/images/products/image 11.png",
-      "approved": true
+      "id": "4",
+      "sellerId": 1
     },
     {
       "id": "7",
@@ -84,16 +90,6 @@
       "sellerId": 5,
       "image": "assets/images/products/image (1).png",
       "approved": true
-    },
-    {
-      "description": "",
-      "price": 10.6,
-      "categoryId": "",
-      "sellerId": "2",
-      "image": "",
-      "title": "Cool Sneakers",
-      "approved": true,
-      "id": "2ef4"
     },
     {
       "id": "9da5",
@@ -114,6 +110,26 @@
       "image": "",
       "title": "shoes shoes shoes",
       "approved": false
+    },
+    {
+      "id": "4333",
+      "title": "super Cool Sneakers",
+      "description": "شس",
+      "price": 22,
+      "categoryId": "1",
+      "image": "assets/images/products/image (1).png",
+      "sellerId": "2",
+      "approved": false
+    },
+    {
+      "id": "95aa",
+      "title": "ASASS",
+      "description": "12ASDFSadf",
+      "price": 12,
+      "categoryId": "2",
+      "image": "assets/images/products/image (1).png",
+      "sellerId": "2",
+      "approved": true
     }
   ],
   "orders": [
@@ -122,27 +138,42 @@
       "customerId": 2,
       "items": [
         {
-          "productId": 7,
-          "price": 10
+          "productId": 1,
+          "quantity": 2
         },
         {
-          "productId": 7,
-          "price": 40
+          "productId": 2,
+          "quantity": 3
         }
       ],
       "status": "shipped"
     },
     {
       "id": "150",
-      "customerId": 2,
+      "customerId": 1,
       "items": [
         {
-          "productId": 7,
-          "price": 10
+          "productId": 1,
+          "quantity": 2
         },
         {
-          "productId": 7,
-          "price": 40
+          "productId": 3,
+          "quantity": 2
+        }
+      ],
+      "status": "shipped"
+    },
+    {
+      "id": "150",
+      "customerId": 3,
+      "items": [
+        {
+          "productId": 1,
+          "quantity": 2
+        },
+        {
+          "productId": 3,
+          "quantity": 2
         }
       ],
       "status": "pending"
