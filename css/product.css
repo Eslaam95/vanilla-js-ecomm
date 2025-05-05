@@ -1,0 +1,62 @@
+.gallery {
+  display: flex;
+  align-items: flex-start;
+}
+.gallery img {
+  min-width: 50%;
+  max-width: 80%;
+}
+.stars-outer {
+  display: inline-block;
+  position: relative;
+  font-size: 28px;
+  color: #ccc;
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: rgb(255, 81, 0);
+}
+
+.stars-outer::before,
+.stars-inner::before {
+  content: "★★★★★";
+}
+.stars-inner::before {
+  width: 0;
+}
+.single-review {
+  padding: 25px 0;
+  border-bottom: 1px solid #dcdcdc;
+}
+#rating-bar {
+  width: 150px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+  background-image: url("../assets/images/products/stars.png");
+  background-size: 150px 30px;
+  transition: all 0.1s ease-in-out;
+}
+#rating-fill {
+  width: 0;
+  height: 100%;
+  cursor: pointer;
+  background-image: url("../assets/images/icons/dark\ gold\ stars.png");
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: 150px 30px;
+  transition: all 0.1s ease-in-out;
+}
+#cusotmer-review-container textarea {
+  padding: 10px;
+  min-width: 80%;
+  min-height: 150px;
+  border: 1px solid #333;
+  display: block;
+}

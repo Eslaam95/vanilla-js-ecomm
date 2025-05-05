@@ -94,6 +94,15 @@ export function getAllProducts() {
     });
 }
 
+export function getAllProductsBySellerId(sellerId) {
+  return fetch(`http://localhost:3000/products?sellerId=${sellerId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error("Error fetching products:", error);
+      return [];
+    });
+}
+
 export async function displayAllProducts() {
   const products = await getAllProducts();
   const productList = document.getElementById("productList");
@@ -183,6 +192,23 @@ export function getAllOrders() {
     });
 }
 
+export async function getOrdersBySellerId(sellerId) {
+  const sellerProducts = await getAllProductsBySellerId(sellerId);
+  const sellerProductIds = sellerProducts.map((p) => String(p.id));
+
+  const allOrders = await getAllOrders();
+
+  return allOrders.filter((order) => {
+    // Skip if order has no items array
+    if (!order?.items || !Array.isArray(order.items)) return false;
+    // Check if any item belongs to this seller
+    return order.items.some(
+      (item) =>
+        item?.productId && sellerProductIds.includes(String(item.productId))
+    );
+  });
+}
+
 export function deleteOrder(orderId) {
   return fetch(`http://localhost:3000/orders/${orderId}`, {
     method: "DELETE",
@@ -194,6 +220,7 @@ export function deleteOrder(orderId) {
       console.error("Error deleting order:", error);
     });
 }
+
 export function updateOrderStatus(orderId, newStatus) {
   return fetch(`http://localhost:3000/orders/${orderId}`, {
     method: "PATCH", // Use PATCH for partial update, or PUT if replacing entire order object
@@ -253,4 +280,76 @@ export function validatepassword(passElement, errorElement) {
     passElement.style.border = "";
   }
   return isValidPassword(passElement.value);
+}
+/*get product average ratnings*/
+export function getAverageRating(reviews) {
+  if (reviews.length === 0) return 0;
+
+  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+  return (total / reviews.length).toFixed(1); // return as string like "4.3"
+}
+
+/*add review to a product*/
+export async function addProductReview(
+  productId,
+  customerId,
+  sellerId,
+  rating,
+  comment
+) {
+  const baseUrl = "http://localhost:3000";
+
+  try {
+    // Step 1: Get the product
+    const productRes = await fetch(`${baseUrl}/products/${productId}`);
+    const product = await productRes.json();
+
+    if (!product) {
+      alert("Product not found.");
+      return;
+    }
+
+    // Step 2: Prevent seller from reviewing own product
+    if (sellerId === customerId) {
+      alert("Sellers cannot review their own products.");
+      return;
+    }
+
+    // Step 3: Check if customer has ordered the product
+    const ordersRes = await fetch(`${baseUrl}/orders?customerId=${customerId}`);
+    const orders = await ordersRes.json();
+
+    const hasOrderedProduct = orders.some((order) =>
+      order.items.some((item) => item.productId === productId)
+    );
+
+    if (!hasOrderedProduct) {
+      alert("Customer has not ordered this product.");
+      return;
+    }
+
+    // Step 4: Create new review
+    const newReview = {
+      customerId,
+      rating,
+      comment,
+    };
+
+    if (!Array.isArray(product.reviews)) {
+      product.reviews = [];
+    }
+
+    product.reviews.push(newReview);
+
+    // Step 5: Update the product with the new review
+    await fetch(`${baseUrl}/products/${productId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
+    });
+
+    console.log("✅ Review added successfully.");
+  } catch (error) {
+    console.error("❌ Error adding review:", error);
+  }
 }

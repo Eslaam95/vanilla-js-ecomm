@@ -12,7 +12,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet" />
-  <script type="module" src="js/seller.js"></script>
+  <script type="module" src="js/customer.js"></script>
 </head>
 
 <body>
@@ -73,77 +73,7 @@
     <!--  -->
     <main>
 
-      <section class="status p-section" id="insights">
-        <div class="section-title container">
-          <p class="hello dark-color text-left sm-text"></p>
 
-          <h2 class="text-left p-20">Store Insights</h2>
-        </div>
-        <div class="grid-4 container">
-          <div class="box">
-            <div class="content">
-              <h3 class="dark-color text-center">Total Products</h3>
-              <p class="sm-text grey-color pt-20 productSum text-center">20</p>
-            </div>
-          </div>
-          <div class="box">
-            <div class="content">
-              <h3 class="dark-color text-center">Pending Products</h3>
-              <p class="sm-text grey-color pt-20 pendingProducts text-center">20</p>
-            </div>
-          </div>
-          <div class="box">
-            <div class="content">
-              <h3 class="dark-color text-center">Orders</h3>
-              <p class="sm-text grey-color pt-20 OrderSum text-center">20</p>
-            </div>
-          </div>
-          <div class="box">
-            <div class="content">
-              <h3 class="dark-color text-center">Pending Orders</h3>
-              <p class="sm-text grey-color pt-20 pendingOrdersSum text-center">20</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      <section class="p-section productMangement" id="products">
-        <div class="container">
-          <div class="section-title ">
-            <h2 class="text-left p-20">Product Managment</h2>
-          </div>
-          <button class="add add-product bg-blue mt-40 ">Add new Product</button>
-
-          <table id="productsTable" class="mt-20">
-            <tr>
-              <th>Product ID</th>
-              <th>Title</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-
-          </table>
-        </div>
-      </section>
-
-      <section class="p-section orderMangement" id="orders">
-        <div class="section-title container">
-          <h2 class="text-left p-20">Order Management</h2>
-        </div>
-        <div class="container">
-
-          <table id="ordersTable" class="mt-40">
-            <tr>
-              <th>Order ID</th>
-              <th>Items</th>
-              <th>Customer ID</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </table>
-      </section>
 
 
       <section class="p-section profile-sec" id="settings">
@@ -192,46 +122,23 @@
       </section>
 
 
-      <!-- product Edit Modal -->
-      <div id="ProductEditModal" class="modal" style="display:none;">
-        <div class="modal-content">
-          <span class="close-btn">&times;</span>
-          <h3>Edit Product</h3>
-          <form id="editProductForm" action="#">
-            <input type="hidden" id="productId" value="" />
-
-            <div>
-              <label for="productTitle">Title:</label>
-              <input required type="text" id="productTitle" value="" required />
-            </div>
-
-            <div>
-              <label for="productDescription">Description:</label>
-              <textarea id="productDescription" required></textarea>
-            </div>
-
-            <div>
-              <label for="productPrice">Price ($):</label>
-              <input required type="number" step="0.1" id="productPrice" value="" required />
-            </div>
-
-            <div>
-              <label for="productCategory">Category ID:</label>
-              <input type="number" id="productCategory" value="" required />
-            </div>
-
-            <div>
-              <label for="productImage">Image URL:</label>
-              <input type="text" id="productImage" value="" required />
-            </div>
-
-
-            <button type="submit" class="btn  bg-blue" id="saveProduct">Update Product</button>
-            <button type="submit" class="btn  bg-blue" id="addProduct">Add Product</button>
-
-          </form>
+ 
+      <section class="p-section orderMangement" id="orders">
+        <div class="section-title container">
+          <h2 class="text-left p-20">Order Management</h2>
         </div>
-      </div>
+        <div class="container">
+
+          <table id="ordersTable" class="mt-40">
+            <tr>
+              <th>Order ID</th>
+              <th>Items</th>
+              <th>Customer ID</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </table>
+      </section>
 
 
   </div>
