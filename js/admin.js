@@ -103,7 +103,7 @@ window.addEventListener("load", async function () {
         <td>${product.sellerId}</td>
         <td>
           ${
-            product.approved == "false"
+            !product.approved
               ? `<button class="approve approve-product" data-id="${product.id}">Approve</button>`
               : `<button class="disapprove  disapprove-product " data-id="${product.id}">Disapprove</button>`
           }
@@ -271,6 +271,7 @@ window.addEventListener("load", async function () {
   /*DELTER USER*/
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("delete-user")) {
+      console.log("hello");
       const userID = e.target.getAttribute("data-id");
       let confirmation = confirm("Are you sure?");
       if (confirmation) {
@@ -348,6 +349,7 @@ window.addEventListener("load", async function () {
       const productID = e.target.getAttribute("data-id");
       let product = await getSingleProduct(productID);
       product.approved = true;
+
       updateProduct(productID, product);
     }
   });
@@ -565,7 +567,7 @@ window.addEventListener("load", async function () {
       return; // Stop form from submitting
     } else {
       let updatedUser = {
-        passord: passwordResetInput.value,
+        password: passwordResetInput.value,
       };
       updateUser(URLid, updatedUser);
     }

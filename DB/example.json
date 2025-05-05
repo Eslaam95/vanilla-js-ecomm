@@ -9,12 +9,12 @@
       "password": "password"
     },
     {
-      "name": "sellerUpdated",
+      "name": "sellerUpdatedr",
       "email": "seller@example.com",
       "role": "seller",
       "id": "2",
       "password": "password",
-      "image": "images/\"1.png\""
+      "image": "images/1.png"
     },
     {
       "name": "customer",
@@ -24,31 +24,10 @@
       "password": "password"
     },
     {
-      "id": "70f7",
-      "name": "eslaamz",
-      "email": "dsfdsfadmin@example.com",
-      "role": "seller",
-      "password": "dfsdfsdf"
-    },
-    {
-      "id": "86bb",
-      "name": "zdsfsdfds",
-      "email": "selledsfdsr@example.com",
-      "role": "cusotmer",
-      "password": "dsfdsf"
-    },
-    {
-      "id": "12b7",
-      "name": "eslaamzzzzzzzzzzzzzz",
-      "email": "seller@example.com",
-      "role": "customer",
-      "password": "dssfdsfdds"
-    },
-    {
-      "id": "de8c",
+      "id": "dc15",
       "name": "eslaam",
-      "email": "sellersssss@example.com",
-      "role": "seller",
+      "email": "test@gmail.com",
+      "role": "customer",
       "password": "password"
     }
   ],
@@ -60,17 +39,39 @@
       "categoryId": "2",
       "image": "assets/images/products/image (1).png",
       "id": "1",
-      "sellerId": 2
+      "sellerId": "2",
+      "approved": false,
+      "reviews": [
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 1,
+          "comment": "Bad!"
+        },
+        {
+          "customerId": "1",
+          "rating": 4.8,
+          "comment": "Nice!!!"
+        }
+      ]
     },
     {
       "id": "3",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 2,
+      "categoryId": "1",
+      "sellerId": "2",
       "image": "assets/images/products/image (1).png",
-      "approved": true
+      "approved": false,
+      "reviews": [
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 3,
+          "comment": "Amazing shoes!"
+        }
+      ]
     },
     {
       "title": "Cool Sneakers",
@@ -79,17 +80,79 @@
       "categoryId": "1",
       "image": "assets/images/products/image 11.png",
       "id": "4",
-      "sellerId": 1
+      "sellerId": "1",
+      "approved": false,
+      "reviews": [
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 2,
+          "comment": "Amazing shoes!"
+        }
+      ]
     },
     {
       "id": "7",
       "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 5,
+      "categoryId": "1",
+      "sellerId": "5",
       "image": "assets/images/products/image (1).png",
-      "approved": true
+      "approved": false,
+      "reviews": [
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 3.5,
+          "comment": "Amazing shoes!"
+        }
+      ]
+    },
+    {
+      "description": "",
+      "price": 10.6,
+      "categoryId": "",
+      "sellerId": "2",
+      "image": "assets/images/products/Main Image.png",
+      "title": "Cool Sneakers",
+      "approved": false,
+      "id": "2ef4",
+      "reviews": [
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 4,
+          "comment": "Amazing shoes!"
+        },
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 1.4,
+          "comment": "Bad shoes!"
+        },
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 5,
+          "comment": "Good shoes!"
+        },
+        {
+          "customerId": "1",
+          "rating": 3.5,
+          "comment": ""
+        },
+        {
+          "customerId": "1",
+          "rating": 2.4,
+          "comment": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+        },
+        {
+          "customerId": "1",
+          "rating": 0,
+          "comment": "sfsd"
+        }
+      ]
     },
     {
       "id": "9da5",
@@ -97,52 +160,66 @@
       "price": 77,
       "categoryId": "",
       "sellerId": "70f7",
-      "image": "",
+      "image": "assets/images/products/image (1).png",
       "title": "ddddddddddddd",
-      "approved": false
+      "approved": false,
+      "reviews": [
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 4,
+          "comment": "Amazing shoes!"
+        },
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 5,
+          "comment": "Great shoes!"
+        },
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 5,
+          "comment": "Good shoes!"
+        }
+      ]
     },
     {
-      "id": "f75a",
       "description": "",
       "price": 20,
       "categoryId": "",
-      "sellerId": "de8c",
-      "image": "",
+      "sellerId": "70f7",
+      "image": "assets/images/products/Main Image.png",
+      "approved": true,
+      "id": "f75a",
       "title": "shoes shoes shoes",
-      "approved": false
-    },
-    {
-      "id": "4333",
-      "title": "super Cool Sneakers",
-      "description": "شس",
-      "price": 22,
-      "categoryId": "1",
-      "image": "assets/images/products/image (1).png",
-      "sellerId": "2",
-      "approved": false
-    },
-    {
-      "id": "95aa",
-      "title": "ASASS",
-      "description": "12ASDFSadf",
-      "price": 12,
-      "categoryId": "2",
-      "image": "assets/images/products/image (1).png",
-      "sellerId": "2",
-      "approved": true
+      "reviews": [
+        {
+          "id": "500",
+          "customerId": "2",
+          "rating": 5,
+          "comment": "Amazing shoes!"
+        },
+        {
+          "id": "2343",
+          "customerId": "2",
+          "rating": 4,
+          "comment": "Good shoes!"
+        }
+      ]
     }
   ],
   "orders": [
     {
       "id": "100",
-      "customerId": 2,
+      "customerId": "1",
       "items": [
         {
-          "productId": 1,
+          "productId": "2ef4",
           "quantity": 2
         },
         {
-          "productId": 2,
+          "productId": "2",
           "quantity": 3
         }
       ],
@@ -150,14 +227,14 @@
     },
     {
       "id": "150",
-      "customerId": 1,
+      "customerId": "1",
       "items": [
         {
-          "productId": 1,
+          "productId": "1",
           "quantity": 2
         },
         {
-          "productId": 3,
+          "productId": "3",
           "quantity": 2
         }
       ],
@@ -165,27 +242,20 @@
     },
     {
       "id": "150",
-      "customerId": 3,
+      "customerId": "1",
       "items": [
         {
-          "productId": 1,
-          "quantity": 2
+          "productId": "1",
+          "quantity": 2,
+          "price": 20
         },
         {
-          "productId": 3,
-          "quantity": 2
+          "productId": "3",
+          "quantity": 2,
+          "price": 22
         }
       ],
       "status": "pending"
-    }
-  ],
-  "reviews": [
-    {
-      "id": "500",
-      "productId": 7,
-      "customerId": 2,
-      "rating": 5,
-      "comment": "Amazing shoes!"
     }
   ],
   "categories": [

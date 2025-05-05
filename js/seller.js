@@ -1,23 +1,18 @@
 /*helper functions*/
 import {
   getSingleUser,
-  getAllUsers,
-  getAllOrders,
   updateUser,
-  deleteUser,
   validateEmail,
   validateName,
   validatepassword,
-  addUser,
   deleteProduct,
   getSingleProduct,
   updateProduct,
   addProduct,
-  getAllSellerIds,
   deleteOrder,
   updateOrderStatus,
   getAllProductsBySellerId,
-  getOrdersBySellerId
+  getOrdersBySellerId,
 } from "./helper-functions.js";
 window.addEventListener("load", async function () {
   /*get user id*/
@@ -32,7 +27,7 @@ window.addEventListener("load", async function () {
   const productsTable = document.getElementById("productsTable");
   const ordersTable = document.getElementById("ordersTable");
   const pendingOrdersSum = document.querySelector(".pendingOrdersSum");
-  
+
   /*user form elements*/
   const userEidtModal = document.getElementById("userEditModal");
   const closeModal = this.document.querySelectorAll(".close-btn");
@@ -120,21 +115,28 @@ window.addEventListener("load", async function () {
       //***************************************************************************************************************** */
       //Display Orders For Seller
       const sellerOrders = await getOrdersBySellerId(URLid);
-      const pendingOrdersCount = sellerOrders.filter(order => 
-        order?.status?.toLowerCase() === 'pending'
+      const pendingOrdersCount = sellerOrders.filter(
+        (order) => order?.status?.toLowerCase() === "pending"
       ).length;
       orderSum.textContent = sellerOrders.length;
-      pendingOrdersSum.textContent=pendingOrdersCount;
-      
+      pendingOrdersSum.textContent = pendingOrdersCount;
+
       sellerOrders.forEach((order) => {
         const row = ordersTable.insertRow();
         row.innerHTML = `
           <td>${order.id}</td>
-          <td>${order.items.reduce((sum, item) => sum + (item.quantity || 1), 0)}</td>
-          <td>${order.customerId || 'N/A'}</td> <!-- Changed from total price to customer ID -->
+          <td>${order.items.reduce(
+            (sum, item) => sum + (item.quantity || 1),
+            0
+          )}</td>
+          <td>${
+            order.customerId || "N/A"
+          }</td> <!-- Changed from total price to customer ID -->
           <td class="status-${order.status.toLowerCase()}">${order.status}</td>
           <td>
-            <button class="cancel cancel-order" data-id="${order.id}">Cancel</button>
+            <button class="cancel cancel-order" data-id="${
+              order.id
+            }">Cancel</button>
             ${
               order.status === "pending"
                 ? `<button class="deliver deliver-order" data-id="${order.id}">Deliver</button>`
@@ -349,7 +351,7 @@ window.addEventListener("load", async function () {
         password: passwordResetInput.value,
       };
       updateUser(URLid, updatedUser);
-      alert("Password Chaned Successfully")
+      alert("Password Chaned Successfully");
     }
   });
   /*end of window load*/

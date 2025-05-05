@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = `${window.location.origin}/seller.html?id=${user.id}`;
           break;
         case "customer":
-          window.location.href = `${window.location.origin}/user.html?id=${user.id}`;
+          window.location.href = `${window.location.origin}/customer.html?id=${user.id}`;
           break;
         default:
           alert("Unknown role. Access denied.");
