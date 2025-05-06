@@ -25,12 +25,6 @@ window.addEventListener("load", async function () {
   const productsTable = document.getElementById("productsTable");
   const ordersTable = document.getElementById("ordersTable");
   const pendingOrdersSum = document.querySelector(".pendingOrdersSum");
-<<<<<<< HEAD
-
-  /*user form elements*/
-  const userEidtModal = document.getElementById("userEditModal");
-=======
->>>>>>> fbd03a6 (seller-dashboard-complete)
   const closeModal = this.document.querySelectorAll(".close-btn");
   /*product form elemtns*/
   const productId = document.getElementById("productId");
