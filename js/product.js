@@ -2,20 +2,18 @@ import {
   getAverageRating,
   getSingleProduct,
   addProductReview,
+  getAllProducts,
 } from "./helper-functions.js";
 
-function fillStars(rating) {
-  const percentage = (rating / 5) * 100;
-  const starFill = document.getElementById("star-fill");
-  starFill.style.width = `${percentage}%`;
-}
-
 window.addEventListener("load", async function () {
+  /*get current user*/
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
   console.log(userobj);
+  /*get current product*/
   const urlParams = new URLSearchParams(window.location.search);
   const URLid = urlParams.get("id");
   let product = await getSingleProduct(URLid);
+  /*select product tags to add data in*/
   let currentProductTitle = this.document.getElementById(
     "current-product-title"
   );
@@ -27,8 +25,13 @@ window.addEventListener("load", async function () {
     "  .current-product-cart-btn"
   );
 
-  /*reviews input*/
+  function fillStars(rating) {
+    const percentage = (rating / 5) * 100;
+    const starFill = document.getElementById("star-fill");
+    starFill.style.width = `${percentage}%`;
+  }
 
+  /*reviews input*/
   let currentProductReviews = this.document.querySelector("#reviews-conainer");
   /*product details*/
   currentProductTitle.innerHTML = product.title;
@@ -37,14 +40,14 @@ window.addEventListener("load", async function () {
   currentProductPrice.innerHTML = "$" + product.price;
   currentProductCartBtn.setAttribute("data-id", product.id);
   fillStars(getAverageRating(product.reviews));
-
+  /*add product's previous reviews*/
   for (let r of product.reviews) {
     currentProductReviews.innerHTML += `   <div class="single-review">
             <p class="sm-text">${r.comment}</p>
             <p class="sm-text">${r.rating} ★ out of 5</p>
           </div>`;
   }
-
+  /*product cusomter reveiw form*/
   const bar = document.getElementById("rating-bar");
   const fill = document.getElementById("rating-fill");
   const value = document.getElementById("rating-value");
@@ -83,7 +86,7 @@ window.addEventListener("load", async function () {
   });
 
   submitReviewBtn.addEventListener("click", function () {
-    if (submmittedComment.value.length < 15) {
+    if (submmittedComment.value.length < 5) {
       document.querySelector(".comment-error").style.display = "block";
       submmittedComment.style.border = "1px solid red";
       return;
@@ -91,9 +94,148 @@ window.addEventListener("load", async function () {
     addProductReview(
       product.id,
       userobj.id,
-      product.sellrId,
+      product.sellerId,
       submittedRating,
       submmittedComment.value
     );
   });
+
+  /*Add to cart*/
+  /*show-hide cart*/
+  this.document
+    .querySelector(".cart-icon")
+    .addEventListener("click", function () {
+      document.querySelector(".cart").classList.add("active");
+      renderCartUI();
+    });
+  this.document
+    .querySelector(".close-cart")
+    .addEventListener("click", function () {
+      document.querySelector(".cart").classList.remove("active");
+    });
+  /*click add-to-cart button*/
+  document.addEventListener("click", async function (e) {
+    if (e.target.classList.contains("add-to-cart")) {
+      if (!localStorage.getItem("loggedUser")) {
+        window.location.href = "login.html";
+      }
+      let cartProductId = e.target.getAttribute("data-id");
+      let cartProduct = await getSingleProduct(cartProductId);
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      let existingItem = cart.find((item) => item.id === cartProduct.id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: cartProduct.id,
+          title: cartProduct.title,
+          price: cartProduct.price,
+          image: cartProduct.image,
+          quantity: 1,
+        });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      document.querySelector(".cart").classList.add("active");
+      renderCartUI();
+    }
+  });
+
+  function renderCartUI() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartList = document.querySelector(".cart .product-list");
+    cartList.innerHTML = "";
+
+    if (!cart.length) {
+      cartList.innerHTML = `
+     <div class="single-element mt-20">
+       <p class="sm-text">You don't have any products yet! :(</p>
+     </div>`;
+      document.querySelector(".cart-action").innerHTML = "";
+      return;
+    }
+
+    cart.forEach((item) => {
+      cartList.innerHTML += `
+     <div class="single-element mt-20" data-id="${item.id}">
+       <p class="sm-text">${item.title}</p>
+       <p class="xs-text">Price: $${item.price * item.quantity}</p>
+       <p class="xs-text mt-10">
+         <button class="qty-decrease btn-tiny bg-blue">-</button>
+         <span class="qty ">Qty: ${item.quantity}</span>
+         <button class="qty-increase btn-tiny bg-blue">+</button>
+       </p>
+     </div>`;
+    });
+
+    document.querySelector(
+      ".cart-action"
+    ).innerHTML = `<a class="btn bg-blue white-color mt-20" href="checkout.html">Checkout</a>`;
+  }
+
+  document.addEventListener("click", function (e) {
+    if (
+      e.target.classList.contains("qty-increase") ||
+      e.target.classList.contains("qty-decrease")
+    ) {
+      const itemElement = e.target.closest(".single-element");
+      const itemId = itemElement.getAttribute("data-id");
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      const item = cart.find((i) => i.id === itemId || i.id == itemId); // Support numeric and string
+      if (!item) return;
+
+      if (e.target.classList.contains("qty-increase")) {
+        item.quantity += 1;
+      } else if (e.target.classList.contains("qty-decrease")) {
+        item.quantity -= 1;
+        if (item.quantity <= 0) {
+          cart = cart.filter((i) => i.id !== item.id);
+        }
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCartUI();
+    }
+  });
+
+  /*render products*/
+  let productsContainer = document.querySelector("#products-container");
+  let products = await getAllProducts();
+  renderProducts(products);
+  function renderProducts(products) {
+    if (products.length) {
+      console.log(products);
+      productsContainer.innerHTML = "";
+      for (let k of products) {
+        productsContainer.innerHTML += `<div class="box">
+             <a href="/product.html?id=${k.id}">
+               <div>
+                 <img
+                   class="product-img"
+                   src="../${k.image}"
+                 />
+               </div>
+               <div class="content">
+                 <h3 class="dark-color">${k.title}</h3>
+                 <p class="sm-text grey-color pt-20 ">
+                  ${k.description}
+                 </p>
+                  <p class="sm-text grey-color pt-20 strong">
+                  $${k.price}
+                 </p>
+               </div>
+             </a>
+             <a data-id=${k.id} class="add-to-cart btn white-color bg-blue text-center capitalize"
+               >add to cart</a
+             >
+           </div>`;
+      }
+    } else {
+      productsContainer.innerHTML = `<p class="xl-text dark-color text-center grid-full pt-40">No products</p>`;
+    }
+  }
 });

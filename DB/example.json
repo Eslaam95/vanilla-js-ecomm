@@ -3,7 +3,7 @@
     {
       "name": "Admin",
       "email": "admin@example.com",
-      "image": "xzcxz",
+      "image": "cccc",
       "id": "1",
       "role": "admin",
       "password": "password"
@@ -29,6 +29,13 @@
       "email": "test@gmail.com",
       "role": "customer",
       "password": "password"
+    },
+    {
+      "id": "1b88",
+      "name": "Esssss",
+      "email": "test@gmail.com",
+      "password": "password",
+      "role": "seller"
     }
   ],
   "products": [
@@ -43,7 +50,6 @@
       "approved": false,
       "reviews": [
         {
-          "id": "500",
           "customerId": "2",
           "rating": 1,
           "comment": "Bad!"
@@ -52,6 +58,16 @@
           "customerId": "1",
           "rating": 4.8,
           "comment": "Nice!!!"
+        },
+        {
+          "customerId": "1",
+          "rating": 4.5,
+          "comment": "test test test test test test test test "
+        },
+        {
+          "customerId": "1",
+          "rating": 3.3,
+          "comment": "tes test test"
         }
       ]
     },
@@ -70,6 +86,21 @@
           "customerId": "2",
           "rating": 3,
           "comment": "Amazing shoes!"
+        },
+        {
+          "customerId": "1",
+          "rating": 3.4,
+          "comment": "tesfdsfdsfdsgdf"
+        },
+        {
+          "customerId": "1",
+          "rating": 3.7,
+          "comment": "gsefesfgefsefdsfdsfds"
+        },
+        {
+          "customerId": "1",
+          "rating": 4.6,
+          "comment": "test test test test tesr"
         }
       ]
     },
@@ -92,22 +123,14 @@
       ]
     },
     {
-      "id": "7",
-      "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
       "categoryId": "1",
-      "sellerId": "5",
+      "sellerId": "1b88",
       "image": "assets/images/products/image (1).png",
-      "approved": false,
-      "reviews": [
-        {
-          "id": "500",
-          "customerId": "2",
-          "rating": 3.5,
-          "comment": "Amazing shoes!"
-        }
-      ]
+      "title": "Cool Sneakerz",
+      "approved": true,
+      "id": "7"
     },
     {
       "description": "",
@@ -116,7 +139,7 @@
       "sellerId": "2",
       "image": "assets/images/products/Main Image.png",
       "title": "Cool Sneakers",
-      "approved": false,
+      "approved": true,
       "id": "2ef4",
       "reviews": [
         {
@@ -151,38 +174,45 @@
           "customerId": "1",
           "rating": 0,
           "comment": "sfsd"
+        },
+        {
+          "customerId": "1",
+          "rating": 3.4,
+          "comment": "sdadsadsadwedwf"
+        },
+        {
+          "customerId": "1",
+          "rating": 3.6,
+          "comment": "hello  hello  hello  hello",
+          "id": "undefined1"
+        },
+        {
+          "customerId": "1",
+          "rating": 3.3,
+          "comment": "hello hello hello hello",
+          "id": "undefined1"
+        },
+        {
+          "customerId": "1",
+          "rating": 3.4,
+          "comment": "tester test test"
+        },
+        {
+          "customerId": "1",
+          "rating": 0,
+          "comment": "xcvxcvcxvcxvcxv"
         }
       ]
     },
     {
-      "id": "9da5",
       "description": "",
       "price": 77,
       "categoryId": "",
-      "sellerId": "70f7",
+      "sellerId": "1b88",
       "image": "assets/images/products/image (1).png",
-      "title": "ddddddddddddd",
-      "approved": false,
-      "reviews": [
-        {
-          "id": "500",
-          "customerId": "2",
-          "rating": 4,
-          "comment": "Amazing shoes!"
-        },
-        {
-          "id": "500",
-          "customerId": "2",
-          "rating": 5,
-          "comment": "Great shoes!"
-        },
-        {
-          "id": "500",
-          "customerId": "2",
-          "rating": 5,
-          "comment": "Good shoes!"
-        }
-      ]
+      "title": "Test product 8",
+      "approved": true,
+      "id": "9da5"
     },
     {
       "description": "",

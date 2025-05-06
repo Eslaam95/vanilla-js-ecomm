@@ -24,6 +24,11 @@ a.btn {
   display: inline-block;
   cursor: pointer;
 }
+.btn-tiny {
+  padding: 2px 8px;
+  display: inline-block;
+  cursor: pointer;
+}
 a.btn.active {
   font-weight: bold;
   color: #0c59b6;
@@ -339,12 +344,30 @@ input {
   border-radius: 8px;
   margin-top: 10px;
   margin-bottom: 20px;
+}
+form input {
   min-width: 88%;
   max-width: 90vw;
 }
 input:focus,
 input:active {
   border: 1px solid #111;
+}
+
+select {
+  padding: 8px 32px 8px 12px; /* adds space for the arrow */
+  border: 1px solid #5e5e5e;
+  border-radius: 4px;
+  appearance: none; /* removes default arrow */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  margin-right: 10px;
+}
+option {
+  padding: 0;
+  text-align: left !important;
 }
 label {
   font-weight: bold;
@@ -503,4 +526,11 @@ button.disapprove {
 }
 .close-cart:hover {
   color: #ff4400;
+}
+.product-list .single-element {
+  border-bottom: 2px solid #cdcdcd;
+  padding-bottom: 15px;
+}
+.product-list .single-element .product-thumb img {
+  max-width: 100px;
 }

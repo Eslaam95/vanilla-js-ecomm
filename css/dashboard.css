@@ -6,6 +6,9 @@
   padding: 40px 20px;
   min-width: 220px;
 }
+.sidebar * {
+  max-width: 300px;
+}
 .sidebar ul {
   list-style: none;
 }
@@ -18,7 +21,7 @@
   padding-right: 15px;
   box-sizing: content-box;
 }
-.sidebar > .container {
+.sidebar > .container-s {
   position: fixed;
 }
 main {

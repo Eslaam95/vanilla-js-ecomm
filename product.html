@@ -12,10 +12,13 @@
       href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <script type="module" src="js/index.js"></script>
+    <!-- <script type="module" src="js/index.js"></script> -->
     <script type="module" src="js/product.js"></script>
   </head>
   <body>
+    <!--=========-->
+    <!--header-->
+    <!--=========-->
     <header>
       <div class="container between-flex p-20">
         <div class="logo">
@@ -38,7 +41,9 @@
         </nav>
       </div>
     </header>
-
+    <!--=========-->
+    <!--single product details-->
+    <!--=========-->
     <section class="p-section">
       <div class="grid-2 container">
         <div class="gallery">
@@ -46,6 +51,7 @@
         </div>
         <div class="desc">
           <h2 id="current-product-title"></h2>
+          <!-- product average review  -->
           <div class="stars-outer mt-10">
             <div class="stars-inner" id="star-fill"></div>
           </div>
@@ -68,7 +74,9 @@
         </div>
       </div>
     </section>
-
+    <!--=========-->
+    <!--product comments section-->
+    <!--=========-->
     <section class="comments p-section">
       <div class="container">
         <div class="section-title">
@@ -77,6 +85,9 @@
         <div id="reviews-conainer" class="container mt-40"></div>
       </div>
     </section>
+    <!--=========-->
+    <!--cusotmer review form-->
+    <!--=========-->
     <section class="customer=review p-section">
       <div class="container">
         <div class="section-title">
@@ -101,7 +112,9 @@
         </div>
       </div>
     </section>
-
+    <!--=========-->
+    <!--Suggested products-->
+    <!--=========-->
     <section id="products" class="products p-section">
       <div class="container">
         <div class="section-title">
@@ -110,7 +123,9 @@
         <div class="grid-4" id="products-container"></div>
       </div>
     </section>
-
+    <!--=========-->
+    <!--cart widget-->
+    <!--=========-->
     <div class="cart">
       <div class="cart-icon">
         <img src="assets/images/icons/cart-icon.png" />
@@ -120,6 +135,7 @@
         <span class="close-cart">×</span>
         <h3 class="mt-40">Cart</h3>
         <div class="product-list"></div>
+        <div class="cart-action mt-20"></div>
       </div>
     </div>
   </body>
