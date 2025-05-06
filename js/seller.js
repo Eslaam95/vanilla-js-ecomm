@@ -1,4 +1,4 @@
-/*helper functions*/
+//helper functions
 import {
   getSingleUser,
   updateUser,
@@ -20,32 +20,18 @@ window.addEventListener("load", async function () {
   const URLid = urlParams.get("id");
   /*table DOM elements*/
   const productSum = document.querySelector(".productSum");
-  const userSum = document.querySelector(".userSum");
-  const pendingProductsElement = document.querySelector(".pendingProducts"); // Renamed to avoid confusion
+  const pendingProductsElement = document.querySelector(".pendingProducts"); 
   const orderSum = document.querySelector(".OrderSum");
-  const usersTable = document.getElementById("usersTable");
   const productsTable = document.getElementById("productsTable");
   const ordersTable = document.getElementById("ordersTable");
   const pendingOrdersSum = document.querySelector(".pendingOrdersSum");
-
-  /*user form elements*/
-  const userEidtModal = document.getElementById("userEditModal");
   const closeModal = this.document.querySelectorAll(".close-btn");
-  const nameInput = document.getElementById("editUsername");
-  const emailInput = document.getElementById("editEmail");
-  const passwordInput = document.getElementById("password");
-  const nameError = document.getElementById("name-error");
-  const emailError = document.getElementById("email-error");
-  const passwordError = document.getElementById("password-error");
-  const saveUserBtn = document.getElementById("saveUser");
-  const addUserButn = document.getElementById("addUser");
   /*product form elemtns*/
   const productId = document.getElementById("productId");
   const productTitle = document.getElementById("productTitle");
   const productDescription = document.getElementById("productDescription");
   const productPrice = document.getElementById("productPrice");
   const productCategory = document.getElementById("productCategory");
-  const productSeller = document.getElementById("productSeller");
   const productImage = document.getElementById("productImage");
   // const productApproved = document.getElementById("productApproved");
   const saveProductBtn = document.getElementById("saveProduct");
@@ -69,12 +55,12 @@ window.addEventListener("load", async function () {
   const passwordResetConfirmationError = document.getElementById(
     "password-reset-error-confirmation"
   );
+
   //get cuurect user info and check if seller
   const DBUserobj = await getSingleUser(URLid);
   if (DBUserobj) {
     this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
   }
-  // Load user data and verify seller status
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
   if (userobj.name) {
     document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
@@ -98,18 +84,19 @@ window.addEventListener("load", async function () {
       products.forEach((product) => {
         const row = productsTable.insertRow();
         row.innerHTML = `
-        <td>${product.id}</td>
-        <td>${product.title}</td>
-        <td>$${product.price.toFixed(2)}</td>
-        <td>${product.approved ? "Aprroved" : "Pending"}</td>
-          <button class="edit edit-product" data-id="${
-            product.id
-          }">Edit</button>
-          <button class="delete delete-product" data-id="${
-            product.id
-          }">Delete</button>
-        </td>
-      `;
+          <td>${product.id}</td>
+          <td>${product.title}</td>
+          <td>$${product.price.toFixed(2)}</td>
+          <td>${product.approved ? "Approved" : "Pending"}</td>
+          <td>
+            <button class="edit edit-product" data-id="${
+              product.id
+            }">Edit</button>
+            <button class="delete delete-product" data-id="${
+              product.id
+            }">Delete</button>
+          </td>
+        `;
       });
 
       //***************************************************************************************************************** */
@@ -150,7 +137,7 @@ window.addEventListener("load", async function () {
       alert("Failed to load dashboard data");
     }
   }
-  // Initialize the dashboard
+  // Initialize the dashboard with data int the Database 
   loadData();
 
   //Delete Product
@@ -180,6 +167,7 @@ window.addEventListener("load", async function () {
       productImage.value = product.image;
     }
   });
+
   //Edit product Logic and Validations
   saveProductBtn.addEventListener("click", async function (e) {
     e.preventDefault();
@@ -210,7 +198,7 @@ window.addEventListener("load", async function () {
 
     await updateProduct(productId.value, updatedProduct);
     document.getElementById("ProductEditModal").style.display = "none";
-    window.location.reload(); // Refresh table
+    // window.location.reload(); // Refresh table
   });
 
   //Add New Product
@@ -225,7 +213,7 @@ window.addEventListener("load", async function () {
     productImage.value = "";
     productTitle.value = "";
   });
-
+  //Add New Product
   addProductBtn.addEventListener("click", async function (e) {
     e.preventDefault();
 
@@ -260,25 +248,50 @@ window.addEventListener("load", async function () {
     window.location.reload();
   });
 
+  //DELTE order
+  document.addEventListener("click", async function (e) {
+    if (e.target.classList.contains("cancel-order")) {
+      const orderID = e.target.getAttribute("data-id");
+      let confirmation = confirm("Are you sure?");
+      if (confirmation) {
+        deleteOrder(orderID);
+      }
+    }
+  });
+
+  //deliver order
+  document.addEventListener("click", async function (e) {
+    if (e.target.classList.contains("deliver-order")) {
+      const orderID = e.target.getAttribute("data-id");
+      console.log(orderID);
+      updateOrderStatus(orderID, "shipped");
+      window.location.reload();
+    }
+  });
+
+  //close any form with the X span 
   closeModal.forEach((btn) => {
     btn.addEventListener("click", function (e) {
       document.getElementById("ProductEditModal").style.display = "none";
     });
   });
 
-  //************************************************************************************************************* */
+  //****************Profile Data Section******************************
   nameUpdateInput.value = userobj.name;
   emailUpdateInput.value = userobj.email;
   profilepic.value = userobj.image;
 
-  // Blur validation
+  // Blur validation on name
   nameUpdateInput.addEventListener("blur", () => {
     validateName(nameUpdateInput, nameUpdateError);
   });
 
+  // Blur validation on email
   emailUpdateInput.addEventListener("blur", () => {
     validateEmail(emailUpdateInput, emailUpdateError);
   });
+
+    // Update User Info Submission 
   updateInfoForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -302,11 +315,11 @@ window.addEventListener("load", async function () {
         image: profilepic.value,
       };
       updateUser(URLid, updatedUser);
-      window.location.href = `/admin.html?id=${userobj.id}`;
+      window.location.href = `/seller.html?id=${userobj.id}`;
     }
   });
-  /*Password reset*/
-  // Blur validation
+
+  // Blur validation on oldPassword
   oldPasswordInput.addEventListener("blur", () => {
     if (oldPasswordInput.value != userobj.password) {
       oldPasswordError.style.display = "block";
@@ -317,9 +330,12 @@ window.addEventListener("load", async function () {
     }
   });
 
+  // Blur validation on newPassword
   passwordResetInput.addEventListener("blur", () => {
     validatepassword(passwordResetInput, passwordResetError);
   });
+
+    // Blur validation on newPasswordConfirm
   passwordResetConfirmationInput.addEventListener("blur", () => {
     if (passwordResetConfirmationInput.value != passwordResetInput.value) {
       passwordResetConfirmationError.style.display = "block";
@@ -329,6 +345,8 @@ window.addEventListener("load", async function () {
       passwordResetConfirmationInput.style.border = "none";
     }
   });
+
+    // Update User Password Submission 
   passwordResetForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -354,5 +372,6 @@ window.addEventListener("load", async function () {
       alert("Password Chaned Successfully");
     }
   });
-  /*end of window load*/
+
+  //end of window load
 });
