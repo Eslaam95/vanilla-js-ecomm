@@ -28,10 +28,10 @@
             <li><a href="login.html">Contact us</a></li>
           </ul>
           <div class="login">
-            <a href="login.html" class="btn header-btn bg-transparent">Login</a>
+            <!-- <a href="login.html" class="btn header-btn bg-transparent">Login</a>
             <a href="signup.html" class="btn header-btn white-color bg-blue"
               >Sign up</a
-            >
+            > -->
           </div>
         </nav>
       </div>
@@ -53,7 +53,10 @@
       </div>
     </section>
 
-    <script>
+    <script type="module">
+      import { updateNav, addOrder } from "./js/helper-functions.js";
+      updateNav();
+      const currentUser = JSON.parse(localStorage.getItem("loggedUser")) || [];
       function renderCartUI() {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
         const cartList = document.querySelector(".checkout-cart .product-list");
@@ -87,7 +90,7 @@
 
         document.querySelector(
           ".cart-action"
-        ).innerHTML = `<a class="btn bg-blue white-color mt-20" href="thank-you.html">Checkout</a>`;
+        ).innerHTML = `<a class="btn bg-blue white-color mt-20 checkout-btn" >Checkout</a>`;
       }
 
       document.addEventListener("click", function (e) {
@@ -116,6 +119,15 @@
         }
       });
       renderCartUI();
+      document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("checkout-btn")) {
+          const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+          addOrder(cart, currentUser.id);
+          localStorage.removeItem("cart");
+          window.location.href = "thank-you.html";
+        }
+      });
     </script>
   </body>
 </html>

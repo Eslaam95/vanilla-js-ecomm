@@ -21,7 +21,8 @@
       "email": "customer@example.com",
       "role": "customer",
       "id": "3",
-      "password": "password"
+      "password": "password",
+      "image": "undefinedd"
     },
     {
       "id": "dc15",
@@ -78,44 +79,38 @@
           "customerId": "1",
           "rating": 4.6,
           "comment": "test test test test tesr"
+        },
+        {
+          "customerId": "3",
+          "rating": 4.8,
+          "comment": "test comment"
+        },
+        {
+          "customerId": "3",
+          "rating": 4.5,
+          "comment": "hello testing"
         }
       ]
     },
     {
-      "title": "Cool Sneakers",
       "description": "Stylish sneakers for running.",
       "price": 59.99,
       "categoryId": "1",
+      "sellerId": "de8c",
       "image": "assets/images/products/image 11.png",
-      "id": "4",
-      "sellerId": "1",
-      "approved": false,
-      "reviews": [
-        {
-          "id": "500",
-          "customerId": "2",
-          "rating": 2,
-          "comment": "Amazing shoes!"
-        }
-      ]
+      "title": "Cool Sneakers",
+      "approved": true,
+      "id": "4"
     },
     {
-      "description": "Stylish sneakers for running.",
-      "price": 59.99,
-      "categoryId": 1,
-      "sellerId": 5,
-      "image": "assets/images/products/image (1).png",
-      "approved": true
-    },
-    {
-      "id": "9da5",
-      "description": "",
+      "description": "test ",
       "price": 77,
-      "categoryId": "",
-      "sellerId": "70f7",
+      "categoryId": "3",
+      "sellerId": "de8c",
       "image": "",
-      "title": "ddddddddddddd",
-      "approved": false
+      "title": "sss ssss ss",
+      "approved": true,
+      "id": "9da5"
     },
     {
       "id": "f75a",
@@ -125,17 +120,24 @@
       "sellerId": "de8c",
       "image": "",
       "title": "shoes shoes shoes",
-      "approved": false
+      "approved": false,
+      "reviews": [
+        {
+          "customerId": "3",
+          "rating": 4.3,
+          "comment": "tttttttttttttttttttttt"
+        }
+      ]
     },
     {
-      "id": "4333",
-      "title": "super Cool Sneakers",
       "description": "شس",
       "price": 22,
       "categoryId": "1",
+      "sellerId": "de8c",
       "image": "assets/images/products/image (1).png",
-      "sellerId": "2",
-      "approved": false
+      "title": "super Cool Sneakers",
+      "approved": true,
+      "id": "4333"
     },
     {
       "id": "95aa",
@@ -145,51 +147,162 @@
       "categoryId": "2",
       "image": "assets/images/products/image (1).png",
       "sellerId": "2",
+      "approved": true,
+      "reviews": [
+        {
+          "customerId": "3",
+          "rating": 4.5,
+          "comment": "test comment\n"
+        }
+      ]
+    },
+    {
+      "id": "bd20",
+      "description": "test test",
+      "price": 33,
+      "categoryId": "4",
+      "sellerId": "de8c",
+      "image": "sfdsdf",
+      "title": "test idssdsfdsf",
       "approved": true
+    },
+    {
+      "description": "super Cool Sneakers",
+      "price": 77.6,
+      "categoryId": "2",
+      "sellerId": "2",
+      "image": "assets/images/products/image 11.png",
+      "title": "super Cool Sneakers",
+      "approved": true,
+      "id": "ff72"
     }
   ],
   "orders": [
     {
-      "id": "100",
-      "customerId": 2,
+      "id": "16aa",
+      "customerId": "3",
       "items": [
         {
-          "productId": 1,
-          "quantity": 2
+          "productId": "3",
+          "quantity": 6,
+          "price": 59.99
         },
         {
-          "productId": 2,
-          "quantity": 3
+          "productId": "95aa",
+          "quantity": 3,
+          "price": 12
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "ccca",
+      "customerId": "3",
+      "items": [
+        {
+          "productId": "3",
+          "quantity": 6,
+          "price": 59.99
+        },
+        {
+          "productId": "95aa",
+          "quantity": 3,
+          "price": 12
         }
       ],
       "status": "shipped"
     },
     {
-      "id": "150",
-      "customerId": 1,
+      "id": "b876",
+      "customerId": "3",
       "items": [
         {
-          "productId": 1,
-          "quantity": 2
+          "productId": "3",
+          "quantity": 6,
+          "price": 59.99
         },
         {
-          "productId": 3,
-          "quantity": 2
+          "productId": "95aa",
+          "quantity": 3,
+          "price": 12
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "bc42",
+      "customerId": "1",
+      "items": [
+        {
+          "productId": "3",
+          "quantity": 2,
+          "price": 59.99
+        },
+        {
+          "productId": "4",
+          "quantity": 1,
+          "price": 59.99
+        },
+        {
+          "productId": "95aa",
+          "quantity": 1,
+          "price": 12
         }
       ],
       "status": "shipped"
     },
     {
-      "id": "150",
-      "customerId": 3,
+      "id": "8a42",
+      "customerId": "3",
       "items": [
         {
-          "productId": 1,
-          "quantity": 2
+          "productId": "4",
+          "quantity": 1,
+          "price": 59.99
         },
         {
-          "productId": 3,
-          "quantity": 2
+          "productId": "f75a",
+          "quantity": 1,
+          "price": 20
+        }
+      ],
+      "status": "shipped"
+    },
+    {
+      "id": "355c",
+      "customerId": "3",
+      "items": [
+        {
+          "productId": "3",
+          "quantity": 6,
+          "price": 59.99
+        },
+        {
+          "productId": "4333",
+          "quantity": 1,
+          "price": 22
+        },
+        {
+          "productId": "95aa",
+          "quantity": 2,
+          "price": 12
+        }
+      ],
+      "status": "shipped"
+    },
+    {
+      "id": "e305",
+      "customerId": "3",
+      "items": [
+        {
+          "productId": "4333",
+          "quantity": 1,
+          "price": 22
+        },
+        {
+          "productId": "4",
+          "quantity": 2,
+          "price": 59.99
         }
       ],
       "status": "pending"

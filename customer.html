@@ -30,8 +30,9 @@
           <li><a href="#">Contact us</a></li>
         </ul>
         <div class="login">
-          <a href="#" class="btn header-btn bg-transparent active">Login</a>
-          <a href="signup.html" class="btn header-btn white-color bg-blue">Sign up</a>
+          <!-- <a href="#" class="btn header-btn bg-transparent ">Login</a>
+          <a href="signup.html" class="btn header-btn white-color bg-blue">Sign up</a> -->
+          
         </div>
       </nav>
     </div>
@@ -39,29 +40,28 @@
 
   <div class="page flex">
     <aside class="bg-blue intro-section sidebar">
-      <div class="container">
+      <div class="container-s">
         <h3 class="white-color text-left">Seller Dashboard</h3>
         <ul class="mt-20">
-          <a href="#insights">
-            <li class="mt-10 white-color"><img src="assets/images/icons/insights.png" />
-              <p>Insights</p>
-            </li>
-          </a>
-          <a href="#products">
-            <li class="mt-10 white-color"><img src="assets/images/icons/products.png" />
-              <p>Products</p>
-            </li>
-          </a>
-          <a href="#orders">
-            <li class="mt-10 white-color"><img src="assets/images/icons/orders.png" />
-              <p>Orders</p>
-            </li>
-          </a>
           <a href="#settings">
             <li class="mt-10 white-color"><img src="assets/images/icons/profile.png" />
               <p>Settings</p>
             </li>
           </a>
+         
+        
+          <a href="#orders">
+            <li class="mt-10 white-color"><img src="assets/images/icons/orders.png" />
+              <p>Orders</p>
+            </li>
+          </a>
+
+          <a href="#reviews">
+            <li class="mt-10 white-color"><img src="assets/images/icons/insights.png" />
+              <p>Reviews</p>
+            </li>
+          </a>
+       
         </ul>
       </div>
     </aside>
@@ -125,7 +125,7 @@
  
       <section class="p-section orderMangement" id="orders">
         <div class="section-title container">
-          <h2 class="text-left p-20">Order Management</h2>
+          <h2 class="text-left p-20">Your Orders</h2>
         </div>
         <div class="container">
 
@@ -133,14 +133,30 @@
             <tr>
               <th>Order ID</th>
               <th>Items</th>
-              <th>Customer ID</th>
+              <th>Price</th>
               <th>Status</th>
-              <th>Actions</th>
             </tr>
           </table>
       </section>
 
 
+
+
+      <section class="p-section reviewMangement" id="reviews">
+        <div class="section-title container">
+          <h2 class="text-left p-20">Your Reviews:</h2>
+        </div>
+        <div class="container">
+
+          <table id="reviewsTable" class="mt-40">
+            <tr>
+              <th>Product</th>
+              <th>Rating</th>
+              <th>Comment</th>
+             
+            </tr>
+          </table>
+      </section>
   </div>
 
 </body>

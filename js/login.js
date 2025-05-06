@@ -1,11 +1,11 @@
-import { getAllUsers, isValidEmail } from "./helper-functions.js";
+import { getAllUsers, isValidEmail, updateNav } from "./helper-functions.js";
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("email");
   const emailError = document.getElementById("email-error");
   const nameInput = document.getElementById("name");
   const nameError = document.getElementById("name-error");
-
+  updateNav();
   // Hide errors initially
   emailError.style.display = "none";
   if (nameError) nameError.style.display = "none";
