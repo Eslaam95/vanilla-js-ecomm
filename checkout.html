@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Ecomm</title>
+    <link href="css/global.css" rel="stylesheet" />
+    <link href="css/product.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="container between-flex p-20">
+        <div class="logo">
+          <a href="/">
+            <img src="assets/UNITED DEALS.png" alt="logo" />
+          </a>
+        </div>
+        <nav class="main-nav flex">
+          <ul class="p-20 main-menu">
+            <li><a href="/#products">Products</a></li>
+            <li><a href="/#products">Categories</a></li>
+            <li><a href="login.html">Contact us</a></li>
+          </ul>
+          <div class="login">
+            <a href="login.html" class="btn header-btn bg-transparent">Login</a>
+            <a href="signup.html" class="btn header-btn white-color bg-blue"
+              >Sign up</a
+            >
+          </div>
+        </nav>
+      </div>
+    </header>
+    <section class="bg-blue intro-section">
+      <div class="container">
+        <h1 class="white-color text-center">Checkout!</h1>
+      </div>
+    </section>
+    <section class="p-section">
+      <div class="container">
+        <div class="checkout-cart">
+          <div class="cart-content">
+            <h3 class="mt-40">Cart</h3>
+            <div class="product-list"></div>
+            <div class="cart-action mt-20"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function renderCartUI() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartList = document.querySelector(".checkout-cart .product-list");
+        cartList.innerHTML = "";
+
+        if (!cart.length) {
+          cartList.innerHTML = `
+        <div class="single-element mt-20">
+          <p class="sm-text">You don't have any products yet! :(</p>
+        </div>`;
+          document.querySelector(".cart-action").innerHTML = "";
+          return;
+        }
+
+        cart.forEach((item) => {
+          cartList.innerHTML += `
+        <div class="single-element mt-20 flex between-flex" data-id="${
+          item.id
+        }"><div>
+          <p class="sm-text">${item.title}</p>
+          <p class="xs-text">Price: $${item.price * item.quantity}</p>
+          <p class="xs-text mt-10">
+            <button class="qty-decrease btn-tiny bg-blue">-</button>
+            <span class="qty ">Qty: ${item.quantity}</span>
+            <button class="qty-increase btn-tiny bg-blue">+</button>
+          </p></div><div class="product-thumb"><img src="${
+            item.image
+          }" alt=""/></div>
+        </div>`;
+        });
+
+        document.querySelector(
+          ".cart-action"
+        ).innerHTML = `<a class="btn bg-blue white-color mt-20" href="thank-you.html">Checkout</a>`;
+      }
+
+      document.addEventListener("click", function (e) {
+        if (
+          e.target.classList.contains("qty-increase") ||
+          e.target.classList.contains("qty-decrease")
+        ) {
+          const itemElement = e.target.closest(".single-element");
+          const itemId = itemElement.getAttribute("data-id");
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+          const item = cart.find((i) => i.id === itemId || i.id == itemId); // Support numeric and string
+          if (!item) return;
+
+          if (e.target.classList.contains("qty-increase")) {
+            item.quantity += 1;
+          } else if (e.target.classList.contains("qty-decrease")) {
+            item.quantity -= 1;
+            if (item.quantity <= 0) {
+              cart = cart.filter((i) => i.id !== item.id);
+            }
+          }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
+          renderCartUI();
+        }
+      });
+      renderCartUI();
+    </script>
+  </body>
+</html>

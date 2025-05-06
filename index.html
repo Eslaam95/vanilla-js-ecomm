@@ -15,6 +15,9 @@
     <script type="module" src="js/index.js"></script>
   </head>
   <body>
+    <!--============-->
+    <!--Header-->
+    <!--============-->
     <header>
       <div class="container between-flex p-20">
         <div class="logo">
@@ -37,7 +40,9 @@
         </nav>
       </div>
     </header>
-
+    <!--============-->
+    <!--Hero section-->
+    <!--============-->
     <section class="bg-blue hero-section">
       <div class="container">
         <p class="xl-text white-color">Best Deal Online on smart watches</p>
@@ -50,16 +55,45 @@
         >
       </div>
     </section>
-
+    <!--============-->
+    <!--products section-->
+    <!--============-->
     <section id="products" class="products p-section">
       <div class="container">
         <div class="section-title">
           <h2 class="text-center pt-40">Our Products</h2>
         </div>
+        <!--search and price sorting for products-->
+        <div class="filter-options mt-40 flex between-flex">
+          <input
+            type="search"
+            placeholder="search products"
+            class="search-products-input"
+          />
+          <div class="sorting">
+            <!-- <select class="select-category">
+              <optgroup>
+                <option>cat 1</option>
+                <option>cat 2</option>
+                <option>cat 3</option>
+              </optgroup>
+            </select> -->
+            <select class="select-price">
+              <optgroup>
+                <option>Sort by Price</option>
+                <option value="desc">High to low</option>
+                <option value="asc">Low to High</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <!--products to be injected here by JS-->
         <div class="grid-4" id="products-container"></div>
       </div>
     </section>
-
+    <!--============-->
+    <!--cart -->
+    <!--============-->
     <div class="cart">
       <div class="cart-icon">
         <img src="assets/images/icons/cart-icon.png" />
@@ -69,6 +103,7 @@
         <span class="close-cart">×</span>
         <h3 class="mt-40">Cart</h3>
         <div class="product-list"></div>
+        <div class="cart-action mt-20"></div>
       </div>
     </div>
   </body>
