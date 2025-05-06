@@ -1,5 +1,4 @@
 //Admin Main export functions
-let Employees = [];
 export function getAllUsers() {
   return fetch("http://localhost:3000/users")
     .then((response) => response.json())
@@ -283,7 +282,7 @@ export function validatepassword(passElement, errorElement) {
 }
 /*get product average ratnings*/
 export function getAverageRating(reviews) {
-  if (reviews.length === 0) return 0;
+  if (!reviews || reviews.length == 0) return;
 
   const total = reviews.reduce((sum, review) => sum + review.rating, 0);
   return (total / reviews.length).toFixed(1); // return as string like "4.3"
@@ -348,8 +347,91 @@ export async function addProductReview(
       body: JSON.stringify(product),
     });
 
-    console.log("✅ Review added successfully.");
+    console.log("Review added successfully.");
   } catch (error) {
-    console.error("❌ Error adding review:", error);
+    console.error("Error adding review:", error);
+  }
+}
+
+export async function customerOrders(customerId) {
+  const productRes = await fetch(
+    `http://localhost:3000/orders?customerId=${customerId}`
+  );
+  return await productRes.json();
+}
+export async function getUserReviews(customerId) {
+  const productRes = await fetch(`http://localhost:3000/products`);
+  const productsList = await productRes.json();
+  let reviews = [];
+  for (const product of productsList) {
+    if (product.reviews && Array.isArray(product.reviews)) {
+      for (const review of product.reviews) {
+        if (review.customerId === customerId) {
+          reviews.push({
+            ...review,
+            productId: product.id,
+            productTitle: product.title,
+          });
+        }
+      }
+    }
+  }
+
+  return reviews;
+}
+
+export function updateNav() {
+  let loginDiv = document.querySelectorAll(".main-nav .login")[0];
+  if (localStorage.getItem("loggedUser")) {
+    loginDiv.innerHTML = `
+    <a href="#" class="btn header-btn white-color bg-blue logout-btn">Logout</a>`;
+  } else {
+    loginDiv.innerHTML = `
+    <a href="login.html" class="btn header-btn bg-transparent login-btn">Login</a>
+    <a href="signup.html" class="btn header-btn white-color bg-blue signup-btn">Sign up</a>`;
+  }
+
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.classList.contains("logout-btn")) {
+      localStorage.removeItem("loggedUser");
+      location.reload();
+    }
+  });
+}
+
+export async function addOrder(cart, userId) {
+  if (!Array.isArray(cart) || cart.length === 0 || !userId) {
+    console.error("Invalid cart or userId.");
+    return;
+  }
+
+  const orderItems = cart.map((item) => ({
+    productId: item.id,
+    quantity: item.quantity || 1,
+    price: item.price,
+  }));
+
+  const order = {
+    customerId: userId,
+    items: orderItems,
+    status: "pending",
+  };
+
+  try {
+    const res = await fetch("http://localhost:3000/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    });
+
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+    const data = await res.json();
+    console.log("New order added:", data);
+    return data;
+  } catch (error) {
+    console.error("Error adding order:", error);
   }
 }

@@ -13,6 +13,7 @@ import {
   updateOrderStatus,
   getAllProductsBySellerId,
   getOrdersBySellerId,
+  updateNav,
 } from "./helper-functions.js";
 window.addEventListener("load", async function () {
   /*get user id*/
@@ -20,7 +21,7 @@ window.addEventListener("load", async function () {
   const URLid = urlParams.get("id");
   /*table DOM elements*/
   const productSum = document.querySelector(".productSum");
-  const pendingProductsElement = document.querySelector(".pendingProducts"); 
+  const pendingProductsElement = document.querySelector(".pendingProducts");
   const orderSum = document.querySelector(".OrderSum");
   const productsTable = document.getElementById("productsTable");
   const ordersTable = document.getElementById("ordersTable");
@@ -61,6 +62,7 @@ window.addEventListener("load", async function () {
   if (DBUserobj) {
     this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
   }
+  updateNav();
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
   if (userobj.name) {
     document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
@@ -137,7 +139,7 @@ window.addEventListener("load", async function () {
       alert("Failed to load dashboard data");
     }
   }
-  // Initialize the dashboard with data int the Database 
+  // Initialize the dashboard with data int the Database
   loadData();
 
   //Delete Product
@@ -269,7 +271,7 @@ window.addEventListener("load", async function () {
     }
   });
 
-  //close any form with the X span 
+  //close any form with the X span
   closeModal.forEach((btn) => {
     btn.addEventListener("click", function (e) {
       document.getElementById("ProductEditModal").style.display = "none";
@@ -291,7 +293,7 @@ window.addEventListener("load", async function () {
     validateEmail(emailUpdateInput, emailUpdateError);
   });
 
-    // Update User Info Submission 
+  // Update User Info Submission
   updateInfoForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -335,7 +337,7 @@ window.addEventListener("load", async function () {
     validatepassword(passwordResetInput, passwordResetError);
   });
 
-    // Blur validation on newPasswordConfirm
+  // Blur validation on newPasswordConfirm
   passwordResetConfirmationInput.addEventListener("blur", () => {
     if (passwordResetConfirmationInput.value != passwordResetInput.value) {
       passwordResetConfirmationError.style.display = "block";
@@ -346,7 +348,7 @@ window.addEventListener("load", async function () {
     }
   });
 
-    // Update User Password Submission 
+  // Update User Password Submission
   passwordResetForm.addEventListener("submit", function (e) {
     e.preventDefault();
 

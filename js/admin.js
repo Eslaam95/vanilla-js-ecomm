@@ -17,6 +17,7 @@ import {
   getAllSellerIds,
   deleteOrder,
   updateOrderStatus,
+  updateNav,
 } from "./helper-functions.js";
 window.addEventListener("load", async function () {
   /*get user id*/
@@ -72,22 +73,27 @@ window.addEventListener("load", async function () {
     "password-reset-error-confirmation"
   );
   /*get cuurect user info and check if admin*/
-  const DBUserobj = await getSingleUser(URLid);
-  console.log(DBUserobj);
-  if (DBUserobj) {
-    this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
-  }
+  // const DBUserobj = await getSingleUser(URLid);
+  // console.log(DBUserobj);
+  // if (DBUserobj) {
+  //   this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
+  // }
+
   // Load user data and verify admin status
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
-  if (userobj.name) {
+  if (!userobj) {
+    this.window.location.href = "login.html";
+  }
+  if (userobj?.name) {
     document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
   }
-  if (userobj.role != "admin") {
+  console.log(userobj);
+  if (userobj?.role != "admin") {
     alert("You are not allowed here");
     window.location.href = "/";
     return;
   }
-
+  updateNav();
   /*load orders, users, and products into talbes*/
   async function loadData() {
     try {
@@ -119,7 +125,7 @@ window.addEventListener("load", async function () {
 
       // Calculate pending products count
       const pendingProductsCount = products.filter(
-        (product) => product.approved === "false"
+        (product) => product.approved === false
       ).length;
       pendingProductsElement.textContent = pendingProductsCount;
 
@@ -153,9 +159,9 @@ window.addEventListener("load", async function () {
           (sum, item) => sum + (item.quantity || 1),
           0
         )}</td>
-        <td>${order.items
-          .reduce((sum, item) => sum + (item.price || 0), 0)
-          .toFixed(2)}$</td>
+        <td>$${order.items
+          .reduce((sum, item) => sum + (item.price * item.quantity || 0), 0)
+          .toFixed(2)}</td>
         <td class="status-${order.status.toLowerCase()}">${order.status}</td>
         <td>
           <button class="cancel cancel-order" data-id="${
@@ -520,6 +526,11 @@ window.addEventListener("load", async function () {
         email: emailUpdateInput.value,
         image: profilepic.value,
       };
+      userobj.name = nameUpdateInput.value;
+      userobj.email = emailUpdateInput.value;
+      userobj.image = profilepic.value;
+      localStorage.setItem("loggedUser", JSON.stringify(userobj));
+
       updateUser(URLid, updatedUser);
       window.location.href = `/admin.html?id=${userobj.id}`;
     }
@@ -569,6 +580,8 @@ window.addEventListener("load", async function () {
       let updatedUser = {
         password: passwordResetInput.value,
       };
+      userobj.password = passwordResetInput.value;
+      localStorage.setItem("loggedUser", JSON.stringify(userobj));
       updateUser(URLid, updatedUser);
     }
   });

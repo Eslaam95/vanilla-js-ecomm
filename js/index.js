@@ -1,6 +1,11 @@
-import { getAllProducts, getSingleProduct } from "./helper-functions.js";
+import {
+  getAllProducts,
+  getSingleProduct,
+  updateNav,
+} from "./helper-functions.js";
 
 window.addEventListener("load", async function () {
+  updateNav();
   /*prepare products and display them*/
   let productsContainer = document.querySelector("#products-container");
   let products = await getAllProducts();
@@ -105,10 +110,8 @@ window.addEventListener("load", async function () {
     const searchTerm = document
       .querySelector(".search-products-input")
       .value.toLowerCase();
-    console.log("searxh", searchTerm);
     // const selectedCategory = document.querySelector(".select-category").value;
     const sortOrder = document.querySelector(".select-price").value;
-
     let filtered = products.filter((product) => {
       const matchesSearch =
         product.title.toLowerCase().includes(searchTerm) ||

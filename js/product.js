@@ -3,6 +3,7 @@ import {
   getSingleProduct,
   addProductReview,
   getAllProducts,
+  updateNav,
 } from "./helper-functions.js";
 
 window.addEventListener("load", async function () {
@@ -26,11 +27,15 @@ window.addEventListener("load", async function () {
   );
 
   function fillStars(rating) {
-    const percentage = (rating / 5) * 100;
-    const starFill = document.getElementById("star-fill");
-    starFill.style.width = `${percentage}%`;
+    if (rating) {
+      const percentage = (rating / 5) * 100;
+      const starFill = document.getElementById("star-fill");
+      starFill.style.width = `${percentage}%`;
+    } else {
+      document.getElementById("avg-stars").style.display = "none";
+    }
   }
-
+  updateNav();
   /*reviews input*/
   let currentProductReviews = this.document.querySelector("#reviews-conainer");
   /*product details*/
@@ -39,12 +44,21 @@ window.addEventListener("load", async function () {
   currentProductMainImg.src = product.image;
   currentProductPrice.innerHTML = "$" + product.price;
   currentProductCartBtn.setAttribute("data-id", product.id);
+
   fillStars(getAverageRating(product.reviews));
+
   /*add product's previous reviews*/
-  for (let r of product.reviews) {
-    currentProductReviews.innerHTML += `   <div class="single-review">
+  if (product.reviews) {
+    for (let r of product.reviews) {
+      currentProductReviews.innerHTML += `   <div class="single-review">
             <p class="sm-text">${r.comment}</p>
             <p class="sm-text">${r.rating} ★ out of 5</p>
+          </div>`;
+    }
+  } else {
+    currentProductReviews.innerHTML = `   <div class="single-review">
+            <p class="sm-text">No reviews yet!</p>
+            <p class="sm-text">Be the first to review this product</p>
           </div>`;
   }
   /*product cusomter reveiw form*/
