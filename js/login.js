@@ -1,5 +1,4 @@
 import {
-  getAllUsers,
   isValidEmail,
   updateNav,
   showPassword,
@@ -59,16 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!valid) return;
 
-    // If inputs valid, check user
+    // If inputs valid, check user by sending a request to the server with the email and password
     const email = emailInput.value.trim();
-    const password = document.getElementById("password").value.trim();
+    const password = md5(document.getElementById("password").value.trim());
 
-    const users = await getAllUsers();
-    const user = users.find(
-      (u) => u.email === email && u.password === md5(password)
-    );
+    const response = await fetch(`http://localhost:3000/users?email=${email}&password=${password}`);
+    const users = await response.json(); // Conver the response to array 
 
-    if (user) {
+    if (users.length > 0) { // because i convert it to array , but it always return max of 1 and we checked the uniqueness of email for each account
+      const user = users[0];
       localStorage.setItem("loggedUser", JSON.stringify(user));
       // alert("Login successful!");
 

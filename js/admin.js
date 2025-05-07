@@ -19,7 +19,10 @@ import {
   updateOrderStatus,
   updateNav,
   showPassword,
+  checkEmailExists,
 } from "./helper-functions.js";
+import { handleProfileUpdate } from "./profile-update.js";
+
 window.addEventListener("load", async function () {
   /*get user id*/
   const urlParams = new URLSearchParams(window.location.search);
@@ -54,31 +57,13 @@ window.addEventListener("load", async function () {
   const productApproved = document.getElementById("productApproved");
   const saveProductBtn = document.getElementById("saveProduct");
   const addProductBtn = document.getElementById("addProduct");
-  /*profile form info update*/
-  const nameUpdateInput = document.getElementById("nameUpdate");
-  const emailUpdateInput = document.getElementById("emailUpdate");
-  const nameUpdateError = document.getElementById("nameUpdate-error");
-  const emailUpdateError = document.getElementById("emailUpdate-error");
-  const profilepic = document.getElementById("profilepic");
-  const updateInfoForm = document.getElementById("updateInfoForm");
-  /*password update form*/
-  const passwordResetForm = document.getElementById("passwordResetForm");
-  const oldPasswordInput = document.getElementById("old-password");
-  const oldPasswordError = document.getElementById("old-password-error");
-  const passwordResetInput = document.getElementById("password-reset");
-  const passwordResetConfirmationInput = document.getElementById(
-    "password-reset-confirmation"
-  );
-  const passwordResetError = document.getElementById("password-reset-error");
-  const passwordResetConfirmationError = document.getElementById(
-    "password-reset-error-confirmation"
-  );
+
   /*get cuurect user info and check if admin*/
-  // const DBUserobj = await getSingleUser(URLid);
-  // console.log(DBUserobj);
-  // if (DBUserobj) {
-  //   this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
-  // }
+  const DBUserobj = await getSingleUser(URLid);
+  console.log(DBUserobj);
+  if (DBUserobj) {
+    this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
+  }
 
   // Load user data and verify admin status
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
@@ -318,7 +303,7 @@ window.addEventListener("load", async function () {
     document.getElementById("editRole").value = "customer";
   });
   /*re-validate and create a new user on submitting*/
-  addUserButn.addEventListener("click", function (e) {
+  addUserButn.addEventListener("click", async function (e) {
     e.preventDefault();
     let isFormValid = true;
     if (
@@ -327,35 +312,32 @@ window.addEventListener("load", async function () {
       !validatepassword(passwordInput, passwordError)
     ) {
       isFormValid = false;
-    } else {
-      isFormValid = true;
     }
 
     if (!isFormValid) {
       return; // Stop form from submitting
-    } else {
-      let newUser = {
-        name: document.getElementById("editUsername").value,
-        email: document.getElementById("editEmail").value,
-        role: document.getElementById("editRole").value || "cusotmer",
-        password: document.getElementById("password").value,
-      };
-      getAllUsers().then((users) => {
-        const matches = users.filter((user) => user.email === emailInput.value);
-
-        if (matches.length > 0) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "User already exists",
-            showConfirmButton: false,
-          });
-          return;
-        } else {
-          addUser(newUser);
-        }
-      });
     }
+
+    const emailExists = await checkEmailExists(emailInput.value);
+
+    if (emailExists) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "User already exists",
+        // showConfirmButton: false,
+      });
+      return;
+    }
+
+    let newUser = {
+      name: document.getElementById("editUsername").value,
+      email: document.getElementById("editEmail").value,
+      role: document.getElementById("editRole").value || "customer",
+      password: document.getElementById("password").value,
+    };
+
+    addUser(newUser);
   });
   /*
 =======================
@@ -550,110 +532,9 @@ window.addEventListener("load", async function () {
     }
   });
 
-  /*
-=======================
-=======================
-=======================
-=======================
-==========Profile settings/update logic=============
-=======================
-=======================
-=======================
-*/
-  nameUpdateInput.value = userobj.name;
-  emailUpdateInput.value = userobj.email;
-  profilepic.value = userobj.image;
-
-  // Blur validation
-  nameUpdateInput.addEventListener("blur", () => {
-    validateName(nameUpdateInput, nameUpdateError);
-  });
-
-  emailUpdateInput.addEventListener("blur", () => {
-    validateEmail(emailUpdateInput, emailUpdateError);
-  });
-  updateInfoForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    let isFormValid = true;
-
-    if (
-      !validateName(nameUpdateInput, nameUpdateError) ||
-      !validateEmail(emailUpdateInput, emailUpdateError)
-    ) {
-      isFormValid = false;
-    } else {
-      isFormValid = true;
-    }
-
-    if (!isFormValid) {
-      return; // Stop form from submitting
-    } else {
-      let updatedUser = {
-        name: nameUpdateInput.value,
-        email: emailUpdateInput.value,
-        image: profilepic.value,
-      };
-      userobj.name = nameUpdateInput.value;
-      userobj.email = emailUpdateInput.value;
-      userobj.image = profilepic.value;
-      localStorage.setItem("loggedUser", JSON.stringify(userobj));
-
-      updateUser(URLid, updatedUser);
-      window.location.href = `/admin.html?id=${userobj.id}`;
-    }
-  });
-  /*Password reset*/
-  // Blur validation
-  oldPasswordInput.addEventListener("blur", () => {
-    if (md5(oldPasswordInput.value) != userobj.password) {
-      oldPasswordError.style.display = "block";
-      oldPasswordInput.style.border = "2px solid red";
-    } else {
-      oldPasswordError.style.display = "none";
-      oldPasswordInput.style.border = "";
-    }
-  });
-
-  passwordResetInput.addEventListener("blur", () => {
-    validatepassword(passwordResetInput, passwordResetError);
-  });
-  passwordResetConfirmationInput.addEventListener("blur", () => {
-    if (passwordResetConfirmationInput.value != passwordResetInput.value) {
-      passwordResetConfirmationError.style.display = "block";
-      passwordResetConfirmationInput.style.border = "2px solid red";
-    } else {
-      passwordResetConfirmationError.style.display = "none";
-      passwordResetConfirmationInput.style.border = "none";
-    }
-  });
-  passwordResetForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    let isFormValid = true;
-
-    if (
-      !validatepassword(passwordResetInput, passwordResetError) ||
-      md5(oldPasswordInput.value) !== userobj.password ||
-      passwordResetConfirmationInput.value != passwordResetInput.value
-    ) {
-      isFormValid = false;
-    } else {
-      isFormValid = true;
-    }
-
-    if (!isFormValid) {
-      return; // Stop form from submitting
-    } else {
-      let updatedUser = {
-        password: md5(passwordResetInput.value),
-      };
-      userobj.password = md5(passwordResetInput.value);
-      localStorage.setItem("loggedUser", JSON.stringify(userobj));
-      updateUser(URLid, updatedUser);
-      alert("Password Chaned Successfully");
-    }
-  });
+  // Profile Edit Section (Password- Name - Email)
+  const redirectURL = "admin.html";
+  handleProfileUpdate(userobj, URLid, redirectURL);
   showPassword();
   /*end of window load*/
 });
