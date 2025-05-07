@@ -297,20 +297,32 @@ export async function addProductReview(
   comment
 ) {
   const baseUrl = "http://localhost:3000";
-
   try {
     // Step 1: Get the product
     const productRes = await fetch(`${baseUrl}/products/${productId}`);
     const product = await productRes.json();
 
     if (!product) {
-      alert("Product not found.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Didn't find this product",
+        showConfirmButton: false,
+      });
       return;
     }
 
     // Step 2: Prevent seller from reviewing own product
     if (sellerId === customerId) {
-      alert("Sellers cannot review their own products.");
+      // alert("Sellers cannot review their own products.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You're this product's seller",
+        footer: "You cannot review the product youre selling",
+        showConfirmButton: false,
+        confirmButtonColor: "#0D5AB6",
+      });
       return;
     }
 
@@ -323,7 +335,14 @@ export async function addProductReview(
     );
 
     if (!hasOrderedProduct) {
-      alert("Customer has not ordered this product.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You didn't buy this product yet!!",
+        footer: "Please, order it first so that, you can add your review",
+        showConfirmButton: false,
+        confirmButtonColor: "#0D5AB6",
+      });
       return;
     }
 
@@ -434,4 +453,18 @@ export async function addOrder(cart, userId) {
   } catch (error) {
     console.error("Error adding order:", error);
   }
+}
+export function showPassword() {
+  const toggles = document.querySelectorAll(".toggle-password");
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("change", () => {
+      const passwordInput = toggle
+        .closest(".password-group")
+        .querySelector(".password-input");
+      if (passwordInput) {
+        passwordInput.type = toggle.checked ? "text" : "password";
+      }
+    });
+  });
 }

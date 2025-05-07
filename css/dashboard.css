@@ -84,7 +84,30 @@ main .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+.profile-sec .box {
+  justify-content: flex-start;
+}
+form select,
+form textarea {
+  min-width: 80%;
+  margin-top: 8px;
+}
+form textarea {
+  min-height: 100px;
+  padding: 10px;
+}
+form button {
+  grid-column: 1 / -1; /* Make the last item span all columns */
+  text-align: center; /* Horizontally center the content */
 
+  margin-top: 20px;
+  max-width: 220px;
+  padding: 15px;
+  justify-self: center;
+}
+form input {
+  border-radius: 0;
+}
 @media all and (max-width: 830px) {
   .sidebar {
     width: 70px;

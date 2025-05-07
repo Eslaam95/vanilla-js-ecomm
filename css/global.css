@@ -353,7 +353,12 @@ input:focus,
 input:active {
   border: 1px solid #111;
 }
-
+input[type="submit"] {
+  cursor: pointer;
+}
+form p {
+  margin-top: 20px;
+}
 select {
   padding: 8px 32px 8px 12px; /* adds space for the arrow */
   border: 1px solid #5e5e5e;
@@ -387,6 +392,19 @@ label.role {
   min-width: auto;
   font-weight: normal;
   font-size: 15px;
+}
+.password-checkbox {
+  display: flex;
+}
+.password-checkbox input {
+  max-width: 25px;
+  min-width: 20px;
+}
+.password-checkbox input,
+.password-checkbox label {
+  font-weight: normal;
+  font-size: 14px;
+  margin-top: 0;
 }
 /*****************************************/
 /*dashbaord globals*/
@@ -430,6 +448,7 @@ button {
   cursor: pointer;
   color: white;
   transition: background 0.2s ease;
+  cursor: pointer;
 }
 
 button.edit {
@@ -533,4 +552,9 @@ button.disapprove {
 }
 .product-list .single-element .product-thumb img {
   max-width: 100px;
+}
+
+/******************/
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
+  background-color: #0d5ab6;
 }

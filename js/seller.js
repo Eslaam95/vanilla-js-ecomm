@@ -224,6 +224,7 @@ window.addEventListener("load", async function () {
     const price = parseFloat(productPrice.value);
     const categoryId = productCategory.value.trim();
     const image = productImage.value.trim();
+    const sellerId = userobj.id;
 
     if (!title || !description || !categoryId) {
       alert("Please fill in all the required fields.");
@@ -241,7 +242,7 @@ window.addEventListener("load", async function () {
       price,
       categoryId,
       image,
-      sellerId: URLid,
+      sellerId: sellerId,
       approved: false,
     };
 

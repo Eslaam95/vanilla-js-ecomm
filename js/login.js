@@ -1,4 +1,9 @@
-import { getAllUsers, isValidEmail, updateNav } from "./helper-functions.js";
+import {
+  getAllUsers,
+  isValidEmail,
+  updateNav,
+  showPassword,
+} from "./helper-functions.js";
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("email");
@@ -64,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (user) {
       localStorage.setItem("loggedUser", JSON.stringify(user));
-      alert("Login successful!");
+      // alert("Login successful!");
 
       // Redirect based on role
       switch (user.role) {
@@ -78,10 +83,21 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = `${window.location.origin}/customer.html?id=${user.id}`;
           break;
         default:
-          alert("Unknown role. Access denied.");
+          // alert("Unknown role. Access denied.");
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Unknown user role. Please, contact our techincal support.",
+          });
       }
     } else {
-      alert("Invalid email or password");
+      // alert("Invalid email or password");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please, make sure of your email and password",
+      });
     }
   });
+  showPassword();
 });

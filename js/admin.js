@@ -18,6 +18,7 @@ import {
   deleteOrder,
   updateOrderStatus,
   updateNav,
+  showPassword,
 } from "./helper-functions.js";
 window.addEventListener("load", async function () {
   /*get user id*/
@@ -89,7 +90,7 @@ window.addEventListener("load", async function () {
   }
   console.log(userobj);
   if (userobj?.role != "admin") {
-    alert("You are not allowed here");
+    // alert("You are not allowed here");
     window.location.href = "/";
     return;
   }
@@ -177,7 +178,13 @@ window.addEventListener("load", async function () {
       });
     } catch (error) {
       console.error("Error loading data:", error);
-      alert("Failed to load dashboard data");
+      // alert("Failed to load dashboard data");
+      Swal.fire({
+        title: "Disconnected",
+        text: "Failed to load dashboard data",
+        icon: "question",
+        showConfirmButton: false,
+      });
     }
   }
   // Initialize the dashboard
@@ -279,10 +286,25 @@ window.addEventListener("load", async function () {
     if (e.target.classList.contains("delete-user")) {
       console.log("hello");
       const userID = e.target.getAttribute("data-id");
-      let confirmation = confirm("Are you sure?");
-      if (confirmation) {
-        deleteUser(userID);
-      }
+      // let confirmation = confirm("Are you sure?");
+      // if (confirmation) {
+      //   deleteUser(userID);
+      // }
+      Swal.fire({
+        title: "Do you want to delete this user?",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `Discard`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          deleteUser(userID);
+          Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
     }
   });
 
@@ -322,7 +344,13 @@ window.addEventListener("load", async function () {
         const matches = users.filter((user) => user.email === emailInput.value);
 
         if (matches.length > 0) {
-          alert("User already exists!");
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "User already exists",
+            showConfirmButton: false,
+          });
+          return;
         } else {
           addUser(newUser);
         }
@@ -343,10 +371,25 @@ window.addEventListener("load", async function () {
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("delete-product")) {
       const productID = e.target.getAttribute("data-id");
-      let confirmation = confirm("Are you sure?");
-      if (confirmation) {
-        deleteProduct(productID);
-      }
+      // let confirmation = confirm("Are you sure?");
+      // if (confirmation) {
+      //   deleteProduct(productID);
+      // }
+      Swal.fire({
+        title: "Do you want to delete this product?",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `Discard`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          deleteProduct(productID);
+          Swal.fire("Deleted!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
     }
   });
   /*approve product*/
@@ -406,7 +449,12 @@ window.addEventListener("load", async function () {
       };
       updateProduct(productId.value, updatedProduct);
     } else {
-      alert("Please, make sure to fill required fielda");
+      // alert("Please, make sure to fill required fielda");
+      Swal.fire({
+        icon: "error",
+        title: "Incomplete",
+        text: "Please, Fill all the product info",
+      });
     }
   });
 
@@ -443,7 +491,12 @@ window.addEventListener("load", async function () {
       };
       addProduct(newProduct);
     } else {
-      alert("Please, make sure to fill required fielda");
+      // alert("Please, make sure to fill required fielda");
+      Swal.fire({
+        icon: "error",
+        title: "Incomplete",
+        text: "Please, Fill all the product info",
+      });
     }
   });
   /*HTML select list for seller ids*/
@@ -466,10 +519,25 @@ window.addEventListener("load", async function () {
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("cancel-order")) {
       const orderID = e.target.getAttribute("data-id");
-      let confirmation = confirm("Are you sure?");
-      if (confirmation) {
-        deleteOrder(orderID);
-      }
+      // let confirmation = confirm("Are you sure?");
+      // if (confirmation) {
+      //   deleteOrder(orderID);
+      // }
+      Swal.fire({
+        title: "Do you want to cancel this order?",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `Discard`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          deleteOrder(orderID);
+          Swal.fire("Canceled!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
     }
   });
 
@@ -585,5 +653,6 @@ window.addEventListener("load", async function () {
       updateUser(URLid, updatedUser);
     }
   });
+  showPassword();
   /*end of window load*/
 });

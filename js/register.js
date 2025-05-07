@@ -4,6 +4,7 @@ import {
   isValidEmail,
   isValidName,
   isValidPassword,
+  showPassword,
 } from "./helper-functions.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -79,26 +80,44 @@ document.addEventListener("DOMContentLoaded", () => {
         email: emailInput.value.trim(),
         password: passwordInput.value.trim(),
         role: document.querySelector('input[name="role"]:checked').value,
-   
       };
       getAllUsers().then(async (e) => {
         for (let k of e) {
           if (k.email === emailInput.value) {
-            alert("user already exists!");
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "User already exists",
+              showConfirmButton: false,
+            });
+
             return;
-          } else {
-            addUser(newUser);
-
-            /*  signupForm.reset();*/
-            window.location.href = "login.html";
-            alert("User successfully created!");
-
-            break;
           }
         }
+
+        /*  signupForm.reset();*/
+        // alert("User successfully created!");
+        Swal.fire({
+          title: "Added!",
+          icon: "success",
+          draggable: true,
+          footer: '<a href="login.html">Please log in here</a>',
+          showConfirmButton: false,
+        });
+        addUser(newUser);
+        window.location.href = "login.html";
+
+        return;
       });
     } else {
-      alert("Please fix the errors and try again.");
+      // alert("Please fix the errors and try again.");
+      Swal.fire({
+        icon: "error",
+        title: "...",
+        text: "Please fix the errors and try again.",
+        showConfirmButton: false,
+      });
     }
   });
+  showPassword();
 });

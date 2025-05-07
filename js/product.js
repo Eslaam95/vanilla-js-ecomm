@@ -14,6 +14,7 @@ window.addEventListener("load", async function () {
   const urlParams = new URLSearchParams(window.location.search);
   const URLid = urlParams.get("id");
   let product = await getSingleProduct(URLid);
+  console.log("product", product);
   /*select product tags to add data in*/
   let currentProductTitle = this.document.getElementById(
     "current-product-title"
@@ -131,7 +132,15 @@ window.addEventListener("load", async function () {
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("add-to-cart")) {
       if (!localStorage.getItem("loggedUser")) {
-        window.location.href = "login.html";
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "You're not logged in!",
+          footer: '<a href="login.html">Please log in here</a>',
+          showConfirmButton: false,
+        });
+        return;
+        // window.location.href = "login.html";
       }
       let cartProductId = e.target.getAttribute("data-id");
       let cartProduct = await getSingleProduct(cartProductId);
@@ -162,7 +171,14 @@ window.addEventListener("load", async function () {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartList = document.querySelector(".cart .product-list");
     cartList.innerHTML = "";
-
+    if (!localStorage.getItem("loggedUser")) {
+      cartList.innerHTML = `
+  <div class="single-element mt-20">
+    <p class="sm-text">Please, log in to view your cart</p>
+  </div>`;
+      document.querySelector(".cart-action").innerHTML = "";
+      return;
+    }
     if (!cart.length) {
       cartList.innerHTML = `
      <div class="single-element mt-20">
