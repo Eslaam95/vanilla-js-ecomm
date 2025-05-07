@@ -6,14 +6,14 @@
       "image": "cccc",
       "id": "1",
       "role": "admin",
-      "password": "password"
+      "password": "5f4dcc3b5aa765d61d8327deb882cf99"
     },
     {
       "name": "sellerUpdated",
       "email": "seller@example.com",
       "role": "seller",
       "id": "2",
-      "password": "password",
+      "password": "5f4dcc3b5aa765d61d8327deb882cf99",
       "image": "images/1.png"
     },
     {
@@ -21,7 +21,7 @@
       "email": "customer@example.com",
       "role": "customer",
       "id": "3",
-      "password": "password",
+      "password": "5f4dcc3b5aa765d61d8327deb882cf99",
       "image": "undefinedd"
     },
     {
@@ -39,11 +39,26 @@
       "password": "password"
     },
     {
+<<<<<<< HEAD
       "id": "e208",
       "name": "sdsfsdfds",
       "email": "sellezdcdfdsr@example.com",
       "role": "customer",
       "password": "dsfdsfdsfdsf"
+=======
+      "id": "7142",
+      "name": "bahaa",
+      "email": "bahaa@gmail.com",
+      "password": "5f4dcc3b5aa765d61d8327deb882cf99",
+      "role": "seller"
+    },
+    {
+      "id": "f1af",
+      "name": "mohamed",
+      "email": "mido@gmail.com",
+      "password": "5f4dcc3b5aa765d61d8327deb882cf99",
+      "role": "seller"
+>>>>>>> b20209f105094cd2c9a8c74c8015fdcd1d435749
     }
   ],
   "products": [

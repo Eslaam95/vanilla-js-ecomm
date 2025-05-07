@@ -324,7 +324,7 @@ window.addEventListener("load", async function () {
 
   // Blur validation on oldPassword
   oldPasswordInput.addEventListener("blur", () => {
-    if (oldPasswordInput.value != userobj.password) {
+    if (md5(oldPasswordInput.value) != userobj.password) {
       oldPasswordError.style.display = "block";
       oldPasswordInput.style.border = "2px solid red";
     } else {
@@ -357,7 +357,7 @@ window.addEventListener("load", async function () {
 
     if (
       !validatepassword(passwordResetInput, passwordResetError) ||
-      oldPasswordInput.value !== userobj.password ||
+      md5(oldPasswordInput.value) !== userobj.password ||
       passwordResetConfirmationInput.value != passwordResetInput.value
     ) {
       isFormValid = false;
@@ -369,8 +369,10 @@ window.addEventListener("load", async function () {
       return; // Stop form from submitting
     } else {
       let updatedUser = {
-        password: passwordResetInput.value,
+        password: md5(passwordResetInput.value),
       };
+      userobj.password = md5(passwordResetInput.value);
+      localStorage.setItem("loggedUser", JSON.stringify(userobj));
       updateUser(URLid, updatedUser);
       alert("Password Chaned Successfully");
     }

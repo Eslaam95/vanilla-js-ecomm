@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 import {
   getAllUsers,
   isValidEmail,
   updateNav,
   showPassword,
 } from "./helper-functions.js";
+=======
+import { getAllUsers, isValidEmail, updateNav } from "./helper-functions.js";
+
+>>>>>>> b20209f105094cd2c9a8c74c8015fdcd1d435749
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("email");
@@ -64,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const users = await getAllUsers();
     const user = users.find(
-      (u) => u.email === email && u.password === password
+      (u) => u.email === email && u.password === md5(password)
     );
 
     if (user) {
