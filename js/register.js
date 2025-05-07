@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const newUser = {
         name: nameInput.value.trim(),
         email: emailInput.value.trim(),
-        password: passwordInput.value.trim(),
+        password: md5(passwordInput.value.trim()),
         role: document.querySelector('input[name="role"]:checked').value,
    
       };
