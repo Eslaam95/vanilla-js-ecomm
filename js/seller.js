@@ -14,6 +14,7 @@ import {
   getAllProductsBySellerId,
   getOrdersBySellerId,
   updateNav,
+  showPassword,
 } from "./helper-functions.js";
 window.addEventListener("load", async function () {
   /*get user id*/
@@ -59,18 +60,21 @@ window.addEventListener("load", async function () {
 
   //get cuurect user info and check if seller
   const DBUserobj = await getSingleUser(URLid);
-  if (DBUserobj) {
-    this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
-  }
+  // if (DBUserobj) {
+  //   this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
+  // }
   updateNav();
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
-  if (userobj.name) {
-    document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
+  if (!userobj) {
+    this.window.location.href = "login.html";
   }
-  if (userobj.role != "seller") {
-    alert("You are not allowed here");
+  if (userobj?.role != "seller") {
+    // alert("You are not allowed here");
     window.location.href = "/";
     return;
+  }
+  if (userobj?.name) {
+    document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
   }
 
   async function loadData() {
@@ -136,7 +140,13 @@ window.addEventListener("load", async function () {
       });
     } catch (error) {
       console.error("Error loading data:", error);
-      alert("Failed to load dashboard data");
+      // alert("Failed to load dashboard data");
+      Swal.fire({
+        title: "Disconnected",
+        text: "Failed to load dashboard data",
+        icon: "question",
+        showConfirmButton: false,
+      });
     }
   }
   // Initialize the dashboard with data int the Database
@@ -146,10 +156,25 @@ window.addEventListener("load", async function () {
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("delete-product")) {
       const productID = e.target.getAttribute("data-id");
-      if (confirm("Are you sure you want to delete this product?")) {
-        await deleteProduct(productID);
-        window.location.reload(); // Reload to update the product table
-      }
+      // if (confirm("Are you sure you want to delete this product?")) {
+      //   await deleteProduct(productID);
+      //   window.location.reload(); // Reload to update the product table
+      // }
+      Swal.fire({
+        title: "Do you want to delete this product?",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `Discard`,
+      }).then(async (result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          await deleteProduct(productID);
+          Swal.fire("Deleted!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
     }
   });
 
@@ -181,12 +206,22 @@ window.addEventListener("load", async function () {
     const image = productImage.value.trim();
 
     if (!title || !description || !categoryId) {
-      alert("Please fill in all the required fields.");
+      // alert("Please fill in all the required fields.");
+      Swal.fire({
+        icon: "error",
+        title: "Incomplete",
+        text: "Please, Fill all the product info",
+      });
       return;
     }
 
     if (price <= 0) {
-      alert("Please enter a valid price greater than 0.");
+      // alert("Please enter a valid price greater than 0.");
+      Swal.fire({
+        icon: "error",
+        title: "Incorrect",
+        text: "Please enter a valid price greater than 0.",
+      });
       return;
     }
 
@@ -227,12 +262,23 @@ window.addEventListener("load", async function () {
     const sellerId = userobj.id;
 
     if (!title || !description || !categoryId) {
-      alert("Please fill in all the required fields.");
+      // alert("Please fill in all the required fields.");
+      Swal.fire({
+        icon: "error",
+        title: "Incomplete",
+        text: "Please, Fill all the product info",
+      });
       return;
     }
 
     if (price <= 0) {
-      alert("Please enter a valid price greater than 0.");
+      // alert("Please enter a valid price greater than 0.");
+      Swal.fire({
+        icon: "error",
+        title: "Incorrect",
+        text: "Please enter a valid price greater than 0.",
+      });
+
       return;
     }
 
@@ -255,10 +301,25 @@ window.addEventListener("load", async function () {
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("cancel-order")) {
       const orderID = e.target.getAttribute("data-id");
-      let confirmation = confirm("Are you sure?");
-      if (confirmation) {
-        deleteOrder(orderID);
-      }
+      // let confirmation = confirm("Are you sure?");
+      // if (confirmation) {
+      //   deleteOrder(orderID);
+      // }
+      Swal.fire({
+        title: "Do you want to cancel this order?",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `Discard`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          deleteOrder(orderID);
+          Swal.fire("Canceled!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
     }
   });
 
@@ -317,6 +378,10 @@ window.addEventListener("load", async function () {
         email: emailUpdateInput.value,
         image: profilepic.value,
       };
+      userobj.name = nameUpdateInput.value;
+      userobj.email = emailUpdateInput.value;
+      userobj.image = profilepic.value;
+      localStorage.setItem("loggedUser", JSON.stringify(userobj));
       updateUser(URLid, updatedUser);
       window.location.href = `/seller.html?id=${userobj.id}`;
     }
@@ -374,9 +439,16 @@ window.addEventListener("load", async function () {
       userobj.password = md5(passwordResetInput.value);
       localStorage.setItem("loggedUser", JSON.stringify(userobj));
       updateUser(URLid, updatedUser);
-      alert("Password Chaned Successfully");
+      // alert("Password Chaned Successfully");
+
+      Swal.fire({
+        title: "Password changed successfully!",
+        icon: "success",
+        draggable: true,
+        showConfirmButton: false,
+      });
     }
   });
-
+  showPassword();
   //end of window load
 });

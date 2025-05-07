@@ -154,16 +154,6 @@
       "id": "4333"
     },
     {
-      "id": "bd20",
-      "description": "test test",
-      "price": 33,
-      "categoryId": "4",
-      "sellerId": "de8c",
-      "image": "sfdsdf",
-      "title": "test idssdsfdsf",
-      "approved": true
-    },
-    {
       "description": "super Cool Sneakers",
       "price": 77.6,
       "categoryId": "2",
@@ -182,6 +172,16 @@
       "image": "sadsad",
       "sellerId": "2",
       "approved": false
+    },
+    {
+      "id": "dd65",
+      "title": "seller product",
+      "description": "test desc",
+      "price": 22,
+      "categoryId": "2",
+      "image": "assets/images/products/image 11.png",
+      "sellerId": "2",
+      "approved": true
     }
   ],
   "orders": [
@@ -288,6 +288,18 @@
           "productId": "4",
           "quantity": 2,
           "price": 59.99
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "561a",
+      "customerId": "3",
+      "items": [
+        {
+          "productId": "1",
+          "quantity": 6,
+          "price": 1300
         }
       ],
       "status": "pending"

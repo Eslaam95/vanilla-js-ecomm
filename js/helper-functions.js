@@ -401,8 +401,17 @@ export async function getUserReviews(customerId) {
 
 export function updateNav() {
   let loginDiv = document.querySelectorAll(".main-nav .login")[0];
-  if (localStorage.getItem("loggedUser")) {
+  let userobj = JSON.parse(localStorage.getItem("loggedUser"));
+
+  if (userobj) {
     loginDiv.innerHTML = `
+     ${
+       userobj.role === "admin"
+         ? '<a href="admin.html" class="btn header-btn bg-transparent ">Dashboard</a>'
+         : userobj.role === "seller"
+         ? '<a href="seller.html" class="btn header-btn bg-transparent">Dashboard</a>'
+         : '<a href="customer.html" class="btn header-btn bg-transparent">Dashboard</a>'
+     }
     <a href="#" class="btn header-btn white-color bg-blue logout-btn">Logout</a>`;
   } else {
     loginDiv.innerHTML = `
@@ -468,3 +477,11 @@ export function showPassword() {
     });
   });
 }
+
+export const toBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });

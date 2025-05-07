@@ -19,6 +19,7 @@ import {
   updateOrderStatus,
   updateNav,
   showPassword,
+  toBase64,
 } from "./helper-functions.js";
 window.addEventListener("load", async function () {
   /*get user id*/
@@ -88,7 +89,6 @@ window.addEventListener("load", async function () {
   if (userobj?.name) {
     document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
   }
-  console.log(userobj);
   if (userobj?.role != "admin") {
     // alert("You are not allowed here");
     window.location.href = "/";
@@ -381,10 +381,10 @@ window.addEventListener("load", async function () {
         showCancelButton: true,
         confirmButtonText: "Yes",
         denyButtonText: `Discard`,
-      }).then((result) => {
+      }).then(async (result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          deleteProduct(productID);
+          await deleteProduct(productID);
           Swal.fire("Deleted!", "", "success");
         } else if (result.isDenied) {
           Swal.fire("Changes are not saved", "", "info");
@@ -455,6 +455,7 @@ window.addEventListener("load", async function () {
         title: "Incomplete",
         text: "Please, Fill all the product info",
       });
+      return;
     }
   });
 
@@ -572,7 +573,7 @@ window.addEventListener("load", async function () {
   emailUpdateInput.addEventListener("blur", () => {
     validateEmail(emailUpdateInput, emailUpdateError);
   });
-  updateInfoForm.addEventListener("submit", function (e) {
+  updateInfoForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     let isFormValid = true;
@@ -596,7 +597,7 @@ window.addEventListener("load", async function () {
       };
       userobj.name = nameUpdateInput.value;
       userobj.email = emailUpdateInput.value;
-      userobj.image = profilepic.value;
+      userobj.image = await toBase64(updateInfoForm.image.files[0]);
       localStorage.setItem("loggedUser", JSON.stringify(userobj));
 
       updateUser(URLid, updatedUser);
@@ -651,7 +652,13 @@ window.addEventListener("load", async function () {
       userobj.password = md5(passwordResetInput.value);
       localStorage.setItem("loggedUser", JSON.stringify(userobj));
       updateUser(URLid, updatedUser);
-      alert("Password Chaned Successfully");
+      // alert("Password Chaned Successfully");
+      Swal.fire({
+        title: "Password changed successfully!",
+        icon: "success",
+        draggable: true,
+        showConfirmButton: false,
+      });
     }
   });
   showPassword();

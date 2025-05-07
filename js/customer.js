@@ -48,7 +48,12 @@ window.addEventListener("load", async function () {
   const reviewsTable = document.getElementById("reviewsTable");
 
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
-  console.log(userobj);
+  if (!userobj) {
+    this.window.location.href = "login.html";
+  }
+  if (userobj?.name) {
+    document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
+  }
 
   /*
   =======================
