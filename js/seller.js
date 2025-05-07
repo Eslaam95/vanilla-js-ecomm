@@ -1,10 +1,6 @@
 //helper functions
 import {
   getSingleUser,
-  updateUser,
-  validateEmail,
-  validateName,
-  validatepassword,
   deleteProduct,
   getSingleProduct,
   updateProduct,
@@ -15,6 +11,9 @@ import {
   getOrdersBySellerId,
   updateNav,
 } from "./helper-functions.js";
+
+import { handleProfileUpdate } from "./profile-update.js";
+
 window.addEventListener("load", async function () {
   /*get user id*/
   const urlParams = new URLSearchParams(window.location.search);
@@ -34,30 +33,10 @@ window.addEventListener("load", async function () {
   const productPrice = document.getElementById("productPrice");
   const productCategory = document.getElementById("productCategory");
   const productImage = document.getElementById("productImage");
-  // const productApproved = document.getElementById("productApproved");
   const saveProductBtn = document.getElementById("saveProduct");
   const addProductBtn = document.getElementById("addProduct");
   /*profile form info update*/
-  const nameUpdateInput = document.getElementById("nameUpdate");
-  const emailUpdateInput = document.getElementById("emailUpdate");
-  const nameUpdateError = document.getElementById("nameUpdate-error");
-  const emailUpdateError = document.getElementById("emailUpdate-error");
-  const profilepic = document.getElementById("profilepic");
-  const updateInfoForm = document.getElementById("updateInfoForm");
-  /*password update form*/
-  const passwordResetForm = document.getElementById("passwordResetForm");
-  const oldPasswordInput = document.getElementById("old-password");
-  const oldPasswordError = document.getElementById("old-password-error");
-  const passwordResetInput = document.getElementById("password-reset");
-  const passwordResetConfirmationInput = document.getElementById(
-    "password-reset-confirmation"
-  );
-  const passwordResetError = document.getElementById("password-reset-error");
-  const passwordResetConfirmationError = document.getElementById(
-    "password-reset-error-confirmation"
-  );
 
-  //get cuurect user info and check if seller
   const DBUserobj = await getSingleUser(URLid);
   if (DBUserobj) {
     this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
@@ -280,103 +259,7 @@ window.addEventListener("load", async function () {
   });
 
   //****************Profile Data Section******************************
-  nameUpdateInput.value = userobj.name;
-  emailUpdateInput.value = userobj.email;
-  profilepic.value = userobj.image;
 
-  // Blur validation on name
-  nameUpdateInput.addEventListener("blur", () => {
-    validateName(nameUpdateInput, nameUpdateError);
-  });
-
-  // Blur validation on email
-  emailUpdateInput.addEventListener("blur", () => {
-    validateEmail(emailUpdateInput, emailUpdateError);
-  });
-
-  // Update User Info Submission
-  updateInfoForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    let isFormValid = true;
-
-    if (
-      !validateName(nameUpdateInput, nameUpdateError) ||
-      !validateEmail(emailUpdateInput, emailUpdateError)
-    ) {
-      isFormValid = false;
-    } else {
-      isFormValid = true;
-    }
-
-    if (!isFormValid) {
-      return; // Stop form from submitting
-    } else {
-      let updatedUser = {
-        name: nameUpdateInput.value,
-        email: emailUpdateInput.value,
-        image: profilepic.value,
-      };
-      updateUser(URLid, updatedUser);
-      window.location.href = `/seller.html?id=${userobj.id}`;
-    }
-  });
-
-  // Blur validation on oldPassword
-  oldPasswordInput.addEventListener("blur", () => {
-    if (md5(oldPasswordInput.value) != userobj.password) {
-      oldPasswordError.style.display = "block";
-      oldPasswordInput.style.border = "2px solid red";
-    } else {
-      oldPasswordError.style.display = "none";
-      oldPasswordInput.style.border = "";
-    }
-  });
-
-  // Blur validation on newPassword
-  passwordResetInput.addEventListener("blur", () => {
-    validatepassword(passwordResetInput, passwordResetError);
-  });
-
-  // Blur validation on newPasswordConfirm
-  passwordResetConfirmationInput.addEventListener("blur", () => {
-    if (passwordResetConfirmationInput.value != passwordResetInput.value) {
-      passwordResetConfirmationError.style.display = "block";
-      passwordResetConfirmationInput.style.border = "2px solid red";
-    } else {
-      passwordResetConfirmationError.style.display = "none";
-      passwordResetConfirmationInput.style.border = "none";
-    }
-  });
-
-  // Update User Password Submission
-  passwordResetForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    let isFormValid = true;
-
-    if (
-      !validatepassword(passwordResetInput, passwordResetError) ||
-      md5(oldPasswordInput.value) !== userobj.password ||
-      passwordResetConfirmationInput.value != passwordResetInput.value
-    ) {
-      isFormValid = false;
-    } else {
-      isFormValid = true;
-    }
-
-    if (!isFormValid) {
-      return; // Stop form from submitting
-    } else {
-      let updatedUser = {
-        password: md5(passwordResetInput.value),
-      };
-      userobj.password = md5(passwordResetInput.value);
-      localStorage.setItem("loggedUser", JSON.stringify(userobj));
-      updateUser(URLid, updatedUser);
-      alert("Password Chaned Successfully");
-    }
-  });
-
-  //end of window load
+  const redirectURL = "admin.html"; 
+  handleProfileUpdate(userobj, URLid, redirectURL);
 });

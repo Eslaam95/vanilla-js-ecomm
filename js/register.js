@@ -75,49 +75,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (valid) {
+      const email = emailInput.value.trim();
+
+      // تحقق من وجود الإيميل مسبقاً في الـ json-server
+      const res = await fetch(`http://localhost:3000/users?email=${email}`);
+      const existingUsers = await res.json();
+
+      if (existingUsers.length > 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "User already exists",
+          showConfirmButton: false,
+        });
+        return;
+      }
+
+      // لو مفيش يوزر بنفس الإيميل، نكمل التسجيل
       const newUser = {
         name: nameInput.value.trim(),
-        email: emailInput.value.trim(),
+        email: email,
         password: md5(passwordInput.value.trim()),
         role: document.querySelector('input[name="role"]:checked').value,
       };
-      getAllUsers().then(async (e) => {
-        for (let k of e) {
-          if (k.email === emailInput.value) {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "User already exists",
-              showConfirmButton: false,
-            });
 
-            return;
-          }
-        }
+      // إضافة المستخدم الجديد
+      await addUser(newUser); // تأكد أن دالة addUser موجودة وتعمل بشكل صحيح
 
-        /*  signupForm.reset();*/
-        // alert("User successfully created!");
-        Swal.fire({
-          title: "Added!",
-          icon: "success",
-          draggable: true,
-          footer: '<a href="login.html">Please log in here</a>',
-          showConfirmButton: false,
-        });
-        addUser(newUser);
-        window.location.href = "login.html";
-
-        return;
+      Swal.fire({
+        title: "Added!",
+        icon: "success",
+        draggable: true,
+        footer: '<a href="login.html">Please log in here</a>',
+        showConfirmButton: false,
       });
+
+      // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+      window.location.href = "login.html";
+
+      return;
     } else {
-      // alert("Please fix the errors and try again.");
+      // لو في خطأ في التحقق من البيانات
       Swal.fire({
         icon: "error",
         title: "...",
         text: "Please fix the errors and try again.",
         showConfirmButton: false,
       });
+      showPassword();
     }
   });
-  showPassword();
 });
