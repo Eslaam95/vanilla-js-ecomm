@@ -1,4 +1,5 @@
 import { getAllUsers, isValidEmail, updateNav } from "./helper-functions.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("email");
@@ -59,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const users = await getAllUsers();
     const user = users.find(
-      (u) => u.email === email && u.password === password
+      (u) => u.email === email && u.password === md5(password)
     );
 
     if (user) {
