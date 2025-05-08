@@ -3,9 +3,9 @@ import {
   customerOrders,
   getUserReviews,
   updateNav,
+  showPassword,
 } from "./helper-functions.js";
 import { handleProfileUpdate } from "./profile-update.js";
-
 
 window.addEventListener("load", async function () {
   updateNav();
@@ -17,20 +17,20 @@ window.addEventListener("load", async function () {
   const URLid = urlParams.get("id");
   // /*get cuurect user info and check if admin*/
   const DBUserobj = await getSingleUser(URLid);
-   console.log(DBUserobj);
-  if (DBUserobj) {
-     this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
-   }
-  
+  console.log(DBUserobj);
+  // if (DBUserobj) {
+  //   this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
+  // }
+
   const ordersTable = document.getElementById("ordersTable");
   const reviewsTable = document.getElementById("reviewsTable");
 
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
   console.log(userobj);
 
- // Profile Edit Section (Password- Name - Email)
-  const redirectURL = "customer.html"; 
-  handleProfileUpdate(userobj, URLid, redirectURL);
+  // Profile Edit Section (Password- Name - Email)
+  const redirectURL = "customer.html";
+  handleProfileUpdate(userobj, URLid);
 
   /*=============================*/
   let cusomterOrders = await customerOrders(userobj.id);
@@ -59,4 +59,5 @@ window.addEventListener("load", async function () {
 
     `;
   });
+  showPassword();
 });

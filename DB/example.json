@@ -25,20 +25,6 @@
       "image": "images/\"1.png\""
     },
     {
-      "id": "dc15",
-      "name": "eslaam",
-      "email": "test@gmail.com",
-      "role": "customer",
-      "password": "dssfdsfdds"
-    },
-    {
-      "id": "de8c",
-      "name": "eslaam",
-      "email": "sellersssss@example.com",
-      "role": "seller",
-      "password": "password"
-    },
-    {
       "id": "7142",
       "name": "bahaa",
       "email": "bahaa@gmail.com",
@@ -48,7 +34,7 @@
     {
       "id": "f1af",
       "name": "mohamed",
-      "email": "mido@gmail.com",
+      "email": "midoooooo@gmail.com",
       "password": "5f4dcc3b5aa765d61d8327deb882cf99",
       "role": "seller"
     },
@@ -57,6 +43,13 @@
       "name": "bahaa",
       "email": "admin@example.com1",
       "password": "0aee1ac8ab2414be8e73ee8d8992168b",
+      "role": "seller"
+    },
+    {
+      "id": "de57",
+      "name": "test acc",
+      "email": "testacc@gmail.com",
+      "password": "5f4dcc3b5aa765d61d8327deb882cf99",
       "role": "seller"
     }
   ],
@@ -170,6 +163,26 @@
       "image": "sfdsdf",
       "title": "test idssdsfdsf",
       "approved": true
+    },
+    {
+      "id": "3b59",
+      "title": "super Cool Sneakers",
+      "description": "testttttttt",
+      "price": 66,
+      "categoryId": "2",
+      "image": "assets/images/products/image 11.png",
+      "sellerId": "1",
+      "approved": true
+    },
+    {
+      "id": "6b7d",
+      "title": "Cool Sneakers",
+      "description": "test",
+      "price": 88,
+      "categoryId": "2",
+      "image": "assets/images/products/image (1).png",
+      "sellerId": "1",
+      "approved": false
     }
   ],
   "orders": [
@@ -237,6 +250,18 @@
           "productId": "4",
           "quantity": 2,
           "price": 59.99
+        }
+      ],
+      "status": "shipped"
+    },
+    {
+      "id": "88a3",
+      "customerId": "1",
+      "items": [
+        {
+          "productId": "3b59",
+          "quantity": 1,
+          "price": 66
         }
       ],
       "status": "shipped"

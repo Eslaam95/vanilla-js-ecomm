@@ -6,7 +6,7 @@ import {
   checkEmailExists,
 } from "./helper-functions.js";
 
-export function handleProfileUpdate(userobj, URLid, redirectURL) {
+export function handleProfileUpdate(userobj, URLid) {
   const nameUpdateInput = document.getElementById("nameUpdate");
   const emailUpdateInput = document.getElementById("emailUpdate");
   const nameUpdateError = document.getElementById("nameUpdate-error");
@@ -43,36 +43,41 @@ export function handleProfileUpdate(userobj, URLid, redirectURL) {
   updateInfoForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (
-        !validateName(nameUpdateInput, nameUpdateError) ||
-        !validateEmail(emailUpdateInput, emailUpdateError)
-      ) {
+      !validateName(nameUpdateInput, nameUpdateError) ||
+      !validateEmail(emailUpdateInput, emailUpdateError)
+    ) {
+      return;
+    }
+
+    const isEmailChanged = emailUpdateInput.value !== userobj.email;
+    let emailExists = false;
+
+    if (isEmailChanged) {
+      emailExists = await checkEmailExists(emailUpdateInput.value);
+
+      if (emailExists) {
+        Swal.fire({
+          icon: "error",
+          title: "Email already exists",
+          text: "This email is already registered. Please use a different email.",
+        });
+        emailUpdateInput.value = userobj.email;
+        // location.reload(); // to change the email to its origina one if i don't it will remain the same that was refused until i refresh so i force refresh it
         return;
       }
-    
-      const isEmailChanged = emailUpdateInput.value !== userobj.email;
-      let emailExists = false;
-    
-      if (isEmailChanged) {
-        emailExists = await checkEmailExists(emailUpdateInput.value);
-        
-        if (emailExists) {
-          Swal.fire({
-            icon: "error",
-            title: "Email already exists",
-            text: "This email is already registered. Please use a different email.",
-          });
-          location.reload(); // to change the email to its origina one if i don't it will remain the same that was refused until i refresh so i force refresh it 
-          return; 
-        }
-      }
+    }
 
     const updatedUser = {
       name: nameUpdateInput.value,
       email: emailUpdateInput.value,
       image: profilepic.value,
     };
+    userobj.name = nameUpdateInput.value;
+    userobj.email = emailUpdateInput.value;
+    userobj.image = profilepic.value;
 
-    updateUser(URLid, updatedUser);
+    localStorage.setItem("loggedUser", JSON.stringify(userobj));
+    updateUser(userobj.id, updatedUser);
     Swal.fire({
       icon: "success",
       title: "Done!",
@@ -113,15 +118,23 @@ export function handleProfileUpdate(userobj, URLid, redirectURL) {
       !validatepassword(passwordResetInput, passwordResetError) ||
       md5(oldPasswordInput.value) !== userobj.password ||
       passwordResetConfirmationInput.value !== passwordResetInput.value
-    )
+    ) {
       return;
-
+    }
+    if (oldPasswordInput.value === passwordResetInput.value) {
+      Swal.fire({
+        icon: "error",
+        title: "Passwords cannot be the same",
+        text: ".....",
+      });
+      return;
+    }
     const updatedUser = {
       password: md5(passwordResetInput.value),
     };
     userobj.password = updatedUser.password;
     localStorage.setItem("loggedUser", JSON.stringify(userobj));
-    updateUser(URLid, updatedUser);
+    updateUser(userobj.id, updatedUser);
     Swal.fire({
       icon: "success",
       title: "Done!",

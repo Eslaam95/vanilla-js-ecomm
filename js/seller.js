@@ -1,6 +1,5 @@
 //helper functions
 import {
-  getSingleUser,
   deleteProduct,
   getSingleProduct,
   updateProduct,
@@ -10,6 +9,7 @@ import {
   getAllProductsBySellerId,
   getOrdersBySellerId,
   updateNav,
+  showPassword,
 } from "./helper-functions.js";
 
 import { handleProfileUpdate } from "./profile-update.js";
@@ -37,18 +37,18 @@ window.addEventListener("load", async function () {
   const addProductBtn = document.getElementById("addProduct");
   /*profile form info update*/
 
-  const DBUserobj = await getSingleUser(URLid);
-  if (DBUserobj) {
-    this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
-  }
+  // const DBUserobj = await getSingleUser(URLid);
+  // if (DBUserobj) {
+  //   this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
+  // }
   updateNav();
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
-  if (userobj.name) {
+  if (userobj?.name) {
     document.querySelector(".hello").textContent = `Hello, ${userobj.name}!`;
   }
-  if (userobj.role != "seller") {
-    alert("You are not allowed here");
-    window.location.href = "/";
+  if (userobj?.role !== "admin" && userobj?.role !== "seller") {
+    // alert("You are not allowed here");
+    window.location.href = "index.html";
     return;
   }
 
@@ -56,7 +56,7 @@ window.addEventListener("load", async function () {
     try {
       //***************************************************************************************************************** */
       //Display Products For Seller
-      const products = await getAllProductsBySellerId(URLid);
+      const products = await getAllProductsBySellerId(userobj.id);
       const totalProducts = products.length;
       productSum.textContent = totalProducts;
       const pendingProducts = products.filter((p) => !p.approved).length;
@@ -82,7 +82,7 @@ window.addEventListener("load", async function () {
 
       //***************************************************************************************************************** */
       //Display Orders For Seller
-      const sellerOrders = await getOrdersBySellerId(URLid);
+      const sellerOrders = await getOrdersBySellerId(userobj.id);
       const pendingOrdersCount = sellerOrders.filter(
         (order) => order?.status?.toLowerCase() === "pending"
       ).length;
@@ -115,7 +115,13 @@ window.addEventListener("load", async function () {
       });
     } catch (error) {
       console.error("Error loading data:", error);
-      alert("Failed to load dashboard data");
+      // alert("Failed to load dashboard data");
+      Swal.fire({
+        title: "Disconnected",
+        text: "Failed to load dashboard data",
+        icon: "question",
+        showConfirmButton: false,
+      });
     }
   }
   // Initialize the dashboard with data int the Database
@@ -125,10 +131,27 @@ window.addEventListener("load", async function () {
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("delete-product")) {
       const productID = e.target.getAttribute("data-id");
-      if (confirm("Are you sure you want to delete this product?")) {
-        await deleteProduct(productID);
-        window.location.reload(); // Reload to update the product table
-      }
+      // if (confirm("Are you sure you want to delete this product?")) {
+      //   await deleteProduct(productID);
+      //   window.location.reload(); // Reload to update the product table
+      // }
+      Swal.fire({
+        title: "Do you want to delete this product?",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `Discard`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          deleteProduct(productID);
+
+          Swal.fire("Deleted!", "", "success");
+          window.location.reload();
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
     }
   });
 
@@ -160,12 +183,22 @@ window.addEventListener("load", async function () {
     const image = productImage.value.trim();
 
     if (!title || !description || !categoryId) {
-      alert("Please fill in all the required fields.");
+      // alert("Please fill in all the required fields.");
+      Swal.fire({
+        icon: "error",
+        title: "Incomplete",
+        text: "Please, Fill all the product info",
+      });
       return;
     }
 
     if (price <= 0) {
-      alert("Please enter a valid price greater than 0.");
+      // alert("Please enter a valid price greater than 0.");
+      Swal.fire({
+        icon: "error",
+        title: "Incorrect product price",
+        text: "Please enter a valid price greater than 0.",
+      });
       return;
     }
 
@@ -206,12 +239,22 @@ window.addEventListener("load", async function () {
     const sellerId = userobj.id;
 
     if (!title || !description || !categoryId) {
-      alert("Please fill in all the required fields.");
+      // alert("Please fill in all the required fields.");
+      Swal.fire({
+        icon: "error",
+        title: "Incomplete",
+        text: "Please, Fill all the product info",
+      });
       return;
     }
 
     if (price <= 0) {
-      alert("Please enter a valid price greater than 0.");
+      // alert("Please enter a valid price greater than 0.");
+      Swal.fire({
+        icon: "error",
+        title: "Incorrect product price",
+        text: "Please enter a valid price greater than 0.",
+      });
       return;
     }
 
@@ -234,10 +277,25 @@ window.addEventListener("load", async function () {
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("cancel-order")) {
       const orderID = e.target.getAttribute("data-id");
-      let confirmation = confirm("Are you sure?");
-      if (confirmation) {
-        deleteOrder(orderID);
-      }
+      // let confirmation = confirm("Are you sure?");
+      // if (confirmation) {
+      //   deleteOrder(orderID);
+      // }
+      Swal.fire({
+        title: "Do you want to delete this product?",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `Discard`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          deleteProduct(productID);
+          Swal.fire("Deleted!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
     }
   });
 
@@ -260,6 +318,7 @@ window.addEventListener("load", async function () {
 
   //****************Profile Data Section******************************
 
-  const redirectURL = "admin.html"; 
-  handleProfileUpdate(userobj, URLid, redirectURL);
+  // const redirectURL = "admin.html";
+  handleProfileUpdate(userobj, URLid);
+  showPassword();
 });

@@ -77,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (valid) {
       const email = emailInput.value.trim();
 
-      // تحقق من وجود الإيميل مسبقاً في الـ json-server
       const res = await fetch(`http://localhost:3000/users?email=${email}`);
       const existingUsers = await res.json();
 
@@ -91,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // لو مفيش يوزر بنفس الإيميل، نكمل التسجيل
       const newUser = {
         name: nameInput.value.trim(),
         email: email,
@@ -99,8 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
         role: document.querySelector('input[name="role"]:checked').value,
       };
 
-      // إضافة المستخدم الجديد
-      await addUser(newUser); // تأكد أن دالة addUser موجودة وتعمل بشكل صحيح
+      await addUser(newUser);
 
       Swal.fire({
         title: "Added!",
@@ -110,19 +107,17 @@ document.addEventListener("DOMContentLoaded", () => {
         showConfirmButton: false,
       });
 
-      // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
       window.location.href = "login.html";
 
       return;
     } else {
-      // لو في خطأ في التحقق من البيانات
       Swal.fire({
         icon: "error",
         title: "...",
         text: "Please fix the errors and try again.",
         showConfirmButton: false,
       });
-      showPassword();
     }
   });
+  showPassword();
 });

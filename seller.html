@@ -173,20 +173,72 @@
           <div class="mt-20 box p-40">
             <h3 class="dark-color">Update Password:</h3>
             <form id="passwordResetForm">
+              <div class="password-group">
               <label for="old-password">Old Password:</label>
-              <input type="password" id="old-password" name="old-password" placeholder="Enter your old password"
-                required />
+              <input
+                type="password"
+                id="old-password"
+                name="old-password"
+                placeholder="Enter your old password"
+                class="password-input"
+                required
+              />
+              <div class="password-checkbox">
+                <input
+                  type="checkbox"
+                  class="toggle-password"
+                  name="show-password2"
+                  id="show-password2"
+                />
+                <label for="show-password2">Show Password</label>
+              </div>
               <div id="old-password-error" class="error">Invalid password</div>
-
+  
+            </div>
+            <div class="password-group">
               <label for="password-reset">Password:</label>
-              <input type="password" id="password-reset" name="password" placeholder="Enter your password" required />
+              <input
+                type="password"
+                id="password-reset"
+                name="password"
+                placeholder="Enter your password"
+                class="password-input"
+                required
+              />
+              <div class="password-checkbox">
+                <input
+                  type="checkbox"
+                  class="toggle-password"
+                  name="show-password3"
+                  id="show-password3"
+                />
+                <label for="show-password3">Show Password</label>
+              </div>
               <div id="password-reset-error" class="error">Invalid password</div>
-
+  
+            </div>
+            <div class="password-group">
               <label for="password-reset-confirmation">Confirm Password:</label>
-              <input type="password" id="password-reset-confirmation" name="confirm-password"
-                placeholder="Confirm your password" required />
-              <div id="password-reset-error-confirmation" class="error">Invalid password</div>
-
+              <input
+                type="password"
+                id="password-reset-confirmation"
+                name="confirm-password"
+                placeholder="Confirm your password"
+                class="password-input"
+                required
+              />
+              <div class="password-checkbox">
+                <input
+                  type="checkbox"
+                  class="toggle-password"
+                  name="show-password"
+                  id="show-password"
+                />
+                <label for="show-password">Show Password</label>
+              </div>
+              <div id="password-reset-error-confirmation" class="error">Passwords don't match!</div>
+  
+            </div>
               <input type="submit" value="Update Password" class="bg-dark" />
             </form>
           </div>

@@ -61,9 +61,9 @@ window.addEventListener("load", async function () {
   /*get cuurect user info and check if admin*/
   const DBUserobj = await getSingleUser(URLid);
   console.log(DBUserobj);
-  if (DBUserobj) {
-    this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
-  }
+  // if (DBUserobj) {
+  //   this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
+  // }
 
   // Load user data and verify admin status
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
@@ -533,8 +533,7 @@ window.addEventListener("load", async function () {
   });
 
   // Profile Edit Section (Password- Name - Email)
-  const redirectURL = "admin.html";
-  handleProfileUpdate(userobj, URLid, redirectURL);
+  handleProfileUpdate(userobj, URLid);
   showPassword();
   /*end of window load*/
 });
