@@ -14,7 +14,7 @@
     rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script> -->
 
   <script type="module" src="js/admin.js"></script>
 </head>
@@ -170,14 +170,19 @@
               required
             />
             <div id="emailUpdate-error" class="error">Invalid email format</div>
-            <label for="profilepic">Profile pic path:</label>
+            <!-- <label for="profilepic">Profile pic path:</label>
             <input
               type="text"
               id="profilepic"
               name="profilepic"
               placeholder="Enter your profile pic path"
               required
-            />
+            /> -->
+            <div>
+              <label for="userImageUpdate">Profile Pic:</label>
+              <img id="userThumbUpdate" class="thumb" alt="thumbnail"/>
+              <input type="file" name="image"  id="userImageUpdate" accept="image/*"  />
+            </div>
             <input type="submit" id="updateInfo" value="Update Info" class="bg-dark mt-20"  >
           </form>    
         </div>
@@ -301,6 +306,14 @@
           <option value="customer">Customer</option>
         </select>
       </div>
+      <div>
+        <label for="userImage">Profile Pic:</label>
+
+        <img id="userThumb" class="thumb" alt="thumbnail"/>
+        <!-- <input type="text" id="productImage" value="" required /> -->
+        <input type="file" name="image"  id="userImage" accept="image/*"  />
+     
+      </div>
       <button type="submit" class="btn bg-blue" id="saveUser">Save Changes</button>
       <button type="submit" class="btn bg-blue" id="addUser">Add User</button>
 
@@ -322,16 +335,24 @@
     <input required type="text" id="productTitle" value="" required />
   </div>
 
-  <div>
-    <label for="productDescription">Description:</label>
-    <textarea id="productDescription" required></textarea>
-  </div>
+
 
   <div>
     <label for="productPrice">Price ($):</label>
     <input required type="number" step="0.1" id="productPrice" value="" required />
   </div>
+  <div>
+    <label for="productDescription">Description:</label>
+    <textarea id="productDescription" required></textarea>
+  </div>
+  <div>
+    <label for="productImage">Upload Image:</label>
 
+    <img id="productThumb" class="thumb" alt="thumbnail"/>
+    <!-- <input type="text" id="productImage" value="" required /> -->
+    <input type="file" name="image"  id="productImage" accept="image/*"  />
+
+  </div>
   <div>
     <label for="productCategory">Category ID:</label>
     <input type="number" id="productCategory" value="" required />
@@ -342,10 +363,6 @@
     <select required type="number" id="productSeller" value="" required ></select>
   </div>
 
-  <div>
-    <label for="productImage">Image URL:</label>
-    <input type="text" id="productImage" value="" required />
-  </div>
 
   <div>
     <label for="productApproved">Approved:</label>
@@ -355,6 +372,7 @@
     </select>
   </div>
 
+ 
   <button type="submit" class="btn  bg-blue" id="saveProduct">Update Product</button>
   <button type="submit" class="btn  bg-blue" id="addProduct">Add  Product</button>
 

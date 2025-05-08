@@ -86,12 +86,13 @@ window.addEventListener("load", async function () {
       console.log(products);
       productsContainer.innerHTML = "";
       for (let k of products) {
-        productsContainer.innerHTML += `<div class="box">
+        if (k.approved) {
+          productsContainer.innerHTML += `<div class="box">
             <a href="/product.html?id=${k.id}">
               <div>
                 <img
                   class="product-img"
-                  src="../${k.image}"
+                  src="${k.image}"
                 />
               </div>
               <div class="content">
@@ -108,6 +109,7 @@ window.addEventListener("load", async function () {
               >add to cart</a
             >
           </div>`;
+        }
       }
     } else {
       productsContainer.innerHTML = `<p class="xl-text dark-color text-center grid-full pt-40">No products</p>`;

@@ -558,3 +558,11 @@ button.disapprove {
 div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
   background-color: #0d5ab6;
 }
+footer {
+  background: #111;
+  padding: 100px 0 40px;
+  /* display: flex
+; */
+  /* flex-direction: column; */
+  text-align: center;
+}

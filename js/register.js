@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         email: email,
         password: md5(passwordInput.value.trim()),
         role: document.querySelector('input[name="role"]:checked').value,
+        image: "assets/images/user-pics/placholder.jpg",
       };
 
       await addUser(newUser);

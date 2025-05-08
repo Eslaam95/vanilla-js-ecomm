@@ -159,7 +159,7 @@ export function addProduct(newProduct) {
 
 export function updateProduct(id, updatedProduct) {
   fetch(`http://localhost:3000/products/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
@@ -361,7 +361,7 @@ export async function addProductReview(
 
     // Step 5: Update the product with the new review
     await fetch(`${baseUrl}/products/${productId}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(product),
     });
@@ -488,3 +488,10 @@ export async function checkEmailExists(email) {
     return false;
   }
 }
+export const toBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });

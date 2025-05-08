@@ -20,6 +20,7 @@ import {
   updateNav,
   showPassword,
   checkEmailExists,
+  toBase64,
 } from "./helper-functions.js";
 import { handleProfileUpdate } from "./profile-update.js";
 
@@ -44,6 +45,9 @@ window.addEventListener("load", async function () {
   const nameError = document.getElementById("name-error");
   const emailError = document.getElementById("email-error");
   const passwordError = document.getElementById("password-error");
+
+  const userImage = document.getElementById("userImage");
+  const userThumb = document.getElementById("userThumb");
   const saveUserBtn = document.getElementById("saveUser");
   const addUserButn = document.getElementById("addUser");
   /*product form elemtns*/
@@ -57,7 +61,7 @@ window.addEventListener("load", async function () {
   const productApproved = document.getElementById("productApproved");
   const saveProductBtn = document.getElementById("saveProduct");
   const addProductBtn = document.getElementById("addProduct");
-
+  const productThumb = document.getElementById("productThumb");
   /*get cuurect user info and check if admin*/
   const DBUserobj = await getSingleUser(URLid);
   console.log(DBUserobj);
@@ -193,20 +197,22 @@ window.addEventListener("load", async function () {
         currentuser.id,
         currentuser.name,
         currentuser.email,
-        currentuser.role
+        currentuser.role,
+        currentuser.image
       );
       saveUserBtn.style.display = "block";
       addUserButn.style.display = "none";
     }
   });
   /*open model and set user vales*/
-  function openUserEditModal(id, name, email, role) {
+  function openUserEditModal(id, name, email, role, image) {
     userEidtModal.style.display = "flex";
     document.getElementById("editUserId").textContent = id;
     document.getElementById("editUsername").value = name;
     document.getElementById("editEmail").value = email;
     document.getElementById("editRole").value = role;
     document.getElementById("password-contianer").style.display = "none";
+    userThumb.src = image;
   }
   /*close user edit modal and reset fields to empty*/
   function closeUserEditModal() {
@@ -240,9 +246,20 @@ window.addEventListener("load", async function () {
   passwordInput.addEventListener("blur", () => {
     validatepassword(passwordInput, passwordError);
   });
+  userImage.addEventListener("change", async (e) => {
+    if (e.target.files.length > 0) {
+      userThumb.style.display = "block";
+      const file = e.target.files[0];
+      if (!file) return;
+      let imageSrc = await toBase64(file);
+      userThumb.src = imageSrc;
+    }
+  });
   /*re-validate and update user on submitting*/
-  saveUserBtn.addEventListener("click", function (e) {
+  saveUserBtn.addEventListener("click", async function (e) {
     e.preventDefault();
+    let originalUserID = document.getElementById("editUserId").textContent;
+    let originalUser = await getSingleUser(originalUserID);
     let isFormValid = true;
     if (
       !validateName(nameInput, nameError) ||
@@ -252,7 +269,17 @@ window.addEventListener("load", async function () {
     } else {
       isFormValid = true;
     }
+    const emailExists = await checkEmailExists(emailInput.value);
 
+    if (emailInput.value !== originalUser.email && emailExists) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "User already exists",
+        // showConfirmButton: false,
+      });
+      return;
+    }
     if (!isFormValid) {
       return;
     } else {
@@ -260,7 +287,11 @@ window.addEventListener("load", async function () {
         name: document.getElementById("editUsername").value,
         email: document.getElementById("editEmail").value,
         role: document.getElementById("editRole").value,
+        ...(userImage.files.length > 0 && {
+          image: await toBase64(userImage.files[0]),
+        }),
       };
+
       let updatedUserID = document.getElementById("editUserId").textContent;
       updateUser(updatedUserID, updatedUser);
     }
@@ -296,9 +327,12 @@ window.addEventListener("load", async function () {
   /*open a modal to add a new user*/
   document.querySelector(".add-user").addEventListener("click", function () {
     userEidtModal.style.display = "flex";
-    openUserEditModal("", "", "", "");
+    openUserEditModal("", "", "", "", "");
+    userThumb.style.display = "none";
     saveUserBtn.style.display = "none";
     addUserButn.style.display = "block";
+    passwordInput.value = "";
+    userImage.value = "";
     document.getElementById("password-contianer").style.display = "block";
     document.getElementById("editRole").value = "customer";
   });
@@ -334,7 +368,8 @@ window.addEventListener("load", async function () {
       name: document.getElementById("editUsername").value,
       email: document.getElementById("editEmail").value,
       role: document.getElementById("editRole").value || "customer",
-      password: document.getElementById("password").value,
+      password: md5(document.getElementById("password").value),
+      image: "assets/images/user-pics/placholder.jpg",
     };
 
     addUser(newUser);
@@ -406,14 +441,23 @@ window.addEventListener("load", async function () {
       productPrice.value = product.price;
       productCategory.value = product.categoryId;
       productSeller.value = product.sellerId;
-      productImage.value = product.image;
+      /* productImage.value = product.image;*/
+      productThumb.src = product.image;
       productTitle.value = product.title;
       productApproved.value = product.approved;
     }
   });
+  productImage.addEventListener("change", async (e) => {
+    if (e.target.files.length > 0) {
+      productThumb.style.display = "block";
+      const file = e.target.files[0];
+      if (!file) return;
+      let imageSrc = await toBase64(file);
+      productThumb.src = imageSrc;
+    }
+  });
   /*save product after edit*/
-  saveProductBtn.addEventListener("click", function (e) {
-    e.preventDefault();
+  saveProductBtn.addEventListener("click", async function (e) {
     e.preventDefault();
     if (
       productTitle.value.length > 8 &&
@@ -425,9 +469,11 @@ window.addEventListener("load", async function () {
         price: Number(productPrice.value),
         categoryId: productCategory.value,
         sellerId: productSeller.value,
-        image: productImage.value,
         title: productTitle.value,
         approved: Boolean(productApproved.value),
+        ...(productImage.files.length > 0 && {
+          image: await toBase64(productImage.files[0]),
+        }),
       };
       updateProduct(productId.value, updatedProduct);
     } else {
@@ -453,9 +499,10 @@ window.addEventListener("load", async function () {
     productImage.value = "";
     productTitle.value = "";
     productApproved.value = "";
+    productThumb.style.display = "none";
   });
 
-  addProductBtn.addEventListener("click", function (e) {
+  addProductBtn.addEventListener("click", async function (e) {
     e.preventDefault();
     if (
       productTitle.value.length > 8 &&
@@ -467,9 +514,12 @@ window.addEventListener("load", async function () {
         price: Number(productPrice.value),
         categoryId: productCategory.value,
         sellerId: productSeller.value,
-        image: productImage.value,
+
         title: productTitle.value,
         approved: Boolean(productApproved.value),
+        ...(productImage.files.length > 0 && {
+          image: await toBase64(productImage.files[0]),
+        }),
       };
       addProduct(newProduct);
     } else {
@@ -533,7 +583,7 @@ window.addEventListener("load", async function () {
   });
 
   // Profile Edit Section (Password- Name - Email)
-  handleProfileUpdate(userobj, URLid);
+  handleProfileUpdate(userobj);
   showPassword();
   /*end of window load*/
 });

@@ -7,6 +7,17 @@ import {
 } from "./helper-functions.js";
 
 window.addEventListener("load", async function () {
+  let currentProductReviews = this.document.querySelector("#reviews-conainer");
+  let currentProductDesc = this.document.querySelector(".product-desc");
+  let currentProductPrice = this.document.querySelector(".produc-price");
+  let currentProductMainImg = this.document.querySelector(".produc-main-img");
+  let currentProductCartBtn = this.document.querySelector(
+    "  .current-product-cart-btn"
+  );
+  /*select product tags to add data in*/
+  let currentProductTitle = this.document.getElementById(
+    "current-product-title"
+  );
   /*get current user*/
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
   console.log(userobj);
@@ -15,17 +26,40 @@ window.addEventListener("load", async function () {
   const URLid = urlParams.get("id");
   let product = await getSingleProduct(URLid);
   console.log("product", product);
-  /*select product tags to add data in*/
-  let currentProductTitle = this.document.getElementById(
-    "current-product-title"
-  );
+  if (!product) {
+    this.document.getElementById(
+      "productDetails"
+    ).innerHTML = `<h2 class=" text-center">URL Broken :(</h2><p class=" md-text text-center mt-20"><a href="index.html">Back home</a></p>`;
+    this.document.querySelector(".comments").style.display = "none";
+    this.document.querySelector(".customer-review").style.display = "none";
+    this.document.getElementById("overlay").style.display = "none";
+  } else {
+    /*product details*/
+    currentProductTitle.innerHTML = product.title;
+    currentProductDesc.innerHTML = product.description;
+    currentProductMainImg.src = product.image;
+    currentProductPrice.innerHTML = "$" + product.price;
+    currentProductCartBtn.setAttribute("data-id", product.id);
+
+    fillStars(getAverageRating(product.reviews));
+    /*add product's previous reviews*/
+    if (product.reviews) {
+      for (let r of product.reviews) {
+        currentProductReviews.innerHTML += `   <div class="single-review">
+            <p class="sm-text">${r.comment}</p>
+            <p class="sm-text">${r.rating} ★ out of 5</p>
+          </div>`;
+      }
+    } else {
+      currentProductReviews.innerHTML = `   <div class="single-review">
+            <p class="sm-text">No reviews yet!</p>
+            <p class="sm-text">Be the first to review this product</p>
+          </div>`;
+    }
+    this.document.getElementById("overlay").style.display = "none";
+  }
+
   console.log(product);
-  let currentProductDesc = this.document.querySelector(".product-desc");
-  let currentProductPrice = this.document.querySelector(".produc-price");
-  let currentProductMainImg = this.document.querySelector(".produc-main-img");
-  let currentProductCartBtn = this.document.querySelector(
-    "  .current-product-cart-btn"
-  );
 
   function fillStars(rating) {
     if (rating) {
@@ -38,30 +72,7 @@ window.addEventListener("load", async function () {
   }
   updateNav();
   /*reviews input*/
-  let currentProductReviews = this.document.querySelector("#reviews-conainer");
-  /*product details*/
-  currentProductTitle.innerHTML = product.title;
-  currentProductDesc.innerHTML = product.description;
-  currentProductMainImg.src = product.image;
-  currentProductPrice.innerHTML = "$" + product.price;
-  currentProductCartBtn.setAttribute("data-id", product.id);
 
-  fillStars(getAverageRating(product.reviews));
-
-  /*add product's previous reviews*/
-  if (product.reviews) {
-    for (let r of product.reviews) {
-      currentProductReviews.innerHTML += `   <div class="single-review">
-            <p class="sm-text">${r.comment}</p>
-            <p class="sm-text">${r.rating} ★ out of 5</p>
-          </div>`;
-    }
-  } else {
-    currentProductReviews.innerHTML = `   <div class="single-review">
-            <p class="sm-text">No reviews yet!</p>
-            <p class="sm-text">Be the first to review this product</p>
-          </div>`;
-  }
   /*product cusomter reveiw form*/
   const bar = document.getElementById("rating-bar");
   const fill = document.getElementById("rating-fill");
@@ -241,12 +252,13 @@ window.addEventListener("load", async function () {
       console.log(products);
       productsContainer.innerHTML = "";
       for (let k of products) {
-        productsContainer.innerHTML += `<div class="box">
+        if (k.approved) {
+          productsContainer.innerHTML += `<div class="box">
              <a href="/product.html?id=${k.id}">
                <div>
                  <img
                    class="product-img"
-                   src="../${k.image}"
+                   src="${k.image}"
                  />
                </div>
                <div class="content">
@@ -263,6 +275,7 @@ window.addEventListener("load", async function () {
                >add to cart</a
              >
            </div>`;
+        }
       }
     } else {
       productsContainer.innerHTML = `<p class="xl-text dark-color text-center grid-full pt-40">No products</p>`;

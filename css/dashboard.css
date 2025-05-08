@@ -108,6 +108,10 @@ form button {
 form input {
   border-radius: 0;
 }
+.thumb {
+  max-width: 100px;
+  max-height: 100px;
+}
 @media all and (max-width: 830px) {
   .sidebar {
     width: 70px;

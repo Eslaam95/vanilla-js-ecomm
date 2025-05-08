@@ -10,6 +10,7 @@ import {
   getOrdersBySellerId,
   updateNav,
   showPassword,
+  toBase64,
 } from "./helper-functions.js";
 
 import { handleProfileUpdate } from "./profile-update.js";
@@ -61,10 +62,10 @@ window.addEventListener("load", async function () {
       productSum.textContent = totalProducts;
       const pendingProducts = products.filter((p) => !p.approved).length;
       pendingProductsElement.textContent = pendingProducts;
-
-      products.forEach((product) => {
-        const row = productsTable.insertRow();
-        row.innerHTML = `
+      if (products.length > 0) {
+        products.forEach((product) => {
+          const row = productsTable.insertRow();
+          row.innerHTML = `
           <td>${product.id}</td>
           <td>${product.title}</td>
           <td>$${product.price.toFixed(2)}</td>
@@ -78,8 +79,10 @@ window.addEventListener("load", async function () {
             }">Delete</button>
           </td>
         `;
-      });
-
+        });
+      } else {
+        productsTable.innerHTML += `   <td class="center=text">You didn't add any products yet.</td>`;
+      }
       //***************************************************************************************************************** */
       //Display Orders For Seller
       const sellerOrders = await getOrdersBySellerId(userobj.id);
@@ -88,10 +91,10 @@ window.addEventListener("load", async function () {
       ).length;
       orderSum.textContent = sellerOrders.length;
       pendingOrdersSum.textContent = pendingOrdersCount;
-
-      sellerOrders.forEach((order) => {
-        const row = ordersTable.insertRow();
-        row.innerHTML = `
+      if (sellerOrders.length > 0) {
+        sellerOrders.forEach((order) => {
+          const row = ordersTable.insertRow();
+          row.innerHTML = `
           <td>${order.id}</td>
           <td>${order.items.reduce(
             (sum, item) => sum + (item.quantity || 1),
@@ -112,7 +115,10 @@ window.addEventListener("load", async function () {
             }
           </td>
         `;
-      });
+        });
+      } else {
+        ordersTable.innerHTML += `   <td class="center=text">You don't have any orders</td>`;
+      }
     } catch (error) {
       console.error("Error loading data:", error);
       // alert("Failed to load dashboard data");
@@ -168,10 +174,19 @@ window.addEventListener("load", async function () {
       productDescription.value = product.description;
       productPrice.value = product.price;
       productCategory.value = product.categoryId;
-      productImage.value = product.image;
+      // productImage.value = product.image;
+      productThumb.src = product.image;
     }
   });
-
+  productImage.addEventListener("change", async (e) => {
+    if (e.target.files.length > 0) {
+      productThumb.style.display = "block";
+      const file = e.target.files[0];
+      if (!file) return;
+      let imageSrc = await toBase64(file);
+      productThumb.src = imageSrc;
+    }
+  });
   //Edit product Logic and Validations
   saveProductBtn.addEventListener("click", async function (e) {
     e.preventDefault();
@@ -180,7 +195,7 @@ window.addEventListener("load", async function () {
     const description = productDescription.value.trim();
     const price = parseFloat(productPrice.value);
     const categoryId = productCategory.value.trim();
-    const image = productImage.value.trim();
+    // const image = productImage.value.trim();
 
     if (!title || !description || !categoryId) {
       // alert("Please fill in all the required fields.");
@@ -207,7 +222,9 @@ window.addEventListener("load", async function () {
       description,
       price,
       categoryId,
-      image,
+      ...(productImage.files.length > 0 && {
+        image: await toBase64(productImage.files[0]),
+      }),
     };
 
     await updateProduct(productId.value, updatedProduct);
@@ -226,6 +243,7 @@ window.addEventListener("load", async function () {
     productCategory.value = "";
     productImage.value = "";
     productTitle.value = "";
+    productThumb.style.display = "none";
   });
   //Add New Product
   addProductBtn.addEventListener("click", async function (e) {
@@ -235,7 +253,7 @@ window.addEventListener("load", async function () {
     const description = productDescription.value.trim();
     const price = parseFloat(productPrice.value);
     const categoryId = productCategory.value.trim();
-    const image = productImage.value.trim();
+    // const image = productImage.value.trim();
     const sellerId = userobj.id;
 
     if (!title || !description || !categoryId) {
@@ -263,9 +281,11 @@ window.addEventListener("load", async function () {
       description,
       price,
       categoryId,
-      image,
       sellerId: sellerId,
       approved: false,
+      ...(productImage.files.length > 0 && {
+        image: await toBase64(productImage.files[0]),
+      }),
     };
 
     await addProduct(updatedProduct);
@@ -282,7 +302,7 @@ window.addEventListener("load", async function () {
       //   deleteOrder(orderID);
       // }
       Swal.fire({
-        title: "Do you want to delete this product?",
+        title: "Do you want to cancel this order?",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Yes",
@@ -290,8 +310,8 @@ window.addEventListener("load", async function () {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          deleteProduct(productID);
-          Swal.fire("Deleted!", "", "success");
+          deleteOrder(orderID);
+          Swal.fire("Canceled!", "", "success");
         } else if (result.isDenied) {
           Swal.fire("Changes are not saved", "", "info");
         }
