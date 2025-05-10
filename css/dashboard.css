@@ -123,13 +123,16 @@ form input {
     width: 100%;
     bottom: 0;
     padding: 15px;
+    min-height: 60px;
+    display: flex;
+    justify-content: space-around;
   }
-  .sidebar > .container {
+  .sidebar > .container-s {
     position: static;
   }
   .sidebar ul {
     display: flex;
-
+    gap: 20px;
     margin-top: 0;
     align-items: center;
     justify-content: space-around;
