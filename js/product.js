@@ -260,7 +260,7 @@ window.addEventListener("load", async function () {
         if (k.approved) {
           productsContainer.innerHTML += `<div class="box">
              <a href="/product.html?id=${k.id}">
-               <div>
+               <div class="prod-img">
                  <img
                    class="product-img"
                    src="${k.image}"

@@ -94,6 +94,11 @@
           "customerId": "3",
           "rating": 3,
           "comment": "Meduim Quality"
+        },
+        {
+          "customerId": "3",
+          "rating": 3.6,
+          "comment": "test "
         }
       ]
     },
@@ -361,6 +366,23 @@
           "productId": "4",
           "quantity": 1,
           "price": 829.99
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "2f13",
+      "customerId": "1",
+      "items": [
+        {
+          "productId": "bb8e",
+          "quantity": 1,
+          "price": 120
+        },
+        {
+          "productId": "e001",
+          "quantity": 1,
+          "price": 200
         }
       ],
       "status": "pending"
