@@ -5,7 +5,7 @@ This is a browser-based eCommerce application built using **HTML**, **CSS**, and
 ## 👨‍💻 Built By
 
 - Bahaa
-- Eslam
+- Eslaam
 
 # E-commerce Website
 
