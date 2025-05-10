@@ -518,7 +518,7 @@ export function paginateTable(tableId, rowsPerPage = 5) {
   const tbody = table.querySelector("tbody");
   const rows = Array.from(tbody.rows);
   const totalPages = Math.ceil(rows.length / rowsPerPage);
-  let currentPage = 1;
+  let currentPage = 0;
 
   function showPage(page) {
     tbody.innerHTML = "";
