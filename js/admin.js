@@ -109,9 +109,9 @@ window.addEventListener("load", async function () {
           }">Delete</button>
         </td>
       `;
-          if (products.length > 5) {
-            paginateTable("productsTable");
-          }
+          // if (products.length > 5) {
+          //   paginateTable("productsTable");
+          // }
         });
       } else {
         productsTable.querySelector(
