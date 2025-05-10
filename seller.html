@@ -12,177 +12,170 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
-    <script type="module" src="js/seller.js"></script>
-  </head>
-  <body>
-    <!--============-->
-    <!--Header-->
-    <!--============-->
-    <header>
-      <div class="container between-flex p-20">
-        <div class="logo">
-          <a href="index.html">
-            <img src="assets/UNITED DEALS.png" alt="logo" />
-          </a>
-        </div>
-        <nav class="main-nav flex">
-          <ul class="p-20 main-menu">
-            <li>
-              <a href="/#products">Products</a>
-            </li>
-            <li>
-              <a href="/#products">Categories</a>
-            </li>
-            <li>
-              <a href="#">Contact us</a>
-            </li>
-          </ul>
-          <div class="login">
-            <!-- <a href="#" class="btn header-btn bg-transparent active">Login</a><a href="signup.html" class="btn header-btn white-color bg-blue">Sign up</a> -->
-          </div>
-        </nav>
+  <script type="module" src="js/seller.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="container between-flex p-20">
+      <div class="logo">
+        <a href="index.html">
+          <img src="assets/UNITED DEALS.png" alt="logo" />
+        </a>
       </div>
-    </header>
-    <div class="page flex">
-    <!--============-->
-    <!--Sidebar-->
-    <!--============-->
-      <aside class="bg-blue intro-section sidebar">
-        <div class="container-s">
-          <h3 class="white-color text-left">Seller Dashboard</h3>
-          <ul class="mt-20">
-            <a href="#insights">
-              <li class="mt-10 white-color">
-                <img src="assets/images/icons/insights.png" />
-                <p>Insights</p>
-              </li>
-            </a>
-            <a href="#products">
-              <li class="mt-10 white-color">
-                <img src="assets/images/icons/products.png" />
-                <p>Products</p>
-              </li>
-            </a>
-            <a href="#orders">
-              <li class="mt-10 white-color">
-                <img src="assets/images/icons/orders.png" />
-                <p>Orders</p>
-              </li>
-            </a>
-            <a href="#settings">
-              <li class="mt-10 white-color">
-                <img src="assets/images/icons/profile.png" />
-                <p>Settings</p>
-              </li>
-            </a>
-          </ul>
+      <nav class="main-nav flex">
+        <ul class="p-20 main-menu">
+          <li><a href="/#products">Products</a></li>
+          <li><a href="/#products">Categories</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+        <div class="login">
+          <!-- <a href="#" class="btn header-btn bg-transparent active">Login</a>
+          <a href="signup.html" class="btn header-btn white-color bg-blue">Sign up</a> -->
         </div>
-      </aside>
-      <!--  -->
-      <!--  -->
-      <main>
-           <!--============-->
-          <!--Insights section-->
-          <!--============-->
-        <section class="status p-section" id="insights">
-          <div class="section-title container">
-            <p class="hello dark-color text-left sm-text"></p>
-            <h2 class="text-left p-20">Store Insights</h2>
-          </div>
-          <div class="grid-4 container">
-            <div class="box">
-              <div class="content">
-                <h3 class="dark-color text-center">Total Products</h3>
-                <p class="md-text grey-color pt-20 productSum text-center strong">-</p>
-              </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page flex">
+    <aside class="bg-blue intro-section sidebar">
+      <div class="container">
+        <h3 class="white-color text-left">Seller Dashboard</h3>
+        <ul class="mt-20">
+          <a href="#insights">
+            <li class="mt-10 white-color"><img src="assets/images/icons/insights.png" />
+              <p>Insights</p>
+            </li>
+          </a>
+          <a href="#products">
+            <li class="mt-10 white-color"><img src="assets/images/icons/products.png" />
+              <p>Products</p>
+            </li>
+          </a>
+          <a href="#orders">
+            <li class="mt-10 white-color"><img src="assets/images/icons/orders.png" />
+              <p>Orders</p>
+            </li>
+          </a>
+          <a href="#settings">
+            <li class="mt-10 white-color"><img src="assets/images/icons/profile.png" />
+              <p>Settings</p>
+            </li>
+          </a>
+        </ul>
+      </div>
+    </aside>
+
+
+
+
+    <!--  -->
+    <!--  -->
+    <main>
+
+      <section class="status p-section" id="insights">
+        <div class="section-title container">
+          <p class="hello dark-color text-left sm-text"></p>
+
+          <h2 class="text-left p-20">Store Insights</h2>
+        </div>
+        <div class="grid-4 container">
+          <div class="box">
+            <div class="content">
+              <h3 class="dark-color text-center">Total Products</h3>
+              <p class="sm-text grey-color pt-20 productSum text-center">-</p>
             </div>
-            <div class="box">
-              <div class="content">
-                <h3 class="dark-color text-center">Pending Products</h3>
-                <p class="md-text grey-color pt-20 pendingProducts text-center strong">-</p>
-              </div>
-            </div>
-            <div class="box">
-              <div class="content">
-                <h3 class="dark-color text-center">Orders</h3>
-                <p class="md-text grey-color pt-20 OrderSum text-center strong">-</p>
-              </div>
-            </div>
-            <div class="box">
-              <div class="content">
-                <h3 class="dark-color text-center">Pending Orders</h3>
-                <p class="md-text grey-color pt-20 pendingOrdersSum text-center strong">-</p>
-              </div>
+          </div>
+          <div class="box">
+            <div class="content">
+              <h3 class="dark-color text-center">Pending Products</h3>
+              <p class="sm-text grey-color pt-20 pendingProducts text-center">-</p>
             </div>
           </div>
-        </section>
-        <!--============-->
-        <!--Product management section-->
-        <!--============-->
-        <section class="p-section productMangement" id="products">
-          <div class="container">
-            <div class="section-title ">
-              <h2 class="text-left p-20">Product Managment</h2>
+          <div class="box">
+            <div class="content">
+              <h3 class="dark-color text-center">Orders</h3>
+              <p class="sm-text grey-color pt-20 OrderSum text-center">-</p>
             </div>
-            <button class="add add-product bg-blue mt-40 ">Add new Product</button>
-            <table id="productsTable" class="mt-20">
-              <thead>
-                <tr>
-                  <th>Product ID</th>
-                  <th>Title</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Product rows will be dynamically inserted here -->
-              </tbody>
-            </table>
           </div>
-        </section>
-        <!--============-->
-        <!--Order management section-->
-        <!--============-->
-        <section class="p-section orderMangement" id="orders">
-          <div class="section-title container">
-            <h2 class="text-left p-20">Order Management</h2>
+          <div class="box">
+            <div class="content">
+              <h3 class="dark-color text-center">Pending Orders</h3>
+              <p class="sm-text grey-color pt-20 pendingOrdersSum text-center">-</p>
+            </div>
           </div>
-          <div class="container">
-            <table id="ordersTable" class="mt-40">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Items</th>
-                  <th>Customer ID</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Order rows will be inserted here via JavaScript -->
-              </tbody>
-            </table>
+        </div>
+      </section>
+
+
+      <section class="p-section productMangement" id="products">
+        <div class="container">
+          <div class="section-title ">
+            <h2 class="text-left p-20">Product Managment</h2>
           </div>
-        </section>
-        <!--============-->
-        <!--Profile Settings section-->
-        <!--============-->
-        <section class="p-section profile-sec" id="settings">
-          <div class="section-title container">
-            <h2 class="text-left p-20">Profile Settings</h2>
-          </div>
-          <div class="container grid-2 mt-20">
-            <div class="text-content mt-40 box  p-40">
-              <h3 class="dark-color">Update Personal Info:</h3>
-              <form id="updateInfoForm">
-                <label for="nameUpdate">Full name:</label>
-                <input type="text" id="nameUpdate" name="name" placeholder="Enter your name" required />
-                <div id="nameUpdate-error" class="error">Invalid name format</div>
-                <label for="emailUpdate">Email:</label>
-                <input type="email" id="emailUpdate" name="email" placeholder="Enter your email" required />
-                <div id="emailUpdate-error" class="error">Invalid email format</div>
-                <!-- <label for="profilepic">Profile pic path:</label><input
+          <button class="add add-product bg-blue mt-40 ">Add new Product</button>
+
+          <table id="productsTable" class="mt-20">
+            <tr>
+              <th>Product ID</th>
+              <th>Title</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+
+          </table>
+        </div>
+      </section>
+
+      <section class="p-section orderMangement" id="orders">
+        <div class="section-title container">
+          <h2 class="text-left p-20">Order Management</h2>
+        </div>
+        <div class="container">
+
+          <table id="ordersTable" class="mt-40">
+            <tr>
+              <th>Order ID</th>
+              <th>Items</th>
+              <th>Customer ID</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </table>
+      </section>
+
+
+      <section class="p-section profile-sec" id="settings">
+        <div class="section-title container">
+          <h2 class="text-left p-20">Profile Settings</h2>
+        </div>
+        <div class="container grid-2 mt-20">
+          <div class="text-content mt-40 box  p-40">
+            <h3 class="dark-color">Update Personal Info:</h3>
+            <form id="updateInfoForm" >
+    
+              <label for="nameUpdate">Full name:</label>
+              <input
+                type="text"
+                id="nameUpdate"
+                name="name"
+                placeholder="Enter your name"
+                required
+              />
+              <div id="nameUpdate-error" class="error">Invalid name format</div>
+      
+              <label for="emailUpdate">Email:</label>
+              <input
+                type="email"
+                id="emailUpdate"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+              <div id="emailUpdate-error" class="error">Invalid email format</div>
+              <!-- <label for="profilepic">Profile pic path:</label>
+              <input
                 type="text"
                 id="profilepic"
                 name="profilepic"
