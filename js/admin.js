@@ -110,7 +110,7 @@ window.addEventListener("load", async function () {
         </td>
       `;
           // if (products.length > 5) {
-          //   paginateTable("productsTable");
+          //   paginateTable("productsTable", 5);
           // }
         });
       } else {
@@ -141,9 +141,9 @@ window.addEventListener("load", async function () {
           <button class="delete delete-user" data-id="${user.id}">Delete</button>
         </td>
       `;
-        if (users.length > 7) {
-          paginateTable("usersTable");
-        }
+        // if (users.length > 7) {
+        //   paginateTable("usersTable");
+        // }
       });
 
       const orders = await getAllOrders();
@@ -180,9 +180,9 @@ window.addEventListener("load", async function () {
           "tbody"
         ).innerHTML += `   <td class="center=text">You don't have any orders</td>`;
       }
-      if (orders.length > 5) {
-        paginateTable("ordersTable");
-      }
+      // if (orders.length > 5) {
+      //   paginateTable("ordersTable");
+      // }
     } catch (error) {
       console.error("Error loading data:", error);
       // alert("Failed to load dashboard data");

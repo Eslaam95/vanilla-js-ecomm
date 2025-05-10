@@ -516,15 +516,17 @@ export function updateNav() {
 export function paginateTable(tableId, rowsPerPage = 5) {
   const table = document.getElementById(tableId);
   const tbody = table.querySelector("tbody");
-  const rows = Array.from(tbody.rows);
-  const totalPages = Math.ceil(rows.length / rowsPerPage);
-  let currentPage = 0;
+
+  // Clone rows to preserve the original data
+  const allRows = Array.from(tbody.rows).map((row) => row.cloneNode(true));
+  const totalPages = Math.ceil(allRows.length / rowsPerPage);
+  let currentPage = 1;
 
   function showPage(page) {
     tbody.innerHTML = "";
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-    const visibleRows = rows.slice(start, end);
+    const visibleRows = allRows.slice(start, end);
     visibleRows.forEach((row) => tbody.appendChild(row));
     renderPagination();
   }

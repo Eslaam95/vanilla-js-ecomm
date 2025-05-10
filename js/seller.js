@@ -80,9 +80,9 @@ window.addEventListener("load", async function () {
             }">Delete</button>
           </td>
         `;
-          if (products.length > 7) {
-            paginateTable("productsTable");
-          }
+          // if (products.length > 7) {
+          //   paginateTable("productsTable");
+          // }
         });
       } else {
         productsTable.querySelector(
@@ -123,9 +123,9 @@ window.addEventListener("load", async function () {
           }
         </td>
         `;
-          if (sellerOrders.length > 7) {
-            paginateTable("ordersTable");
-          }
+          // if (sellerOrders.length > 7) {
+          //   paginateTable("ordersTable");
+          // }
         });
       } else {
         ordersTable.querySelector(

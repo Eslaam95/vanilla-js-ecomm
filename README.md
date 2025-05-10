@@ -9,6 +9,28 @@ This is a browser-based eCommerce application built using **HTML**, **CSS**, and
 
 # E-commerce Website
 
+## Follow these steps to run the project locally:
+
+1- Clone repo or Download the ZIP file from GitHub
+and navigate to the Project Folder
+
+2- Open the folder in your code editor (e.g., VS Code).
+
+3- Start JSON Server
+Open a terminal in the project root where the `index.html` file is located and run:
+
+`json-server --watch DB/example.json`
+
+3- Run the Website Using Live Server
+In VS Code, right-click index.html and choose "Open with Live Server".
+
+4- Go to the login page and enter the admin credentials
+
+Email:
+`admin@example.com`
+Password:
+`password`
+
 ![alt text](assets/ReadmeImages/hero-section.PNG)
 ![alt text](assets/ReadmeImages/image-13.png)
 ![alt text](assets/ReadmeImages/image-14.png)
