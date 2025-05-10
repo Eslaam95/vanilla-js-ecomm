@@ -99,6 +99,12 @@ a.btn.active {
 .btn.bg-blue:hover {
   background-color: #033777;
 }
+.bg-red {
+  background: #dc1c24;
+}
+.bg-red:hover {
+  background: #c4171d;
+}
 .bg-white {
   background-color: white;
 }
@@ -332,6 +338,12 @@ header {
   .p-section {
     padding: 40px 20px;
   }
+  .between-flex {
+    justify-content: center;
+  }
+  .box {
+    margin-top: 20px;
+  }
 }
 
 /*form styles*/
@@ -460,13 +472,16 @@ button.cancel {
   background-color: #dc1c24;
 }
 
-button.approve,
-button.deliver {
-  background-color: #55c28b;
+button.approve {
+  background-color: #0c59b6;
   min-width: 100px;
 }
 button.disapprove {
   background-color: #b70f16;
+  min-width: 100px;
+}
+button.deliver {
+  background-color: #55c28b;
   min-width: 100px;
 }
 /*profile section*/
@@ -553,10 +568,30 @@ button.disapprove {
 .product-list .single-element .product-thumb img {
   max-width: 100px;
 }
-
+.cart-action {
+  display: flex;
+  gap: 10px;
+}
 /******************/
-div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
+.swal2-popup {
+  padding-bottom: 30px;
+}
+.swal2-title {
+  display: block;
+  color: #121212;
+  font-size: 22px;
+  margin-top: 17px;
+}
+.swal2-html-container {
+  color: #141414;
+}
+.swal2-confirm {
   background-color: #0d5ab6;
+  border-radius: 0;
+}
+.swal2-cancel {
+  background-color: #111;
+  border-radius: 0 !important;
 }
 footer {
   background: #111;
@@ -565,4 +600,21 @@ footer {
 ; */
   /* flex-direction: column; */
   text-align: center;
+}
+
+.pagination {
+  margin-top: 10px;
+  text-align: center;
+}
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  cursor: pointer;
+  color: #121212;
+}
+.pagination button.active {
+  background: #007bff;
+  color: white;
 }

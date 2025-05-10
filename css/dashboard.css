@@ -42,7 +42,7 @@ main .container {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
 }
@@ -91,9 +91,10 @@ form select,
 form textarea {
   min-width: 80%;
   margin-top: 8px;
+  max-width: 90%;
 }
 form textarea {
-  min-height: 100px;
+  min-height: 70px;
   padding: 10px;
 }
 form button {
@@ -107,6 +108,7 @@ form button {
 }
 form input {
   border-radius: 0;
+  max-width: 90%;
 }
 .thumb {
   max-width: 100px;
@@ -141,6 +143,38 @@ form input {
   table {
     max-width: 100%;
     display: inline-block;
+    overflow-x: scroll;
+  }
+  td {
+    text-align: center;
+  }
+  td button {
+    width: 100%;
+    margin-top: 5px;
+  }
+}
+@media all and (max-width: 769px) {
+  .modal {
+    justify-content: flex-start;
+    align-items: flex-start;
+    top: 5vw;
+  }
+  .modal-content {
+    min-width: 70vw !important;
+    max-width: 90vw;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  #editProductForm {
+    grid-template-columns: 1fr !important;
+    max-height: 80vh;
     overflow-y: scroll;
+  }
+  form button {
+    grid-column: 1;
+  }
+  form label,
+  form > div {
+    max-width: 80%;
   }
 }

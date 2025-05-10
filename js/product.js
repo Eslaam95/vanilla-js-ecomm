@@ -177,7 +177,12 @@ window.addEventListener("load", async function () {
       renderCartUI();
     }
   });
-
+  document.addEventListener("click", async function (e) {
+    if (e.target.classList.contains("clear-cart")) {
+      localStorage.removeItem("cart");
+      renderCartUI();
+    }
+  });
   function renderCartUI() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartList = document.querySelector(".cart .product-list");
@@ -214,7 +219,7 @@ window.addEventListener("load", async function () {
 
     document.querySelector(
       ".cart-action"
-    ).innerHTML = `<a class="btn bg-blue white-color mt-20" href="checkout.html">Checkout</a>`;
+    ).innerHTML = `<a class="btn bg-blue white-color mt-20" href="checkout.html">Checkout</a><a class="btn clear-cart bg-red white-color mt-20" >Clear </a>`;
   }
 
   document.addEventListener("click", function (e) {

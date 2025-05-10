@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JS Ecomm</title>
+    <link rel="icon" type="image/png" href="assets/images/icons/Icon.png" />
     <link href="css/global.css" rel="stylesheet" />
     <link href="css/product.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,6 +15,9 @@
     />
   </head>
   <body>
+    <!--============-->
+    <!--Header-->
+    <!--============-->
     <header>
       <div class="container between-flex p-20">
         <div class="logo">
@@ -36,11 +40,17 @@
         </nav>
       </div>
     </header>
+    <!--============-->
+    <!--Intro Section-->
+    <!--============-->
     <section class="bg-blue intro-section">
       <div class="container">
         <h1 class="white-color text-center">Checkout!</h1>
       </div>
     </section>
+    <!--============-->
+    <!--Cart Section-->
+    <!--============-->
     <section class="p-section">
       <div class="container">
         <div class="checkout-cart">
@@ -52,7 +62,9 @@
         </div>
       </div>
     </section>
-
+    <!--============-->
+    <!--Checkout logic-->
+    <!--============-->
     <script type="module">
       import { updateNav, addOrder } from "./js/helper-functions.js";
       updateNav();

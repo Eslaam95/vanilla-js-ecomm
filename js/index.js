@@ -10,14 +10,13 @@ window.addEventListener("load", async function () {
   let productsContainer = document.querySelector("#products-container");
   let products = await getAllProducts();
   renderProducts(products);
-
   /*filter products on changing the filter inputs*/
   document
     .querySelector(".search-products-input")
     .addEventListener("input", filterproducts);
-  // document
-  //   .querySelector(".select-category")
-  //   .addEventListener("change", filterproducts);
+  document
+    .querySelector(".select-category")
+    .addEventListener("change", filterproducts);
   document
     .querySelector(".select-price")
     .addEventListener("change", filterproducts);
@@ -37,7 +36,7 @@ window.addEventListener("load", async function () {
 
   /*
     add to cart button
-    - check logg in user
+    - check logged in user
     - check local storage
     - check if item exists
     */
@@ -79,7 +78,12 @@ window.addEventListener("load", async function () {
       renderCartUI();
     }
   });
-
+  document.addEventListener("click", async function (e) {
+    if (e.target.classList.contains("clear-cart")) {
+      localStorage.removeItem("cart");
+      renderCartUI();
+    }
+  });
   /*render array of products into the html container*/
   function renderProducts(products) {
     if (products.length) {
@@ -121,26 +125,34 @@ window.addEventListener("load", async function () {
     const searchTerm = document
       .querySelector(".search-products-input")
       .value.toLowerCase();
-    // const selectedCategory = document.querySelector(".select-category").value;
+    const selectedCategory = document.querySelector(".select-category").value;
     const sortOrder = document.querySelector(".select-price").value;
+
     let filtered = products.filter((product) => {
       const matchesSearch =
         product.title.toLowerCase().includes(searchTerm) ||
         product.description.toLowerCase().includes(searchTerm);
-      // const matchesCategory = selectedCategory
-      //   ? product.category === selectedCategory
-      //   : true;
-      return matchesSearch /*&& matchesCategory*/;
+
+      // Only apply category filter if a valid category is selected
+      const matchesCategory = selectedCategory
+        ? (product.category || "").toLowerCase() ===
+          selectedCategory.toLowerCase()
+        : true;
+
+      return matchesSearch && matchesCategory;
     });
 
+    // Sorting by price
     if (sortOrder === "asc") {
       filtered.sort((a, b) => a.price - b.price);
     } else if (sortOrder === "desc") {
       filtered.sort((a, b) => b.price - a.price);
     }
 
+    // Render filtered and sorted products
     renderProducts(filtered);
   }
+
   /*render the cart from local storage into the html cart container*/
   function renderCartUI() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -178,7 +190,7 @@ window.addEventListener("load", async function () {
 
     document.querySelector(
       ".cart-action"
-    ).innerHTML = `<a class="btn bg-blue white-color mt-20" href="checkout.html">Checkout</a>`;
+    ).innerHTML = `<a class="btn bg-blue white-color mt-20" href="checkout.html">Checkout</a><a class="btn clear-cart bg-red white-color mt-20" >Clear </a>`;
   }
   /*
   handle cart items decrease/inrease 

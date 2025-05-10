@@ -4,6 +4,7 @@ import {
   getUserReviews,
   updateNav,
   showPassword,
+  paginateTable,
 } from "./helper-functions.js";
 import { handleProfileUpdate } from "./profile-update.js";
 
@@ -34,9 +35,10 @@ window.addEventListener("load", async function () {
 
   /*=============================*/
   let cusomterOrders = await customerOrders(userobj.id);
-  cusomterOrders.forEach((order) => {
-    const row = ordersTable.insertRow();
-    row.innerHTML = `
+  if (cusomterOrders.length) {
+    cusomterOrders.forEach((order) => {
+      const row = ordersTable.querySelector("tbody").insertRow();
+      row.innerHTML = `
     <td>${order.id}</td>
     <td>${order.items.reduce((sum, item) => sum + (item.quantity || 1), 0)}</td>
     <td>$${order.items
@@ -45,19 +47,32 @@ window.addEventListener("load", async function () {
     <td class="status-${order.status.toLowerCase()}">${order.status}</td>
    
   `;
-  });
+    });
+  } else {
+    ordersTable.querySelector(
+      "tbody"
+    ).innerHTML += `   <td class="center=text">You don't have any orders</td>`;
+  }
 
   let userReviews = await getUserReviews(userobj.id);
-  console.log(userReviews);
-  userReviews.forEach((review) => {
-    const row = reviewsTable.insertRow();
-    row.innerHTML = `
+  if (userReviews.length) {
+    userReviews.forEach((review) => {
+      const row = reviewsTable.querySelector("tbody").insertRow();
+      row.innerHTML = `
       <td>${review.productTitle}</td>
        <td>${review.rating}</td>
         <td>${review.comment}</td>
     
 
     `;
-  });
+      if (userReviews.length > 5) {
+        paginateTable("reviewsTable");
+      }
+    });
+  } else {
+    reviewsTable.querySelector(
+      "tbody"
+    ).innerHTML += `   <td class="center=text">You don't have any reviews</td>`;
+  }
   showPassword();
 });

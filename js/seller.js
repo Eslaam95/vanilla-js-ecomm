@@ -11,6 +11,7 @@ import {
   updateNav,
   showPassword,
   toBase64,
+  paginateTable,
 } from "./helper-functions.js";
 
 import { handleProfileUpdate } from "./profile-update.js";
@@ -64,7 +65,7 @@ window.addEventListener("load", async function () {
       pendingProductsElement.textContent = pendingProducts;
       if (products.length > 0) {
         products.forEach((product) => {
-          const row = productsTable.insertRow();
+          const row = productsTable.querySelector("tbody").insertRow();
           row.innerHTML = `
           <td>${product.id}</td>
           <td>${product.title}</td>
@@ -79,9 +80,14 @@ window.addEventListener("load", async function () {
             }">Delete</button>
           </td>
         `;
+          if (products.length > 7) {
+            paginateTable("productsTable");
+          }
         });
       } else {
-        productsTable.innerHTML += `   <td class="center=text">You didn't add any products yet.</td>`;
+        productsTable.querySelector(
+          "tbody"
+        ).innerHTML += `   <td class="center=text">You didn't add any products yet.</td>`;
       }
       //***************************************************************************************************************** */
       //Display Orders For Seller
@@ -93,7 +99,7 @@ window.addEventListener("load", async function () {
       pendingOrdersSum.textContent = pendingOrdersCount;
       if (sellerOrders.length > 0) {
         sellerOrders.forEach((order) => {
-          const row = ordersTable.insertRow();
+          const row = ordersTable.querySelector("tbody").insertRow();
           row.innerHTML = `
           <td>${order.id}</td>
           <td>${order.items.reduce(
@@ -104,20 +110,27 @@ window.addEventListener("load", async function () {
             order.customerId || "N/A"
           }</td> <!-- Changed from total price to customer ID -->
           <td class="status-${order.status.toLowerCase()}">${order.status}</td>
-          <td>
-            <button class="cancel cancel-order" data-id="${
-              order.id
-            }">Cancel</button>
-            ${
-              order.status === "pending"
-                ? `<button class="deliver deliver-order" data-id="${order.id}">Deliver</button>`
-                : ""
-            }
-          </td>
+         <td>
+          <button class="cancel cancel-order" data-id="${
+            order.id
+          }">Cancel</button>
+          ${
+            order.status === "pending"
+              ? `<button class="approve approve-order" data-id="${order.id}">Approve</button>`
+              : order.status === "shipped"
+              ? `<button class="deliver deliver-order" data-id="${order.id}">Deliver</button>`
+              : ""
+          }
+        </td>
         `;
+          if (sellerOrders.length > 7) {
+            paginateTable("ordersTable");
+          }
         });
       } else {
-        ordersTable.innerHTML += `   <td class="center=text">You don't have any orders</td>`;
+        ordersTable.querySelector(
+          "tbody"
+        ).innerHTML += `   <td class="center=text">You don't have any orders</td>`;
       }
     } catch (error) {
       console.error("Error loading data:", error);
@@ -173,7 +186,7 @@ window.addEventListener("load", async function () {
       productTitle.value = product.title;
       productDescription.value = product.description;
       productPrice.value = product.price;
-      productCategory.value = product.categoryId;
+      productCategory.value = product.category;
       // productImage.value = product.image;
       productThumb.src = product.image;
     }
@@ -194,10 +207,10 @@ window.addEventListener("load", async function () {
     const title = productTitle.value.trim();
     const description = productDescription.value.trim();
     const price = parseFloat(productPrice.value);
-    const categoryId = productCategory.value.trim();
+    const category = productCategory.value.trim();
     // const image = productImage.value.trim();
 
-    if (!title || !description || !categoryId) {
+    if (!title || !description || !category) {
       // alert("Please fill in all the required fields.");
       Swal.fire({
         icon: "error",
@@ -221,7 +234,7 @@ window.addEventListener("load", async function () {
       title,
       description,
       price,
-      categoryId,
+      category,
       ...(productImage.files.length > 0 && {
         image: await toBase64(productImage.files[0]),
       }),
@@ -252,11 +265,11 @@ window.addEventListener("load", async function () {
     const title = productTitle.value.trim();
     const description = productDescription.value.trim();
     const price = parseFloat(productPrice.value);
-    const categoryId = productCategory.value.trim();
+    const category = productCategory.value.trim();
     // const image = productImage.value.trim();
     const sellerId = userobj.id;
 
-    if (!title || !description || !categoryId) {
+    if (!title || !description || !category) {
       // alert("Please fill in all the required fields.");
       Swal.fire({
         icon: "error",
@@ -280,7 +293,7 @@ window.addEventListener("load", async function () {
       title,
       description,
       price,
-      categoryId,
+      category,
       sellerId: sellerId,
       approved: false,
       ...(productImage.files.length > 0 && {
@@ -319,13 +332,19 @@ window.addEventListener("load", async function () {
     }
   });
 
-  //deliver order
+  /*deliver order*/
+  document.addEventListener("click", async function (e) {
+    if (e.target.classList.contains("approve-order")) {
+      const orderID = e.target.getAttribute("data-id");
+
+      updateOrderStatus(orderID, "shipped");
+    }
+  });
   document.addEventListener("click", async function (e) {
     if (e.target.classList.contains("deliver-order")) {
       const orderID = e.target.getAttribute("data-id");
-      console.log(orderID);
-      updateOrderStatus(orderID, "shipped");
-      window.location.reload();
+
+      updateOrderStatus(orderID, "Delivered");
     }
   });
 

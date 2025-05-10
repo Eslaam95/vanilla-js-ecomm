@@ -21,6 +21,7 @@ import {
   showPassword,
   checkEmailExists,
   toBase64,
+  paginateTable,
 } from "./helper-functions.js";
 import { handleProfileUpdate } from "./profile-update.js";
 
@@ -45,7 +46,6 @@ window.addEventListener("load", async function () {
   const nameError = document.getElementById("name-error");
   const emailError = document.getElementById("email-error");
   const passwordError = document.getElementById("password-error");
-
   const userImage = document.getElementById("userImage");
   const userThumb = document.getElementById("userThumb");
   const saveUserBtn = document.getElementById("saveUser");
@@ -65,9 +65,6 @@ window.addEventListener("load", async function () {
   /*get cuurect user info and check if admin*/
   const DBUserobj = await getSingleUser(URLid);
   console.log(DBUserobj);
-  // if (DBUserobj) {
-  //   this.localStorage.setItem("loggedUser", JSON.stringify(DBUserobj));
-  // }
 
   // Load user data and verify admin status
   const userobj = JSON.parse(localStorage.getItem("loggedUser"));
@@ -90,9 +87,10 @@ window.addEventListener("load", async function () {
       const products = await getAllProducts();
       const totalProducts = products.length;
       productSum.textContent = totalProducts;
-      products.forEach((product) => {
-        const row = productsTable.insertRow();
-        row.innerHTML = `
+      if (products.length) {
+        products.forEach((product) => {
+          const row = productsTable.querySelector("tbody").insertRow();
+          row.innerHTML = `
         <td>${product.id}</td>
         <td>${product.title}</td>
         <td>$${product.price.toFixed(2)}</td>
@@ -111,8 +109,15 @@ window.addEventListener("load", async function () {
           }">Delete</button>
         </td>
       `;
-      });
-
+          if (products.length > 5) {
+            paginateTable("productsTable");
+          }
+        });
+      } else {
+        productsTable.querySelector(
+          "tbody"
+        ).innerHTML += `   <td class="center=text">You don't have any products</td>`;
+      }
       // Calculate pending products count
       const pendingProductsCount = products.filter(
         (product) => product.approved === false
@@ -124,7 +129,7 @@ window.addEventListener("load", async function () {
       userSum.textContent = users.length;
 
       users.forEach((user) => {
-        const row = usersTable.insertRow();
+        const row = usersTable.querySelector("tbody").insertRow();
 
         row.innerHTML = `
         <td>${user.id}</td>
@@ -136,14 +141,17 @@ window.addEventListener("load", async function () {
           <button class="delete delete-user" data-id="${user.id}">Delete</button>
         </td>
       `;
+        if (users.length > 7) {
+          paginateTable("usersTable");
+        }
       });
 
       const orders = await getAllOrders();
       orderSum.textContent = orders.length;
-
-      orders.forEach((order) => {
-        const row = ordersTable.insertRow();
-        row.innerHTML = `
+      if (orders.length) {
+        orders.forEach((order) => {
+          const row = ordersTable.querySelector("tbody").insertRow();
+          row.innerHTML = `
         <td>${order.id}</td>
         <td>${order.items.reduce(
           (sum, item) => sum + (item.quantity || 1),
@@ -159,12 +167,22 @@ window.addEventListener("load", async function () {
           }">Cancel</button>
           ${
             order.status === "pending"
+              ? `<button class="approve approve-order" data-id="${order.id}">Approve</button>`
+              : order.status === "shipped"
               ? `<button class="deliver deliver-order" data-id="${order.id}">Deliver</button>`
               : ""
           }
         </td>
       `;
-      });
+        });
+      } else {
+        ordersTable.querySelector(
+          "tbody"
+        ).innerHTML += `   <td class="center=text">You don't have any orders</td>`;
+      }
+      if (orders.length > 5) {
+        paginateTable("ordersTable");
+      }
     } catch (error) {
       console.error("Error loading data:", error);
       // alert("Failed to load dashboard data");
@@ -176,7 +194,9 @@ window.addEventListener("load", async function () {
       });
     }
   }
+  /********************************** */
   // Initialize the dashboard
+  /************************************ */
   loadData();
   /*
 =======================
@@ -439,7 +459,7 @@ window.addEventListener("load", async function () {
       productId.value = product.id;
       productDescription.value = product.description;
       productPrice.value = product.price;
-      productCategory.value = product.categoryId;
+      productCategory.value = product.category;
       productSeller.value = product.sellerId;
       /* productImage.value = product.image;*/
       productThumb.src = product.image;
@@ -467,7 +487,7 @@ window.addEventListener("load", async function () {
       let updatedProduct = {
         description: productDescription.value,
         price: Number(productPrice.value),
-        categoryId: productCategory.value,
+        category: productCategory.value,
         sellerId: productSeller.value,
         title: productTitle.value,
         approved: Boolean(productApproved.value),
@@ -512,7 +532,7 @@ window.addEventListener("load", async function () {
       let newProduct = {
         description: productDescription.value,
         price: Number(productPrice.value),
-        categoryId: productCategory.value,
+        category: productCategory.value,
         sellerId: productSeller.value,
 
         title: productTitle.value,
@@ -575,10 +595,17 @@ window.addEventListener("load", async function () {
 
   /*deliver order*/
   document.addEventListener("click", async function (e) {
-    if (e.target.classList.contains("deliver-order")) {
+    if (e.target.classList.contains("approve-order")) {
       const orderID = e.target.getAttribute("data-id");
 
       updateOrderStatus(orderID, "shipped");
+    }
+  });
+  document.addEventListener("click", async function (e) {
+    if (e.target.classList.contains("deliver-order")) {
+      const orderID = e.target.getAttribute("data-id");
+
+      updateOrderStatus(orderID, "Delivered");
     }
   });
 

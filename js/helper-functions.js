@@ -1,4 +1,8 @@
-//Admin Main export functions
+/*
+*******************
+user endpoint functions
+*******************
+*/
 export function getAllUsers() {
   return fetch("http://localhost:3000/users")
     .then((response) => response.json())
@@ -83,7 +87,11 @@ export function getAllSellerIds() {
     });
 }
 
-//Products Main export functions
+/*
+*******************
+product endpoint functions
+*******************
+*/
 export function getAllProducts() {
   return fetch("http://localhost:3000/products")
     .then((response) => response.json())
@@ -133,14 +141,6 @@ export function getSingleProduct(id) {
       return null;
     });
 }
-// export function getProductById(id) {
-//     return fetch(`http://localhost:3000/products/${id}`)
-//       .then((response) => response.json())
-//       .catch((error) => {
-//         console.error("Error fetching product:", error);
-//         return null;
-//       });
-//   }
 
 export function addProduct(newProduct) {
   fetch("http://localhost:3000/products", {
@@ -182,104 +182,6 @@ export function deleteProduct(id) {
     .catch((error) => console.error("Error deleting product:", error));
 }
 
-export function getAllOrders() {
-  return fetch("http://localhost:3000/orders")
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error("Error fetching orders:", error);
-      return [];
-    });
-}
-
-export async function getOrdersBySellerId(sellerId) {
-  const sellerProducts = await getAllProductsBySellerId(sellerId);
-  const sellerProductIds = sellerProducts.map((p) => String(p.id));
-
-  const allOrders = await getAllOrders();
-
-  return allOrders.filter((order) => {
-    // Skip if order has no items array
-    if (!order?.items || !Array.isArray(order.items)) return false;
-    // Check if any item belongs to this seller
-    return order.items.some(
-      (item) =>
-        item?.productId && sellerProductIds.includes(String(item.productId))
-    );
-  });
-}
-
-export function deleteOrder(orderId) {
-  return fetch(`http://localhost:3000/orders/${orderId}`, {
-    method: "DELETE",
-  })
-    .then(() => {
-      console.log(`Order with ID ${orderId} deleted successfully.`);
-    })
-    .catch((error) => {
-      console.error("Error deleting order:", error);
-    });
-}
-
-export function updateOrderStatus(orderId, newStatus) {
-  return fetch(`http://localhost:3000/orders/${orderId}`, {
-    method: "PATCH", // Use PATCH for partial update, or PUT if replacing entire order object
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ status: newStatus }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(`Order status updated:`, data);
-    })
-    .catch((error) => {
-      console.error("Error updating order status:", error);
-    });
-}
-// Validation helpers
-export function isValidEmail(email) {
-  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return pattern.test(email);
-}
-
-export function isValidName(name) {
-  const pattern = /^[A-Za-z\s]{4,}$/;
-  return pattern.test(name);
-}
-
-export function isValidPassword(password) {
-  return password.length >= 6;
-}
-export function validateEmail(mailElement, errorElement) {
-  if (!isValidEmail(mailElement.value)) {
-    errorElement.style.display = "block";
-    mailElement.style.border = "2px solid red";
-  } else {
-    errorElement.style.display = "none";
-    mailElement.style.border = "";
-  }
-  return isValidEmail(mailElement.value);
-}
-export function validateName(nameElement, errorElement) {
-  if (!isValidName(nameElement.value)) {
-    errorElement.style.display = "block";
-    nameElement.style.border = "2px solid red";
-  } else {
-    errorElement.style.display = "none";
-    nameElement.style.border = "";
-  }
-  return isValidName(nameElement.value);
-}
-export function validatepassword(passElement, errorElement) {
-  if (!isValidPassword(passElement.value)) {
-    errorElement.style.display = "block";
-    passElement.style.border = "2px solid red";
-  } else {
-    errorElement.style.display = "none";
-    passElement.style.border = "";
-  }
-  return isValidPassword(passElement.value);
-}
 /*get product average ratnings*/
 export function getAverageRating(reviews) {
   if (!reviews || reviews.length == 0) return;
@@ -287,7 +189,6 @@ export function getAverageRating(reviews) {
   const total = reviews.reduce((sum, review) => sum + review.rating, 0);
   return (total / reviews.length).toFixed(1); // return as string like "4.3"
 }
-
 /*add review to a product*/
 export async function addProductReview(
   productId,
@@ -398,33 +299,64 @@ export async function getUserReviews(customerId) {
 
   return reviews;
 }
+/*
+*******************
+orders endpoint functions
+*******************
+*/
+export function getAllOrders() {
+  return fetch("http://localhost:3000/orders")
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error("Error fetching orders:", error);
+      return [];
+    });
+}
 
-export function updateNav() {
-  let loginDiv = document.querySelectorAll(".main-nav .login")[0];
-  let userobj = JSON.parse(localStorage.getItem("loggedUser"));
-  console.log("sssssss", userobj);
-  if (userobj) {
-    loginDiv.innerHTML = `
-     ${
-       userobj.role === "admin"
-         ? '<a href="admin.html" class="btn header-btn bg-transparent" >Dashboard</a>'
-         : userobj.role === "seller"
-         ? '<a href="seller.html" class="btn header-btn bg-transparent ">Dashboard</a>'
-         : '<a href="customer.html" class="btn header-btn bg-transparent ">Dashboard</a>'
-     }
-    <a href="#" class="btn header-btn white-color bg-blue logout-btn">Logout</a>`;
-  } else {
-    loginDiv.innerHTML = `
-    <a href="login.html" class="btn header-btn bg-transparent login-btn">Login</a>
-    <a href="signup.html" class="btn header-btn white-color bg-blue signup-btn">Sign up</a>`;
-  }
+export async function getOrdersBySellerId(sellerId) {
+  const sellerProducts = await getAllProductsBySellerId(sellerId);
+  const sellerProductIds = sellerProducts.map((p) => String(p.id));
 
-  document.addEventListener("click", function (e) {
-    if (e.target && e.target.classList.contains("logout-btn")) {
-      localStorage.removeItem("loggedUser");
-      location.reload();
-    }
+  const allOrders = await getAllOrders();
+
+  return allOrders.filter((order) => {
+    // Skip if order has no items array
+    if (!order?.items || !Array.isArray(order.items)) return false;
+    // Check if any item belongs to this seller
+    return order.items.some(
+      (item) =>
+        item?.productId && sellerProductIds.includes(String(item.productId))
+    );
   });
+}
+
+export function deleteOrder(orderId) {
+  return fetch(`http://localhost:3000/orders/${orderId}`, {
+    method: "DELETE",
+  })
+    .then(() => {
+      console.log(`Order with ID ${orderId} deleted successfully.`);
+    })
+    .catch((error) => {
+      console.error("Error deleting order:", error);
+    });
+}
+
+export function updateOrderStatus(orderId, newStatus) {
+  return fetch(`http://localhost:3000/orders/${orderId}`, {
+    method: "PATCH", // Use PATCH for partial update, or PUT if replacing entire order object
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status: newStatus }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(`Order status updated:`, data);
+    })
+    .catch((error) => {
+      console.error("Error updating order status:", error);
+    });
 }
 
 export async function addOrder(cart, userId) {
@@ -463,6 +395,56 @@ export async function addOrder(cart, userId) {
     console.error("Error adding order:", error);
   }
 }
+
+/*
+*******************
+validation functions
+*******************
+*/
+export function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
+
+export function isValidName(name) {
+  const pattern = /^[A-Za-z\s]{4,}$/;
+  return pattern.test(name);
+}
+
+export function isValidPassword(password) {
+  return password.length >= 6;
+}
+export function validateEmail(mailElement, errorElement) {
+  if (!isValidEmail(mailElement.value)) {
+    errorElement.style.display = "block";
+    mailElement.style.border = "2px solid red";
+  } else {
+    errorElement.style.display = "none";
+    mailElement.style.border = "";
+  }
+  return isValidEmail(mailElement.value);
+}
+export function validateName(nameElement, errorElement) {
+  if (!isValidName(nameElement.value)) {
+    errorElement.style.display = "block";
+    nameElement.style.border = "2px solid red";
+  } else {
+    errorElement.style.display = "none";
+    nameElement.style.border = "";
+  }
+  return isValidName(nameElement.value);
+}
+export function validatepassword(passElement, errorElement) {
+  if (!isValidPassword(passElement.value)) {
+    errorElement.style.display = "block";
+    passElement.style.border = "2px solid red";
+  } else {
+    errorElement.style.display = "none";
+    passElement.style.border = "";
+  }
+  return isValidPassword(passElement.value);
+}
+
 export function showPassword() {
   const toggles = document.querySelectorAll(".toggle-password");
 
@@ -488,6 +470,13 @@ export async function checkEmailExists(email) {
     return false;
   }
 }
+
+/*
+*******************
+General UI funcs functions
+*******************
+*/
+/*convert image file to base64*/
 export const toBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -495,3 +484,72 @@ export const toBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
+/*update navigation based on current user*/
+export function updateNav() {
+  let loginDiv = document.querySelectorAll(".main-nav .login")[0];
+  let userobj = JSON.parse(localStorage.getItem("loggedUser"));
+  console.log("sssssss", userobj);
+  if (userobj) {
+    loginDiv.innerHTML = `
+     ${
+       userobj.role === "admin"
+         ? '<a href="admin.html" class="btn header-btn bg-transparent" >Dashboard</a>'
+         : userobj.role === "seller"
+         ? '<a href="seller.html" class="btn header-btn bg-transparent ">Dashboard</a>'
+         : '<a href="customer.html" class="btn header-btn bg-transparent ">Dashboard</a>'
+     }
+    <a href="#" class="btn header-btn white-color bg-blue logout-btn">Logout</a>`;
+  } else {
+    loginDiv.innerHTML = `
+    <a href="login.html" class="btn header-btn bg-transparent login-btn">Login</a>
+    <a href="signup.html" class="btn header-btn white-color bg-blue signup-btn">Sign up</a>`;
+  }
+
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.classList.contains("logout-btn")) {
+      localStorage.removeItem("loggedUser");
+      location.reload();
+    }
+  });
+}
+/*table pagination*/
+export function paginateTable(tableId, rowsPerPage = 5) {
+  const table = document.getElementById(tableId);
+  const tbody = table.querySelector("tbody");
+  const rows = Array.from(tbody.rows);
+  const totalPages = Math.ceil(rows.length / rowsPerPage);
+  let currentPage = 1;
+
+  function showPage(page) {
+    tbody.innerHTML = "";
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const visibleRows = rows.slice(start, end);
+    visibleRows.forEach((row) => tbody.appendChild(row));
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const existing = document.querySelector(`#${tableId}-pagination`);
+    if (existing) existing.remove();
+
+    const pagination = document.createElement("div");
+    pagination.id = `${tableId}-pagination`;
+    pagination.className = "pagination";
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.innerText = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.addEventListener("click", () => {
+        currentPage = i;
+        showPage(currentPage);
+      });
+      pagination.appendChild(btn);
+    }
+
+    table.parentElement.appendChild(pagination);
+  }
+
+  showPage(currentPage);
+}
