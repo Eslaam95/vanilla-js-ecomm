@@ -9,7 +9,7 @@ This is a browser-based eCommerce application built using **HTML**, **CSS**, and
 
 # E-commerce Website
 
-![alt text](assets/ReadmeImages/image-12.png)
+![alt text](assets/ReadmeImages/hero-section.PNG)
 ![alt text](assets/ReadmeImages/image-13.png)
 ![alt text](assets/ReadmeImages/image-14.png)
 ![alt text](assets/ReadmeImages/image-15.png)
@@ -89,7 +89,7 @@ This is a browser-based eCommerce application built using **HTML**, **CSS**, and
 - Use search functionality to find products.
 - Prompts for registration to access full features and make purchases.
 
-![alt text](assets/ReadmeImages/image-27.png)
+![alt text](assets/ReadmeImages/hero-section.PNG)
 ![alt text](assets/ReadmeImages/image-28.png)
 ![alt text](assets/ReadmeImages/image-29.png)
 
