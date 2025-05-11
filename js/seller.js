@@ -11,7 +11,6 @@ import {
   updateNav,
   showPassword,
   toBase64,
-  paginateTable,
 } from "./helper-functions.js";
 
 import { handleProfileUpdate } from "./profile-update.js";
@@ -57,40 +56,39 @@ window.addEventListener("load", async function () {
   async function loadData() {
     try {
       //***************************************************************************************************************** */
-      //Display Products For Seller
+      // Display Products For Seller
       const products = await getAllProductsBySellerId(userobj.id);
       const totalProducts = products.length;
       productSum.textContent = totalProducts;
       const pendingProducts = products.filter((p) => !p.approved).length;
       pendingProductsElement.textContent = pendingProducts;
       if (products.length > 0) {
+        const tbody = productsTable.querySelector("tbody");
         products.forEach((product) => {
-          const row = productsTable.querySelector("tbody").insertRow();
-          row.innerHTML = `
-          <td>${product.id}</td>
-          <td>${product.title}</td>
-          <td>$${product.price.toFixed(2)}</td>
-          <td>${product.approved ? "Approved" : "Pending"}</td>
-          <td>
-            <button class="edit edit-product" data-id="${
-              product.id
-            }">Edit</button>
-            <button class="delete delete-product" data-id="${
-              product.id
-            }">Delete</button>
-          </td>
+          tbody.innerHTML += `
+          <tr>
+            <td>${product.id}</td>
+            <td>${product.title}</td>
+            <td>$${product.price.toFixed(2)}</td>
+            <td>${product.approved ? "Approved" : "Pending"}</td>
+            <td>
+              <button class="edit edit-product" data-id="${
+                product.id
+              }">Edit</button>
+              <button class="delete delete-product" data-id="${
+                product.id
+              }">Delete</button>
+            </td>
+          </tr>
         `;
-          // if (products.length > 7) {
-          //   paginateTable("productsTable");
-          // }
         });
       } else {
-        productsTable.querySelector(
-          "tbody"
-        ).innerHTML += `   <td class="center=text">You didn't add any products yet.</td>`;
+        productsTable.querySelector("tbody").innerHTML += `
+        <tr><td colspan="5" class="center-text">You didn't add any products yet.</td></tr>
+      `;
       }
       //***************************************************************************************************************** */
-      //Display Orders For Seller
+      // Display Orders For Seller
       const sellerOrders = await getOrdersBySellerId(userobj.id);
       const pendingOrdersCount = sellerOrders.filter(
         (order) => order?.status?.toLowerCase() === "pending"
@@ -98,39 +96,40 @@ window.addEventListener("load", async function () {
       orderSum.textContent = sellerOrders.length;
       pendingOrdersSum.textContent = pendingOrdersCount;
       if (sellerOrders.length > 0) {
+        const tbody = ordersTable.querySelector("tbody");
         sellerOrders.forEach((order) => {
-          const row = ordersTable.querySelector("tbody").insertRow();
-          row.innerHTML = `
-          <td>${order.id}</td>
-          <td>${order.items.reduce(
-            (sum, item) => sum + (item.quantity || 1),
-            0
-          )}</td>
-          <td>${
-            order.customerId || "N/A"
-          }</td> <!-- Changed from total price to customer ID -->
-          <td class="status-${order.status.toLowerCase()}">${order.status}</td>
-         <td>
-          <button class="cancel cancel-order" data-id="${
-            order.id
-          }">Cancel</button>
-          ${
-            order.status === "pending"
-              ? `<button class="approve approve-order" data-id="${order.id}">Approve</button>`
-              : order.status === "shipped"
-              ? `<button class="deliver deliver-order" data-id="${order.id}">Deliver</button>`
-              : ""
-          }
-        </td>
+          tbody.innerHTML += `
+          <tr>
+            <td>${order.id}</td>
+            <td>${order.items.reduce(
+              (sum, item) => sum + (item.quantity || 1),
+              0
+            )}</td>
+            <td>${
+              order.customerId || "N/A"
+            }</td> <!-- Changed from total price to customer ID -->
+            <td class="status-${order.status.toLowerCase()}">${
+            order.status
+          }</td>
+            <td>
+              <button class="cancel cancel-order" data-id="${
+                order.id
+              }">Cancel</button>
+              ${
+                order.status === "pending"
+                  ? `<button class="approve approve-order" data-id="${order.id}">Approve</button>`
+                  : order.status === "shipped"
+                  ? `<button class="deliver deliver-order" data-id="${order.id}">Deliver</button>`
+                  : ""
+              }
+            </td>
+          </tr>
         `;
-          // if (sellerOrders.length > 7) {
-          //   paginateTable("ordersTable");
-          // }
         });
       } else {
-        ordersTable.querySelector(
-          "tbody"
-        ).innerHTML += `   <td class="center=text">You don't have any orders</td>`;
+        ordersTable.querySelector("tbody").innerHTML += `
+        <tr><td colspan="5" class="center-text">You don't have any orders</td></tr>
+      `;
       }
     } catch (error) {
       console.error("Error loading data:", error);
@@ -143,6 +142,7 @@ window.addEventListener("load", async function () {
       });
     }
   }
+
   // Initialize the dashboard with data int the Database
   loadData();
 

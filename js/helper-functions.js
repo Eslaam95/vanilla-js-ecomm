@@ -14,12 +14,7 @@ export function getAllUsers() {
 
 export function getSingleUser(id) {
   return fetch(`http://localhost:3000/users/${id}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("User not found");
-      }
-      return response.json();
-    })
+    .then((response) => response.json()) // Just directly parse the JSON
     .then((data) => {
       console.log("Fetched user:", data);
       return data;
@@ -74,10 +69,12 @@ export function getAllSellerIds() {
   return fetch("http://localhost:3000/users")
     .then((response) => response.json())
     .then((users) => {
-      // Filter users by role 'seller' and return their sellerIds
-      const sellerIds = users
-        .filter((user) => user.role === "seller") // Filter users with role 'seller'
-        .map((user) => user.id); // Map to get the sellerId
+      const sellerIds = [];
+      for (const user of users) {
+        if (user.role === "seller") {
+          sellerIds.push(user.id); // Add the sellerId to the array if role is 'seller'
+        }
+      }
 
       return sellerIds; // Returns an array of seller IDs
     })
@@ -124,14 +121,10 @@ export async function displayAllProducts() {
     productList.appendChild(div);
   });
 }
+
 export function getSingleProduct(id) {
   return fetch(`http://localhost:3000/products/${id}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Product not found");
-      }
-      return response.json();
-    })
+    .then((response) => response.json()) // Just directly parse the JSON
     .then((data) => {
       console.log("Fetched product:", data);
       return data;
@@ -231,9 +224,17 @@ export async function addProductReview(
     const ordersRes = await fetch(`${baseUrl}/orders?customerId=${customerId}`);
     const orders = await ordersRes.json();
 
-    const hasOrderedProduct = orders.some((order) =>
-      order.items.some((item) => item.productId === productId)
-    );
+    let hasOrderedProduct = false;
+
+    for (const order of orders) {
+      for (const item of order.items) {
+        if (item.productId === productId) {
+          hasOrderedProduct = true;
+          break; // Exit inner loop if product is found
+        }
+      }
+      if (hasOrderedProduct) break; // Exit outer loop if product is found
+    }
 
     if (!hasOrderedProduct) {
       Swal.fire({
@@ -315,7 +316,10 @@ export function getAllOrders() {
 
 export async function getOrdersBySellerId(sellerId) {
   const sellerProducts = await getAllProductsBySellerId(sellerId);
-  const sellerProductIds = sellerProducts.map((p) => String(p.id));
+  const sellerProductIds = [];
+  for (const product of sellerProducts) {
+    sellerProductIds.push(String(product.id));
+  }
 
   const allOrders = await getAllOrders();
 
@@ -323,10 +327,15 @@ export async function getOrdersBySellerId(sellerId) {
     // Skip if order has no items array
     if (!order?.items || !Array.isArray(order.items)) return false;
     // Check if any item belongs to this seller
-    return order.items.some(
-      (item) =>
-        item?.productId && sellerProductIds.includes(String(item.productId))
-    );
+    for (const item of order.items) {
+      if (
+        item?.productId &&
+        sellerProductIds.includes(String(item.productId))
+      ) {
+        return true; // Return immediately when a match is found
+      }
+    }
+    return false; // Return false if no match was found after checking all items
   });
 }
 
@@ -365,11 +374,14 @@ export async function addOrder(cart, userId) {
     return;
   }
 
-  const orderItems = cart.map((item) => ({
-    productId: item.id,
-    quantity: item.quantity || 1,
-    price: item.price,
-  }));
+  const orderItems = [];
+  for (const item of cart) {
+    orderItems.push({
+      productId: item.id,
+      quantity: item.quantity || 1,
+      price: item.price,
+    });
+  }
 
   const order = {
     customerId: userId,
@@ -511,47 +523,4 @@ export function updateNav() {
       location.reload();
     }
   });
-}
-/*table pagination*/
-export function paginateTable(tableId, rowsPerPage = 5) {
-  const table = document.getElementById(tableId);
-  const tbody = table.querySelector("tbody");
-
-  // Clone rows to preserve the original data
-  const allRows = Array.from(tbody.rows).map((row) => row.cloneNode(true));
-  const totalPages = Math.ceil(allRows.length / rowsPerPage);
-  let currentPage = 1;
-
-  function showPage(page) {
-    tbody.innerHTML = "";
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const visibleRows = allRows.slice(start, end);
-    visibleRows.forEach((row) => tbody.appendChild(row));
-    renderPagination();
-  }
-
-  function renderPagination() {
-    const existing = document.querySelector(`#${tableId}-pagination`);
-    if (existing) existing.remove();
-
-    const pagination = document.createElement("div");
-    pagination.id = `${tableId}-pagination`;
-    pagination.className = "pagination";
-
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.innerText = i;
-      if (i === currentPage) btn.classList.add("active");
-      btn.addEventListener("click", () => {
-        currentPage = i;
-        showPage(currentPage);
-      });
-      pagination.appendChild(btn);
-    }
-
-    table.parentElement.appendChild(pagination);
-  }
-
-  showPage(currentPage);
 }

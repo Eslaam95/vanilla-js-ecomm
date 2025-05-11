@@ -4,7 +4,6 @@ import {
   getUserReviews,
   updateNav,
   showPassword,
-  paginateTable,
 } from "./helper-functions.js";
 import { handleProfileUpdate } from "./profile-update.js";
 
@@ -37,15 +36,18 @@ window.addEventListener("load", async function () {
   let cusomterOrders = await customerOrders(userobj.id);
   if (cusomterOrders.length) {
     cusomterOrders.forEach((order) => {
-      const row = ordersTable.querySelector("tbody").insertRow();
-      row.innerHTML = `
-    <td>${order.id}</td>
-    <td>${order.items.reduce((sum, item) => sum + (item.quantity || 1), 0)}</td>
-    <td>$${order.items
-      .reduce((sum, item) => sum + (item.price * item.quantity || 0), 0)
-      .toFixed(2)}</td>
-    <td class="status-${order.status.toLowerCase()}">${order.status}</td>
-   
+      ordersTable.querySelector("tbody").innerHTML += `
+    <tr>
+      <td>${order.id}</td>
+      <td>${order.items.reduce(
+        (sum, item) => sum + (item.quantity || 1),
+        0
+      )}</td>
+      <td>$${order.items
+        .reduce((sum, item) => sum + (item.price * item.quantity || 0), 0)
+        .toFixed(2)}</td>
+      <td class="status-${order.status.toLowerCase()}">${order.status}</td>
+    </tr>
   `;
     });
   } else {
@@ -65,9 +67,6 @@ window.addEventListener("load", async function () {
     
 
     `;
-      if (userReviews.length > 5) {
-        paginateTable("reviewsTable");
-      }
     });
   } else {
     reviewsTable.querySelector(
